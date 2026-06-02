@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, BarChart3, Mail } from "lucide-react";
+import { ArrowRight, BarChart3, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Hero = () => {
@@ -30,9 +30,10 @@ const Hero = () => {
                   "radial-gradient(circle at center, black 60%, transparent 100%)",
               }}
             >
+              {/* هنا مسار صورتك الشخصية - تأكد إن اسمها mostafa.jpg في فولدر public */}
               <img
-                src="/images/sohila-hero.png"
-                alt="Sohila Khaled Abbas"
+                src="/Mostafa-hero.png"
+                alt="Mostafa Elramady"
                 className="w-full h-full object-cover"
               />
             </motion.div>
@@ -46,8 +47,9 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
+            {/* المسمى الوظيفي */}
             <span className="inline-block px-3 py-1 rounded-full text-xs font-mono font-medium bg-primary/10 text-primary border border-primary/20 mb-4">
-              BI Developer & Data Analytics Engineer
+              Data Analyst & Accountant
             </span>
           </motion.div>
 
@@ -57,8 +59,9 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <span className="block text-foreground">Sohila Khaled</span>
-            <span className="gradient-text">Abbas</span>
+            {/* الاسم */}
+            <span className="block text-foreground">Mostafa</span>
+            <span className="gradient-text">Elramady</span>
           </motion.h1>
 
           <motion.p
@@ -67,7 +70,8 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Transforming fragmented datasets into scalable, decision-ready architectures. Recognized Technical Mentor and Top 200 Arabic-Speaking Influencer in data education.
+            {/* النبذة المختصرة */}
+            I combine deep financial understanding with advanced data manipulation skills. Proficient in Power BI, SQL, Python, and Excel to turn complex data into actionable, decision-ready insights. Based in El-Mahalla El-Kubra, Egypt.
           </motion.p>
 
           <motion.div
@@ -82,10 +86,12 @@ const Hero = () => {
                 View Dashboards
               </a>
             </Button>
+            
+            {/* زرار تحميل السيرة الذاتية - تأكد إن ملف الـ CV اسمه Mostafa_CV.pdf في فولدر public */}
             <Button size="lg" variant="outline" className="border-primary/30 text-foreground hover:bg-primary/10" asChild>
-              <a href="/intake">
-                <Mail className="mr-2 h-4 w-4" />
-                Work With Me
+              <a href="/Mostafa_CV.pdf" target="_blank" rel="noopener noreferrer">
+                <Download className="mr-2 h-4 w-4" />
+                Download CV
               </a>
             </Button>
           </motion.div>
