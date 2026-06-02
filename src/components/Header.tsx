@@ -28,21 +28,18 @@ const Header = () => {
     localStorage.setItem("darkMode", String(next));
   };
 
+  // اللمسة الاحترافية: قايمة مختصرة وقوية بتركز على الشغل والمهارات بس
   const mainNavLinks = [
     { name: "Home", href: "/" },
     { name: "About", href: "/#about" },
     { name: "Skills", href: "/#skills" },
     { name: "Projects", href: "/#projects" },
-    { name: "Templates", href: "/templates" },
-    { name: "Community", href: "/#community" },
-    { name: "Credibility", href: "/#credibility" },
     { name: "Certifications", href: "/#certifications" },
-    { name: "Inquiry", href: "/intake" },
+    { name: "Contact", href: "/intake" },
   ];
 
   const handleNav = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (href === "/" || !href.includes("#")) {
-      // Let react-router handle real routes
       setIsMobileMenuOpen(false);
       return;
     }
@@ -64,8 +61,10 @@ const Header = () => {
       isScrolled ? "bg-background/80 backdrop-blur-md border-b border-border shadow-sm py-2" : "bg-transparent py-4"
     )}>
       <div className="container mx-auto px-4 flex justify-between items-center">
+        
+        {/* اللوجو الجديد M.M.E */}
         <Link to="/" className="text-xl font-bold font-mono">
-          <span className="gradient-text">S.K.A</span>
+          <span className="gradient-text">M.M.E</span>
         </Link>
 
         <nav className="hidden md:flex items-center space-x-6">

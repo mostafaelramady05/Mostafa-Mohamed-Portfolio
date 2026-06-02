@@ -1,13 +1,14 @@
 import { motion } from "framer-motion";
-import { ChartBar, Code, Award, Users, Zap, Database } from "lucide-react";
+import { ChartBar, Code, Award, Target, Zap, BookOpen } from "lucide-react";
 
+// تم تعديل النقاط لتكون احترافية وبشكل شخصي لك كمحاسب ومحلل بيانات
 const highlights = [
-  { icon: ChartBar, text: "Architected 10+ interactive Power BI dashboards using star-schema modeling, reducing time-to-insight from days to minutes" },
-  { icon: Code, text: "Reduced manual reporting overhead by 40% for 5+ clients via automated ETL pipelines using Python and SQL" },
-  { icon: Award, text: "Top 3 Data Science Creator in Egypt (Favikon, 2026) & Top 200 Arabic-Speaking Influencer" },
-  { icon: Users, text: "55,000+ LinkedIn followers reached via original dashboard insights and data education content" },
-  { icon: Database, text: "Optimized query performance by 25% through refactored SQL scripts and indexing strategies for large-scale datasets" },
-  { icon: Zap, text: "Increased project success rates by 35% for 50+ professionals through structured mentoring frameworks" },
+  { icon: ChartBar, text: "Created impactful Power BI dashboards that integrate general ledger data with visual analytics, driving financial insights and streamlining reporting." },
+  { icon: Code, text: "Leveraged Python and SQL Server to automate data cleaning and repetitive accounting tasks, increasing efficiency by eliminating manual work." },
+  { icon: Target, text: "Specialized in financial data reconciliation and integrity within robust accounting information systems, ensuring accurate and reliable financial data." },
+  { icon: BookOpen, text: "Consistently bridging the gap between core accounting principles and advanced data analytics to provide strategic financial analysis." },
+  { icon: Award, text: "Honors student at Tanta University, Faculty of Commerce, ranking among the top students for consistent academic excellence in commerce." },
+  { icon: Zap, text: "Practical exposure in analyzing diverse market dynamics and financial statements for clients in both the Egyptian and Saudi Arabian regions." },
 ];
 
 const About = () => {
@@ -30,10 +31,8 @@ const About = () => {
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
         >
-          BI Developer specializing in end-to-end data modeling and automated ETL pipelines.
-          Expert in SQL, Python, and Power BI with a focus on transforming fragmented datasets
-          into scalable, decision-ready architectures. Recognized Technical Mentor for 50+
-          professionals and Top 200 Arabic-speaking influencer in data literacy.
+          {/* النبذة الاحترافية الجديدة */}
+          A dynamic Data Analyst with a solid foundation in Accounting, bridging the gap between financial complexities and actionable data insights. Currently a student at Tanta University, Faculty of Commerce. Specialized in utilizing Python, SQL Server, and Power BI to transform financial and operational data into interactive, decision-driving dashboards. Eager to apply practical exposure to market dynamics across both the Egyptian and Saudi Arabian regions in real-world scenarios.
         </motion.p>
 
         <motion.blockquote
@@ -43,7 +42,8 @@ const About = () => {
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
         >
-          "Dashboards aren't just visuals — they're decisions waiting to happen."
+          {/* الاقتباس الاحترافي الجديد */}
+          "Data tells a story; Accounting adds the structure. Together, they create the strategy."
         </motion.blockquote>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

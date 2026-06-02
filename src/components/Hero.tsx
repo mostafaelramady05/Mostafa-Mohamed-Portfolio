@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, BarChart3, Download } from "lucide-react";
+import { ArrowRight, BarChart3, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Hero = () => {
@@ -30,7 +30,7 @@ const Hero = () => {
                   "radial-gradient(circle at center, black 60%, transparent 100%)",
               }}
             >
-              {/* هنا مسار صورتك الشخصية - تأكد إن اسمها mostafa.jpg في فولدر public */}
+              {/* مسار صورتك الشخصية */}
               <img
                 src="/Mostafa-hero.png"
                 alt="Mostafa Elramady"
@@ -71,7 +71,7 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             {/* النبذة المختصرة */}
-            I combine deep financial understanding with advanced data manipulation skills. Proficient in Power BI, SQL, Python, and Excel to turn complex data into actionable, decision-ready insights. Based in El-Mahalla El-Kubra, Egypt.
+            I combine deep financial understanding with advanced data manipulation skills. Proficient in Power BI, SQL, Python, and Excel to turn complex data into actionable, decision-ready insights. Based in El-Mahalla El-Kubra, Egypt, with practical experience analyzing data for businesses in both the Egyptian and Saudi Arabian markets.
           </motion.p>
 
           <motion.div
@@ -87,11 +87,11 @@ const Hero = () => {
               </a>
             </Button>
             
-            {/* زرار تحميل السيرة الذاتية - تأكد إن ملف الـ CV اسمه Mostafa_CV.pdf في فولدر public */}
+            {/* زرار عرض السيرة الذاتية من جوجل درايف */}
             <Button size="lg" variant="outline" className="border-primary/30 text-foreground hover:bg-primary/10" asChild>
-              <a href="/Mostafa_CV.pdf" target="_blank" rel="noopener noreferrer">
-                <Download className="mr-2 h-4 w-4" />
-                Download CV
+              <a href="https://drive.google.com/file/d/1Zi06Rc7nrwTXAgqySf6rZkHXPGKlMZru/view?usp=drive_link" target="_blank" rel="noopener noreferrer">
+                <Eye className="mr-2 h-4 w-4" />
+                View CV
               </a>
             </Button>
           </motion.div>

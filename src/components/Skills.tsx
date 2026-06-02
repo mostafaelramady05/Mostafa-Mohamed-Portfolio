@@ -4,24 +4,24 @@ import {
   SiPython,
   SiPostgresql,
   SiMysql,
-  SiApachespark,
-  SiDatabricks,
-  SiSnowflake,
-  SiGooglebigquery,
   SiPandas,
   SiNumpy,
   SiSelenium,
-  SiR,
   SiNotion,
-  SiMetabase,
-  SiN8N,
-  SiApacheairflow,
-  SiDocker,
   SiPlotly,
   SiStreamlit,
-  SiApachekafka,
 } from "react-icons/si";
-import { FileSpreadsheet, Code2, FlaskConical, LayoutDashboard, Database, BarChart2, Cloud } from "lucide-react";
+import { 
+  FileSpreadsheet, 
+  Code2, 
+  LayoutDashboard, 
+  Database, 
+  BarChart2, 
+  Calculator, 
+  Palette, 
+  Briefcase, 
+  LineChart 
+} from "lucide-react";
 import type { ComponentType } from "react";
 
 type Skill = { name: string; Icon: ComponentType<{ className?: string }> };
@@ -32,73 +32,55 @@ const skillCategories: { name: string; Icon: ComponentType<{ className?: string 
     Icon: BarChart2,
     skills: [
       { name: "Power BI", Icon: BarChart2 },
+      { name: "DAX", Icon: Code2 },
       { name: "Plotly", Icon: SiPlotly },
       { name: "Streamlit", Icon: SiStreamlit },
-      { name: "Metabase", Icon: SiMetabase },
-      { name: "Excel Charts", Icon: FileSpreadsheet },
     ],
   },
   {
-    name: "Data Engineering & ETL",
-    Icon: Database,
-    skills: [
-      { name: "PostgreSQL", Icon: SiPostgresql },
-      { name: "MySQL", Icon: SiMysql },
-      { name: "Apache Spark", Icon: SiApachespark },
-      { name: "Apache Kafka", Icon: SiApachekafka },
-      { name: "Airflow", Icon: SiApacheairflow },
-      { name: "n8n", Icon: SiN8N },
-      { name: "Docker", Icon: SiDocker },
-    ],
-  },
-  {
-    name: "Cloud & Modern Data Stack",
-    Icon: Cloud,
-    skills: [
-      { name: "Databricks", Icon: SiDatabricks },
-      { name: "Snowflake", Icon: SiSnowflake },
-      { name: "BigQuery", Icon: SiGooglebigquery },
-    ],
-  },
-  {
-    name: "Programming & Querying",
+    name: "Programming & Scraping",
     Icon: Code2,
     skills: [
       { name: "Python", Icon: SiPython },
       { name: "Pandas", Icon: SiPandas },
       { name: "NumPy", Icon: SiNumpy },
       { name: "Selenium", Icon: SiSelenium },
-      { name: "R", Icon: SiR },
     ],
   },
   {
-    name: "Spreadsheet Skills",
+    name: "Databases & SQL",
+    Icon: Database,
+    skills: [
+      { name: "SQL Server", Icon: Database },
+      { name: "PostgreSQL", Icon: SiPostgresql },
+      { name: "MySQL", Icon: SiMysql },
+    ],
+  },
+  {
+    name: "Spreadsheet & Data Prep",
     Icon: FileSpreadsheet,
     skills: [
-      { name: "Excel", Icon: FileSpreadsheet },
-      { name: "Power Query", Icon: FileSpreadsheet },
-      { name: "Pivot Tables", Icon: FileSpreadsheet },
-      { name: "Macros / VBA", Icon: Code2 },
+      { name: "Advanced Excel", Icon: FileSpreadsheet },
+      { name: "Power Query", Icon: Database },
+      { name: "Pivot Tables", Icon: LayoutDashboard },
     ],
   },
   {
-    name: "Methodologies",
-    Icon: FlaskConical,
+    name: "Accounting & Finance",
+    Icon: Calculator,
     skills: [
-      { name: "A/B Testing", Icon: FlaskConical },
-      { name: "Statistical Modeling", Icon: FlaskConical },
-      { name: "OLS Regression", Icon: FlaskConical },
-      { name: "Hypothesis Testing", Icon: FlaskConical },
-      { name: "Agile", Icon: FlaskConical },
+      { name: "Financial Reporting", Icon: Briefcase },
+      { name: "Ledger Analysis", Icon: Calculator },
+      { name: "Daftra ERP", Icon: Calculator },
     ],
   },
   {
-    name: "Workflow & Tools",
-    Icon: LayoutDashboard,
+    name: "Design & Productivity",
+    Icon: Palette,
     skills: [
+      { name: "Canva", Icon: Palette },
       { name: "Notion", Icon: SiNotion },
-      { name: "KPI Tracking", Icon: LayoutDashboard },
-      { name: "Data Storytelling", Icon: LayoutDashboard },
+      { name: "KPI Tracking", Icon: LineChart },
     ],
   },
 ];
@@ -123,9 +105,9 @@ const Skills = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <span className="gradient-text">Technical Skills</span>
+          <span className="gradient-text">Technical & Professional Skills</span>
         </motion.h2>
-        <p className="text-center text-muted-foreground mb-12">Tools and technologies powering the work</p>
+        <p className="text-center text-muted-foreground mb-12">Bridging the gap between financial expertise and advanced data analytics</p>
 
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-7xl mx-auto"
