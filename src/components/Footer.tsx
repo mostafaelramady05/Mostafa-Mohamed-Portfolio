@@ -16,13 +16,13 @@ const Footer = () => {
           </div>
           <div className="space-y-2 text-muted-foreground">
             <p><span className="text-primary">$</span> echo $LOCATION</p>
-            <p className="text-foreground flex items-center gap-2"><MapPin className="h-3 w-3" /> Damietta, Egypt</p>
+            <p className="text-foreground flex items-center gap-2"><MapPin className="h-3 w-3" /> El-Mahalla El-Kubra, Egypt</p>
             <p><span className="text-primary">$</span> echo $PHONE</p>
-            <p className="text-foreground flex items-center gap-2"><Phone className="h-3 w-3" /> (+2) 01114919021</p>
+            <p className="text-foreground flex items-center gap-2"><Phone className="h-3 w-3" /> (+20) 122 829 3135</p>
             <p><span className="text-primary">$</span> echo $EMAIL</p>
             <p className="text-foreground flex items-center gap-2">
               <Mail className="h-3 w-3" />
-              <a href="mailto:sohila.k.data@gmail.com" className="hover:text-primary transition-colors">sohila.k.data@gmail.com</a>
+              <a href="mailto:mostafaelramady516@gmail.com" className="hover:text-primary transition-colors">mostafaelramady516@gmail.com</a>
             </p>
             <p className="text-primary">$ <span className="animate-blink">_</span></p>
           </div>
@@ -31,16 +31,16 @@ const Footer = () => {
         {/* Social & copyright */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-muted-foreground text-sm">
-            &copy; {year} Sohila Khaled Abbas. All rights reserved.
+            &copy; {year} Mostafa Elramady. All rights reserved.
           </p>
           <div className="flex space-x-5">
-            <a href="https://github.com/Sohila-Khaled-Abbas" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+            <a href="https://github.com/mostafaelramady05" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
               <Github className="h-5 w-5" />
             </a>
-            <a href="https://www.linkedin.com/in/sohilakabbas" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+            <a href="https://www.linkedin.com/in/mostafa-mohamed-2749b42a4" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
               <Linkedin className="h-5 w-5" />
             </a>
-            <a href="mailto:sohila.k.data@gmail.com" className="text-muted-foreground hover:text-primary transition-colors">
+            <a href="mailto:mostafaelramady516@gmail.com" className="text-muted-foreground hover:text-primary transition-colors">
               <Mail className="h-5 w-5" />
             </a>
           </div>
