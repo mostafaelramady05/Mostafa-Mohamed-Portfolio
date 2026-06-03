@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, BarChart3, Eye } from "lucide-react";
+import { BarChart3, Eye, Database, FileSpreadsheet, Code2, LineChart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Hero = () => {
@@ -10,38 +10,72 @@ const Hero = () => {
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
 
       <div className="container mx-auto px-4 py-16 flex flex-col md:flex-row items-center gap-12 relative z-10">
-        {/* Image */}
+        
+        {/* ========================================================================= */}
+        {/* الجزء الخاص بالصورة والأيقونات العائمة (المودرن ستايل) */}
+        {/* ========================================================================= */}
         <motion.div
-          className="w-full md:w-5/12 flex justify-center md:order-2"
+          className="w-full md:w-5/12 flex justify-center md:order-2 relative"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
         >
-          <div className="relative">
-            <div className="absolute -inset-6 bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/10 rounded-full blur-3xl opacity-70" />
-            <motion.div
-              className="relative w-64 h-64 md:w-96 md:h-96 rounded-full overflow-hidden"
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              style={{
-                WebkitMaskImage:
-                  "radial-gradient(circle at center, black 60%, transparent 100%)",
-                maskImage:
-                  "radial-gradient(circle at center, black 60%, transparent 100%)",
-              }}
-            >
-              {/* مسار صورتك الشخصية */}
+          {/* خلفية الجرادينت ورا الصورة */}
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/10 rounded-[3rem] blur-2xl opacity-70 transform rotate-6" />
+          
+          <div className="relative w-72 h-80 md:w-80 md:h-[26rem] rounded-[2rem] border border-border bg-card/30 backdrop-blur-sm p-4 neon-glow">
+            {/* الصورة الشخصية */}
+            <div className="w-full h-full overflow-hidden rounded-xl bg-muted relative">
               <img
                 src="/Mostafa-hero.png"
                 alt="Mostafa Elramady"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
               />
+            </div>
+
+            {/* الأيقونات العائمة المودرن */}
+            {/* Power BI Icon */}
+            <motion.div 
+              className="absolute -top-4 -right-4 bg-background border border-border p-3 rounded-xl neon-glow flex items-center justify-center text-yellow-500"
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+            >
+              <BarChart3 className="w-6 h-6" />
+            </motion.div>
+
+            {/* Python Icon */}
+            <motion.div 
+              className="absolute top-1/2 -left-6 transform -translate-y-1/2 bg-background border border-border p-3 rounded-xl neon-glow flex items-center justify-center text-blue-500"
+              animate={{ y: [0, 15, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            >
+              <Code2 className="w-6 h-6" />
+            </motion.div>
+
+            {/* SQL Icon */}
+            <motion.div 
+              className="absolute -bottom-4 right-8 bg-background border border-border p-3 rounded-xl neon-glow flex items-center justify-center text-blue-400"
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+            >
+              <Database className="w-6 h-6" />
+            </motion.div>
+
+            {/* Excel Icon */}
+            <motion.div 
+              className="absolute bottom-12 -left-4 bg-background border border-border p-3 rounded-xl neon-glow flex items-center justify-center text-green-600"
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            >
+              <FileSpreadsheet className="w-6 h-6" />
             </motion.div>
           </div>
         </motion.div>
 
-        {/* Text */}
-        <div className="w-full md:w-7/12 text-center md:text-left md:order-1">
+        {/* ========================================================================= */}
+        {/* Text Section (لم يتغير) */}
+        {/* ========================================================================= */}
+        <div className="w-full md:w-7/12 text-center md:text-left md:order-1 mt-8 md:mt-0">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
