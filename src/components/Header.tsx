@@ -35,7 +35,7 @@ const Header = () => {
     { name: "Skills", href: "/#skills" },
     { name: "Projects", href: "/#projects" },
     { name: "Certifications", href: "/#certifications" },
-    { name: "Contact", href: "/intake" },
+    { name: "Contact", href: "/#contact" }, // تم التعديل هنا لحل مشكلة الـ 404
   ];
 
   const handleNav = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
