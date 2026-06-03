@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import {
   SiPython,
@@ -25,8 +26,9 @@ import {
 import type { ComponentType } from "react";
 
 type Skill = { name: string; Icon: ComponentType<{ className?: string }> };
+type Category = { name: string; Icon: ComponentType<{ className?: string }>; skills: Skill[] };
 
-const skillCategories: { name: string; Icon: ComponentType<{ className?: string }>; skills: Skill[] }[] = [
+const allCategories: Category[] = [
   {
     name: "BI & Visualization",
     Icon: BarChart2,
@@ -85,17 +87,21 @@ const skillCategories: { name: string; Icon: ComponentType<{ className?: string 
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.06 } },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const } },
+// تجميع المهارات في 3 تابات رئيسية عشان الـ UI يكون أنظف
+const tabGroups = {
+  "Data Analytics": ["BI & Visualization", "Programming & Scraping", "Databases & SQL"],
+  "Accounting & Spreadsheets": ["Accounting & Finance", "Spreadsheet & Data Prep"],
+  "Other Tools": ["Design & Productivity"],
 };
 
 const Skills = () => {
+  const [activeTab, setActiveTab] = useState<keyof typeof tabGroups>("Data Analytics");
+
+  // الفلترة بناءً على التاب النشط
+  const filteredCategories = allCategories.filter((cat) => 
+    tabGroups[activeTab].includes(cat.name)
+  );
+
   return (
     <section id="skills" className="py-20 bg-muted/40">
       <div className="container mx-auto px-4">
@@ -107,42 +113,71 @@ const Skills = () => {
         >
           <span className="gradient-text">Technical & Professional Skills</span>
         </motion.h2>
-        <p className="text-center text-muted-foreground mb-12">Bridging the gap between financial expertise and advanced data analytics</p>
+        <p className="text-center text-muted-foreground mb-10 max-w-2xl mx-auto">
+          Bridging the gap between financial expertise and advanced data analytics
+        </p>
 
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-7xl mx-auto"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.15 }}
-        >
-          {skillCategories.map((cat, i) => (
-            <motion.div
-              key={i}
-              variants={itemVariants}
-              className="bg-card border border-border rounded-2xl p-6 neon-glow-hover"
+        {/* ============================================================== */}
+        {/* نظام التابات (Tabs Navigation) */}
+        {/* ============================================================== */}
+        <div className="flex flex-wrap justify-center gap-3 mb-12">
+          {(Object.keys(tabGroups) as Array<keyof typeof tabGroups>).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                activeTab === tab
+                  ? "bg-primary text-primary-foreground shadow-md transform scale-105"
+                  : "bg-card text-muted-foreground border border-border hover:bg-primary/10 hover:text-primary"
+              }`}
             >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/25 to-accent/15 flex items-center justify-center">
-                  <cat.Icon className="h-5 w-5 text-accent" />
-                </div>
-                <h3 className="font-semibold text-foreground">{cat.name}</h3>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {cat.skills.map((skill, j) => (
-                  <Badge
-                    key={j}
-                    variant="outline"
-                    className="bg-background/60 border-border text-foreground/80 text-xs px-2.5 py-1.5 flex items-center gap-1.5 hover:bg-primary/10 hover:text-accent transition-colors"
-                  >
-                    <skill.Icon className="h-3.5 w-3.5 opacity-80" />
-                    {skill.name}
-                  </Badge>
-                ))}
-              </div>
-            </motion.div>
+              {tab}
+            </button>
           ))}
+        </div>
+
+        {/* ============================================================== */}
+        {/* محتوى المهارات (مع أنيميشن عند التبديل) */}
+        {/* ============================================================== */}
+        <motion.div layout className="max-w-5xl mx-auto min-h-[300px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab} // الـ Key مهم جداً عشان الأنيميشن يشتغل لما يتغير
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3 }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 justify-center"
+            >
+              {filteredCategories.map((cat, i) => (
+                <div
+                  key={cat.name}
+                  className="bg-card border border-border rounded-2xl p-6 neon-glow-hover h-full flex flex-col"
+                >
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-accent/10 flex items-center justify-center shadow-sm">
+                      <cat.Icon className="h-5 w-5 text-primary" />
+                    </div>
+                    <h3 className="font-semibold text-foreground">{cat.name}</h3>
+                  </div>
+                  <div className="flex flex-wrap gap-2 mt-auto">
+                    {cat.skills.map((skill, j) => (
+                      <Badge
+                        key={j}
+                        variant="outline"
+                        className="bg-background/80 border-border text-foreground/80 text-xs px-3 py-1.5 flex items-center gap-1.5 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors cursor-default"
+                      >
+                        <skill.Icon className="h-3.5 w-3.5 opacity-90" />
+                        {skill.name}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          </AnimatePresence>
         </motion.div>
+
       </div>
     </section>
   );
