@@ -5,9 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Mail, Phone, MapPin, Linkedin, Github, Globe } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Github } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
 
 const contactSchema = z.object({
@@ -20,33 +19,37 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
+  // إيميلك اللي هيوصلك عليه رسايل الفورم
+  const myEmail = "mostafaelramady516@gmail.com"; 
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     const form = e.currentTarget;
     const formData = new FormData(form);
+    
     const parsed = contactSchema.safeParse({
       name: formData.get("name"),
       email: formData.get("email"),
       message: formData.get("message"),
     });
+
     if (!parsed.success) {
       toast({ variant: "destructive", title: "Invalid input", description: parsed.error.issues[0].message });
       setIsSubmitting(false);
       return;
     }
+
     try {
-      const { error } = await supabase.from("contact_submissions").insert([{
-        full_name: parsed.data.name,
-        email: parsed.data.email,
-        message: parsed.data.message,
-        submitted_at: new Date().toISOString(),
-      }]);
-      if (error) throw error;
-      toast({ title: "Message sent successfully!", description: "Thank you for reaching out. I'll get back to you soon." });
+      // فتح برنامج الإيميل
+      const subject = encodeURIComponent(`Portfolio Contact from ${parsed.data.name}`);
+      const body = encodeURIComponent(`Name: ${parsed.data.name}\nEmail: ${parsed.data.email}\n\nMessage:\n${parsed.data.message}`);
+      window.location.href = `mailto:${myEmail}?subject=${subject}&body=${body}`;
+      
+      toast({ title: "Opening Mail Client...", description: "Please send the email from your default mail app." });
       form.reset();
     } catch {
-      toast({ variant: "destructive", title: "Error sending message", description: "Please try again later or contact me directly via email." });
+      toast({ variant: "destructive", title: "Error", description: "Something went wrong. Please try emailing me directly." });
     } finally {
       setIsSubmitting(false);
     }
@@ -65,6 +68,7 @@ const Contact = () => {
         </motion.h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {/* الفورم */}
           <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
             <Card className="bg-card border-border">
               <CardHeader>
@@ -78,7 +82,7 @@ const Contact = () => {
                     <Input required id="name" name="name" placeholder="Your full name" className="bg-background border-border" />
                   </div>
                   <div>
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="email">Your Email</Label>
                     <Input required id="email" name="email" type="email" placeholder="your.email@example.com" className="bg-background border-border" />
                   </div>
                   <div>
@@ -86,42 +90,43 @@ const Contact = () => {
                     <Textarea required id="message" name="message" placeholder="Your message" rows={5} className="bg-background border-border" />
                   </div>
                   <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" disabled={isSubmitting}>
-                    {isSubmitting ? "Sending..." : "Send Message"}
+                    {isSubmitting ? "Opening Mail..." : "Send Message"}
                   </Button>
                 </form>
               </CardContent>
             </Card>
           </motion.div>
 
+          {/* بيانات التواصل */}
           <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
             <Card className="bg-gradient-to-br from-primary/10 to-secondary/10 border-border h-full">
               <CardHeader>
                 <CardTitle className="text-foreground">Contact Information</CardTitle>
-                <CardDescription className="text-muted-foreground">Let's connect! I'm open to opportunities.</CardDescription>
+                <CardDescription className="text-muted-foreground">Let's connect! I'm open to new opportunities.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-5">
                 <div className="flex items-center space-x-3 text-foreground">
                   <Mail className="h-5 w-5 text-primary flex-shrink-0" />
-                  <a href="mailto:sohila.k.data@gmail.com" className="hover:text-primary transition-colors">sohila.k.data@gmail.com</a>
+                  <a href="mailto:mostafaelramady516@gmail.com" className="hover:text-primary transition-colors">mostafaelramady516@gmail.com</a>
                 </div>
                 <div className="flex items-center space-x-3 text-foreground">
                   <Phone className="h-5 w-5 text-primary flex-shrink-0" />
-                  <a href="tel:+201114919021" className="hover:text-primary transition-colors">(+2) 01114919021</a>
+                  <a href="tel:+201228293135" className="hover:text-primary transition-colors">+20 122 829 3135</a>
                 </div>
                 <div className="flex items-center space-x-3 text-foreground">
                   <MapPin className="h-5 w-5 text-primary flex-shrink-0" />
-                  <span>Damietta, Egypt (Open to Remote & Hybrid Roles)</span>
+                  <span>El-Mahalla El-Kubra, Egypt (Open to Remote Roles)</span>
                 </div>
                 <div className="flex items-center space-x-3 text-foreground">
                   <Linkedin className="h-5 w-5 text-primary flex-shrink-0" />
-                  <a href="https://linkedin.com/in/sohilakabbas" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">linkedin.com/in/sohilakabbas</a>
+                  <a href="https://www.linkedin.com/in/mostafa-mohamed-2749b42a4" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">LinkedIn Profile</a>
                 </div>
                 <div className="flex items-center space-x-3 text-foreground">
                   <Github className="h-5 w-5 text-primary flex-shrink-0" />
-                  <a href="https://github.com/Sohila-Khaled-Abbas" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">github.com/Sohila-Khaled-Abbas</a>
+                  <a href="https://github.com/mostafaelramady05" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">github.com/mostafaelramady05</a>
                 </div>
                 <div className="pt-4 text-muted-foreground text-sm">
-                  Looking forward to collaborating on data-driven projects or discussing how I can help your organization leverage data for better decision making.
+                  Looking forward to collaborating on data-driven projects or discussing how I can help your organization leverage data for better financial and strategic decisions.
                 </div>
               </CardContent>
             </Card>
