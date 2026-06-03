@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Github, BarChart3, Search, X, Filter, ExternalLink } from "lucide-react";
 
-// تعريف شكل المشروع (Type)
 type Project = {
   title: string;
   description: string;
@@ -17,16 +16,14 @@ type Project = {
   image?: string;
 };
 
-// ==========================================
-// مشاريعك الحقيقية (Static Data) - تقدر تعدل فيها براحتك هنا
-// ==========================================
+// مشاريعك الحقيقية
 const myProjects: Project[] = [
   {
     title: "Fortune Capital | MRP & Inventory Dashboard",
     description: "Advanced dashboard for Material Requirements Planning (MRP) and direct production tracking. Features precise inventory movement analysis to support financial and investment decision-making.",
     technologies: ["Power BI", "SQL", "Excel", "DAX"],
-    live_url: "https://app.powerbi.com/view?r=eyJrIjoiMTVhYWM2YTgtZDIyNy00ZTIyLWFiODEtNzAzMjU0YmMyMzhhIiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9", // لو مفيش امسح السطر ده
-    image: "/fort-capital.png", // دي الصورة اللي هتظهر
+    live_url: "https://app.powerbi.com/view?r=eyJrIjoiMTVhYWM2YTgtZDIyNy00ZTIyLWFiODEtNzAzMjU0YmMyMzhhIiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9",
+    image: "/fort-capital.png",
   },
   {
     title: "Childcare Center Financial Analysis (Jeddah)",
@@ -54,7 +51,6 @@ const Projects = () => {
 
   const uniqueTechnologies = [...new Set(myProjects.flatMap((p) => p.technologies || []))];
 
-  // تجميع أكثر التقنيات استخداماً
   useEffect(() => {
     const techCount = new Map<string, number>();
     myProjects.forEach((p) =>
@@ -62,14 +58,13 @@ const Projects = () => {
     );
     setCommonTechs(
       Array.from(techCount.entries())
-        .filter(([, c]) => c > 0) // عدلتها عشان يظهر كله
+        .filter(([, c]) => c > 0)
         .sort((a, b) => b[1] - a[1])
         .map(([t]) => t)
         .slice(0, 5)
     );
   }, []);
 
-  // الفلترة والبحث
   useEffect(() => {
     let result = [...myProjects];
     if (searchQuery) {
@@ -98,119 +93,150 @@ const Projects = () => {
   const highlightIfMatched = (t: string) => searchQuery && t.toLowerCase().includes(searchQuery.toLowerCase());
 
   return (
-    <section id="projects" className="py-16 bg-background">
-      <div className="container mx-auto px-4">
+    <section id="projects" className="py-20 bg-background relative overflow-hidden">
+      {/* خلفية جمالية خفيفة */}
+      <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] -translate-y-1/2 -translate-x-1/2 pointer-events-none" />
+      
+      <div className="container mx-auto px-4 relative z-10">
         <motion.h2
-          className="text-3xl md:text-4xl font-bold text-center mb-2"
+          className="text-3xl md:text-5xl font-bold text-center mb-3"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
           <span className="gradient-text">Featured Projects</span>
         </motion.h2>
-        <p className="text-center text-muted-foreground mb-8">Showcasing data-driven solutions and financial dashboards</p>
+        <p className="text-center text-muted-foreground mb-10 max-w-2xl mx-auto text-lg">
+          Transforming complex data into clear, actionable financial and strategic dashboards.
+        </p>
 
         {/* Filters */}
-        <div className="flex flex-col md:flex-row gap-4 mb-6 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row gap-4 mb-6 max-w-6xl mx-auto">
           <div className="relative flex-grow">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Search projects by name or technology…"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-card border-border"
+              className="pl-12 bg-card/50 backdrop-blur-sm border-border/50 h-12 rounded-xl focus:border-primary transition-colors"
             />
             {searchQuery && (
-              <Button variant="ghost" size="icon" className="absolute right-1 top-1/2 -translate-y-1/2 h-6 w-6" onClick={() => setSearchQuery("")}>
-                <X className="h-3 w-3" />
+              <Button variant="ghost" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 hover:bg-transparent" onClick={() => setSearchQuery("")}>
+                <X className="h-4 w-4 text-muted-foreground" />
               </Button>
             )}
           </div>
           <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-full md:w-48 bg-card border-border">
-              <Filter className="mr-2 h-4 w-4" />
+            <SelectTrigger className="w-full md:w-56 bg-card/50 backdrop-blur-sm border-border/50 h-12 rounded-xl">
+              <Filter className="mr-2 h-4 w-4 text-primary" />
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="newest">Featured</SelectItem>
-              <SelectItem value="tech">Tech Stack</SelectItem>
+              <SelectItem value="newest">Featured First</SelectItem>
+              <SelectItem value="tech">Group by Technology</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         {/* Tech badges */}
-        <div className="flex flex-wrap gap-2 mb-8 max-w-7xl mx-auto">
+        <div className="flex flex-wrap justify-center gap-2 mb-12 max-w-4xl mx-auto">
           {uniqueTechnologies.map((tech) => (
             <Badge
               key={tech}
               variant={selectedTechnology === tech ? "default" : "outline"}
-              className="cursor-pointer text-xs px-3 py-1 rounded-full"
+              className={`cursor-pointer px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${
+                selectedTechnology === tech 
+                ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20 scale-105" 
+                : "bg-card/40 border-border/50 hover:border-primary/50 hover:bg-primary/5"
+              }`}
               onClick={() => setSelectedTechnology(selectedTechnology === tech ? "" : tech)}
             >
               {tech}
             </Badge>
           ))}
-          {(selectedTechnology || searchQuery) && (
-            <Button variant="ghost" size="sm" onClick={() => { setSelectedTechnology(""); setSearchQuery(""); }} className="text-xs h-6 px-2">
-              Clear filters
-            </Button>
-          )}
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+        {/* Grid (Glassmorphism Cards) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {filteredProjects.length > 0 ? (
             filteredProjects.map((project, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.05, duration: 0.4 }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+                className="h-full"
               >
-                <Card className="flex flex-col h-full border border-border bg-card rounded-xl neon-glow-hover transition-all duration-300 hover:border-primary/40 overflow-hidden">
+                <Card className="group flex flex-col h-full border border-border/50 bg-card/20 backdrop-blur-xl rounded-2xl transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 overflow-hidden">
                   
-                  {/* مكان الصورة (لو مفيش صورة هيظهر لون غامق) */}
-                  <div className="w-full h-48 bg-slate-900 border-b border-border overflow-hidden">
+                  {/* Image Container with Zoom effect */}
+                  <div className="relative w-full h-56 bg-muted/30 overflow-hidden border-b border-border/30">
                     {project.image ? (
-                        <img src={project.image} alt={project.title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                      <>
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+                        <img 
+                          src={project.image} 
+                          alt={project.title} 
+                          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-in-out" 
+                        />
+                      </>
                     ) : (
-                        <div className="w-full h-full flex items-center justify-center text-muted-foreground">No Image Available</div>
+                      <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                        <BarChart3 className="w-12 h-12 opacity-20" />
+                      </div>
                     )}
+                    
+                    {/* Floating badge over image */}
+                    <div className="absolute top-4 right-4 z-20">
+                      <Badge className="bg-background/80 backdrop-blur-md text-foreground border-border/50">
+                        {project.technologies[0]}
+                      </Badge>
+                    </div>
                   </div>
 
-                  <CardHeader className="pb-2 mt-2">
-                    <CardTitle className="text-lg font-semibold text-foreground">{project.title}</CardTitle>
+                  <CardHeader className="pb-3 pt-5">
+                    <CardTitle className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
+                      {project.title}
+                    </CardTitle>
                   </CardHeader>
-                  <CardContent className="flex-grow pb-2">
-                    <p className="text-muted-foreground text-sm mb-4">{project.description}</p>
+                  
+                  <CardContent className="flex-grow pb-4">
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                      {project.description}
+                    </p>
                     <div className="flex flex-wrap gap-2">
                       {project.technologies?.map((tech, j) => (
                         <Badge
                           key={j}
                           variant="secondary"
-                          className={`text-xs ${highlightIfMatched(tech) ? "bg-primary/20 font-medium" : "bg-muted"}`}
+                          className={`text-[10px] px-2.5 py-1 rounded-md border ${
+                            highlightIfMatched(tech) 
+                              ? "bg-primary/20 border-primary/30 text-primary font-semibold" 
+                              : "bg-muted/50 border-transparent text-muted-foreground hover:bg-muted"
+                          }`}
                         >
                           {tech}
                         </Badge>
                       ))}
                     </div>
                   </CardContent>
-                  <CardFooter className="pt-4 flex flex-col gap-2">
+                  
+                  <CardFooter className="pt-2 pb-6 px-6 flex flex-col gap-3">
                     {project.live_url && (
-                      <Button variant="default" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" onClick={() => window.open(project.live_url, "_blank", "noopener,noreferrer")}>
+                      <Button variant="default" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-md shadow-primary/20 rounded-xl h-11" onClick={() => window.open(project.live_url, "_blank", "noopener,noreferrer")}>
                         <ExternalLink className="mr-2 h-4 w-4" />
-                        View Dashboard
+                        View Live Dashboard
                       </Button>
                     )}
                     {project.github_url && (
                       <Button
                         variant={project.live_url ? "outline" : "default"}
-                        className={`w-full ${project.live_url ? "" : "bg-primary hover:bg-primary/90 text-primary-foreground"}`}
+                        className={`w-full rounded-xl h-11 ${project.live_url ? "border-border/50 hover:bg-muted/50" : "bg-primary hover:bg-primary/90 text-primary-foreground shadow-md shadow-primary/20"}`}
                         onClick={() => window.open(project.github_url, "_blank", "noopener,noreferrer")}
                       >
                         <Github className="mr-2 h-4 w-4" />
-                        View on GitHub
+                        View Source Code
                       </Button>
                     )}
                   </CardFooter>
@@ -218,9 +244,15 @@ const Projects = () => {
               </motion.div>
             ))
           ) : (
-            <div className="col-span-full text-center py-10">
-              <p className="text-muted-foreground">No projects match your search criteria.</p>
-              <Button variant="link" onClick={() => { setSearchQuery(""); setSelectedTechnology(""); }}>Clear filters</Button>
+            <div className="col-span-full text-center py-16">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted/50 mb-4">
+                <Search className="w-8 h-8 text-muted-foreground" />
+              </div>
+              <p className="text-lg text-foreground font-medium mb-2">No projects found</p>
+              <p className="text-muted-foreground mb-6">We couldn't find any projects matching your search criteria.</p>
+              <Button onClick={() => { setSearchQuery(""); setSelectedTechnology(""); }} className="rounded-xl">
+                Clear all filters
+              </Button>
             </div>
           )}
         </div>
