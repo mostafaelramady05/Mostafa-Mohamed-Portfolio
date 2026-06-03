@@ -6,69 +6,67 @@
 
 @layer base {
   :root {
-    --background: 40 30% 97%;
-    --foreground: 25 30% 18%;
+    /* ستايل Light Mode: أبيض ورمادي مع لمسات ذهبية */
+    --background: 0 0% 98%;
+    --foreground: 210 10% 15%;
 
-    --card: 35 28% 94%;
-    --card-foreground: 25 30% 18%;
+    --card: 0 0% 100%;
+    --card-foreground: 210 10% 15%;
 
-    --popover: 40 30% 97%;
-    --popover-foreground: 25 30% 18%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 10% 15%;
 
-    --primary: 28 24% 58%;
-    --primary-foreground: 25 35% 14%;
+    --primary: 43 74% 49%; /* لون ذهبي فاخر */
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 30 20% 75%;
-    --secondary-foreground: 25 35% 18%;
+    --secondary: 0 0% 93%;
+    --secondary-foreground: 210 10% 15%;
 
-    --muted: 35 20% 90%;
-    --muted-foreground: 25 15% 38%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
 
-    --accent: 25 32% 38%;
-    --accent-foreground: 40 30% 97%;
+    --accent: 43 74% 49%;
+    --accent-foreground: 0 0% 98%;
 
     --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 30 18% 86%;
-    --input: 30 18% 86%;
-    --ring: 25 32% 38%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 43 74% 49%;
 
     --radius: 0.875rem;
-
-    --neon-teal: 28 24% 58%;
-    --neon-purple: 25 32% 38%;
-    --neon-blue: 30 35% 70%;
   }
 
   .dark {
-    --background: 25 18% 8%;
-    --foreground: 35 25% 92%;
+    /* ستايل Dark Mode: رمادي غامق مطفي (Charcoal) مع ذهبي لامع */
+    --background: 210 10% 8%;
+    --foreground: 0 0% 95%;
 
-    --card: 25 16% 12%;
-    --card-foreground: 35 25% 92%;
+    --card: 210 10% 12%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 25 18% 8%;
-    --popover-foreground: 35 25% 92%;
+    --popover: 210 10% 12%;
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 28 32% 62%;
-    --primary-foreground: 25 25% 12%;
+    --primary: 43 60% 55%; /* لون ذهبي لامع للدارك مود */
+    --primary-foreground: 210 10% 8%;
 
-    --secondary: 28 18% 30%;
-    --secondary-foreground: 35 25% 92%;
+    --secondary: 210 10% 18%;
+    --secondary-foreground: 0 0% 95%;
 
-    --muted: 25 14% 16%;
-    --muted-foreground: 30 15% 65%;
+    --muted: 210 10% 15%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 28 38% 68%;
-    --accent-foreground: 25 25% 12%;
+    --accent: 43 60% 55%;
+    --accent-foreground: 210 10% 8%;
 
     --destructive: 0 62% 45%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 25 14% 20%;
-    --input: 25 14% 20%;
-    --ring: 28 32% 62%;
+    --border: 210 10% 18%;
+    --input: 210 10% 18%;
+    --ring: 43 60% 55%;
   }
 }
 
@@ -86,26 +84,31 @@
   }
 }
 
-/* Warm Gradient Text */
+/* تدرج لوني ذهبي فخم للنصوص */
 .gradient-text {
-  @apply bg-gradient-to-r from-[hsl(28,30%,45%)] via-[hsl(25,32%,38%)] to-[hsl(25,40%,25%)] bg-clip-text text-transparent;
+  @apply bg-gradient-to-r from-[hsl(43,74%,49%)] via-[hsl(45,80%,60%)] to-[hsl(35,60%,40%)] bg-clip-text text-transparent;
 }
 
-/* Soft warm shadows */
+/* ظلال خفيفة وراقية تناسب الستايل المينيماليست */
 .neon-glow {
-  box-shadow: 0 4px 20px hsl(25 30% 30% / 0.06), 0 1px 3px hsl(25 30% 30% / 0.04);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
 }
 
-.neon-glow-purple {
-  box-shadow: 0 4px 20px hsl(25 32% 38% / 0.08), 0 1px 3px hsl(25 32% 38% / 0.04);
+.dark .neon-glow {
+  box-shadow: 0 4px 20px hsl(43 60% 55% / 0.05), 0 1px 3px hsl(43 60% 55% / 0.02);
 }
 
 .neon-glow-hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 .neon-glow-hover:hover {
-  box-shadow: 0 12px 32px hsl(25 30% 25% / 0.10), 0 4px 12px hsl(25 30% 25% / 0.06);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
   transform: translateY(-3px) scale(1.02);
+}
+
+.dark .neon-glow-hover:hover {
+  box-shadow: 0 12px 32px hsl(43 60% 55% / 0.10), 0 4px 12px hsl(43 60% 55% / 0.05);
 }
 
 /* Custom scrollbar */
@@ -147,11 +150,11 @@
 .animate-fade-in-delay-2 { animation: fadeIn 0.8s ease-out 0.4s forwards; opacity: 0; }
 .animate-fade-in-delay-3 { animation: fadeIn 0.8s ease-out 0.6s forwards; opacity: 0; }
 
-/* Grid pattern background */
+/* شبكة هادية جداً في الخلفية */
 .bg-grid-pattern {
   background-image: 
-    linear-gradient(hsl(var(--border)) 1px, transparent 1px),
-    linear-gradient(90deg, hsl(var(--border)) 1px, transparent 1px);
+    linear-gradient(hsl(var(--border) / 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(var(--border) / 0.5) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
@@ -179,8 +182,7 @@
   animation: blink 1s step-end infinite;
 }
 
-/* Photo frame for BI style */
+/* إطار الصورة الشخصية */
 .photo-frame {
-  @apply relative overflow-hidden rounded-2xl border-2;
-  border-color: hsl(38 75% 50% / 0.3);
+  @apply relative overflow-hidden rounded-2xl border-2 border-primary/30;
 }
