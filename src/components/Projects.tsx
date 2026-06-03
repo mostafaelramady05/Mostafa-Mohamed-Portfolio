@@ -5,45 +5,73 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
-import { Github, BarChart3, Search, X, Filter, Presentation, ExternalLink } from "lucide-react";
-import { useProjects } from "@/hooks/use-supabase-data";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Project } from "@/lib/supabase";
+import { Github, BarChart3, Search, X, Filter, ExternalLink } from "lucide-react";
+
+// تعريف شكل المشروع (Type)
+type Project = {
+  title: string;
+  description: string;
+  technologies: string[];
+  github_url?: string;
+  live_url?: string;
+  image?: string;
+};
+
+// ==========================================
+// مشاريعك الحقيقية (Static Data) - تقدر تعدل فيها براحتك هنا
+// ==========================================
+const myProjects: Project[] = [
+  {
+    title: "Fortune Capital | MRP & Inventory Dashboard",
+    description: "Advanced dashboard for Material Requirements Planning (MRP) and direct production tracking. Features precise inventory movement analysis to support financial and investment decision-making.",
+    technologies: ["Power BI", "SQL", "Excel", "DAX"],
+    live_url: "https://app.powerbi.com/view?r=eyJrIjoiMTVhYWM2YTgtZDIyNy00ZTIyLWFiODEtNzAzMjU0YmMyMzhhIiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9", // لو مفيش امسح السطر ده
+    image: "/fort-capital.png", // دي الصورة اللي هتظهر
+  },
+  {
+    title: "Childcare Center Financial Analysis (Jeddah)",
+    description: "Comprehensive financial analysis and P&L tracking dashboard. Includes an advanced customer segmentation model to enhance operational efficiency and drive revenue growth in the Saudi market.",
+    technologies: ["Power BI", "Excel", "Daftra ERP"],
+    live_url: "https://app.powerbi.com/view?r=eyJrIjoiNTg2OTY0NjMtNGU5MC00ZGM5LWE5MTktM2VhZGM2YmU2ZjgwIiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9",
+    image: "/jeddah-childcare.png",
+  },
+  {
+    title: "Wuzzuf Job Market Scraper & Analyzer",
+    description: "End-to-end data engineering pipeline extracting job market data via web scraping. Transforms raw data into an interactive dashboard highlighting in-demand skills and labor market trends.",
+    technologies: ["Python", "BeautifulSoup", "Power BI", "Web Scraping"],
+    github_url: "https://github.com/mostafaelramady05/Wuzzuf-Jobs-Analysis",
+    live_url: "https://app.powerbi.com/view?r=eyJrIjoiNmRhOWUyYmItMDA1Ni00MDQ3LWFlZGUtYjY4MTExODdkNjEzIiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9",
+    image: "/wuzzuf.png",
+  }
+];
 
 const Projects = () => {
-  const { data: projects, isLoading, error } = useProjects();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTechnology, setSelectedTechnology] = useState("");
   const [sortBy, setSortBy] = useState("newest");
-  const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>(myProjects);
   const [commonTechs, setCommonTechs] = useState<string[]>([]);
 
-  const uniqueTechnologies = projects
-    ? [...new Set(projects.flatMap((p) => p.technologies || []))]
-    : [];
+  const uniqueTechnologies = [...new Set(myProjects.flatMap((p) => p.technologies || []))];
 
+  // تجميع أكثر التقنيات استخداماً
   useEffect(() => {
-    if (projects) {
-      const techCount = new Map<string, number>();
-      projects.forEach((p) =>
-        p.technologies?.forEach((t) => techCount.set(t, (techCount.get(t) || 0) + 1))
-      );
-      setCommonTechs(
-        Array.from(techCount.entries())
-          .filter(([, c]) => c > 1)
-          .sort((a, b) => b[1] - a[1])
-          .map(([t]) => t)
-          .slice(0, 5)
-      );
-    }
-  }, [projects]);
+    const techCount = new Map<string, number>();
+    myProjects.forEach((p) =>
+      p.technologies?.forEach((t) => techCount.set(t, (techCount.get(t) || 0) + 1))
+    );
+    setCommonTechs(
+      Array.from(techCount.entries())
+        .filter(([, c]) => c > 0) // عدلتها عشان يظهر كله
+        .sort((a, b) => b[1] - a[1])
+        .map(([t]) => t)
+        .slice(0, 5)
+    );
+  }, []);
 
+  // الفلترة والبحث
   useEffect(() => {
-    if (!projects) return;
-    let result = [...projects];
+    let result = [...myProjects];
     if (searchQuery) {
       const q = searchQuery.toLowerCase().trim();
       const exactTech = uniqueTechnologies.find((t) => t.toLowerCase() === q);
@@ -61,188 +89,13 @@ const Projects = () => {
     if (selectedTechnology) {
       result = result.filter((p) => p.technologies?.includes(selectedTechnology));
     }
-    if (sortBy === "newest") {
-      result.sort((a, b) => new Date(b.created_at || "").getTime() - new Date(a.created_at || "").getTime());
-    } else if (sortBy === "tech") {
+    if (sortBy === "tech") {
       result.sort((a, b) => (a.technologies?.join("") || "").localeCompare(b.technologies?.join("") || ""));
     }
     setFilteredProjects(result);
-  }, [projects, searchQuery, selectedTechnology, sortBy, uniqueTechnologies]);
+  }, [searchQuery, selectedTechnology, sortBy, uniqueTechnologies]);
 
   const highlightIfMatched = (t: string) => searchQuery && t.toLowerCase().includes(searchQuery.toLowerCase());
-
-  const fallbackProjects = [
-    {
-      title: "Global Horizon Bank — Enterprise Banking Analytics",
-      description: "End-to-End Data Intelligence Architecture. Architected an analytical data model transforming raw operational banking records into an optimized Star Schema for the Egyptian market. Developed an interactive executive dashboard featuring a rule-based insights engine to analyze loan portfolio aging and dynamically flag structural risks.",
-      technologies: ["SQL", "Python", "Streamlit", "Pandas", "Plotly", "Dimensional Modeling"],
-      github_url: "https://github.com/Sohila-Khaled-Abbas/global-horizon-bank-dwh-project",
-      live_url: "https://global-horizon-bank-dwh-project.streamlit.app/",
-    },
-    {
-      title: "DeepClean OS",
-      description: "An automated data engineering pipeline that transforms raw datasets into ML-ready assets via a strict Sequential Dependency Chain (including statistical imputation, Winsorization, and feature scaling).",
-      technologies: ["Python", "Pandas", "Scikit-Learn", "Streamlit"],
-      github_url: "",
-      live_url: "https://deep-clean-os.streamlit.app",
-    },
-    {
-      title: "NovaTel: End-to-End Telecom Big Data Ecosystem",
-      description: "High-fidelity data engineering simulation of a Mobile Network Operator at the scale of the Egyptian market (100M+ subscribers). Demonstrates a production-grade transition from legacy RDBMS to a modern Big Data Analytical Platform — processing billions of events with sub-second query latency and addressing 'High Write Velocity' during peak events (Ramadan, football matches).",
-      technologies: ["Apache Kafka", "PostgreSQL", "PySpark", "ClickHouse", "Airflow", "Apache Superset"],
-      github_url: "https://github.com/Sohila-Khaled-Abbas/novatel-big-data-ecosystem",
-    },
-    {
-      title: "Scalper Bot Analytics & Flash Sale Cannibalization",
-      description: "A forensic data engineering investigation into how 'Cyber Flash Drops' silently destroy profit margins through deal-sniper users and coordinated bot exploitation.",
-      technologies: ["Apache Spark", "Databricks", "Delta Lake", "Python", "PySpark", "Power BI"],
-      github_url: "https://github.com/Sohila-Khaled-Abbas/ecommerce-flash-sale-analysis",
-    },
-    {
-      title: "AR Financial Tracking System",
-      description: "End-to-end Accounts Receivable data engineering pipeline — synthetic data generation at scale (950K+ records), Power Query ETL transformation, Star Schema modeling, and collection follow-up simulation — built for real-world AR analytics scenarios.",
-      technologies: ["Power Query", "ETL", "Star Schema", "Python", "SQL"],
-      github_url: "https://github.com/Sohila-Khaled-Abbas/AR_Financial_Tracking_System",
-    },
-    {
-      title: "FX Rate Pipeline: Dockerized In-Flight State Management",
-      description: "An intentionally flawed ETL pipeline built with Apache NiFi and PostgreSQL inside Docker, designed to surface and demonstrate the architectural limitations of in-flight stateful transformation — and why the industry moved from ETL to ELT.",
-      technologies: ["Apache NiFi", "PostgreSQL", "Docker", "ETL"],
-      github_url: "https://github.com/Sohila-Khaled-Abbas/Fx-Rate-Pipeline",
-    },
-    {
-      title: "Stock Price Data Pipeline",
-      description: "Fully automated real-time stock price ingestion and analytics pipeline. Fetches market data from Yahoo Finance API, processes via Apache Spark, stores in MinIO, loads into PostgreSQL data warehouse, and visualizes insights with Metabase. Slack notifications for completion.",
-      technologies: ["Apache Spark", "PostgreSQL", "MinIO", "Metabase", "Python"],
-      github_url: "https://github.com/Sohila-Khaled-Abbas/udemy_airflow",
-    },
-    {
-      title: "Apple Stock Market Analysis",
-      description: "End-to-end data engineering and analytics project analyzing historical Apple Inc. (AAPL) stock data to extract actionable business insights and investment strategies.",
-      technologies: ["Power BI", "Python", "Data Engineering"],
-      github_url: "https://github.com/Sohila-Khaled-Abbas/apple-stock-market-analysis",
-      powerbi_url: "https://app.powerbi.com/view?r=eyJrIjoiNTNhYmI1ZjUtNDNhZC00OWM3LWFjYzktMmU0NWYyODYzZjIxIiwidCI6IjI1Y2UwMjYxLWJiZDYtNDljZC1hMWUyLTU0MjYwODg2ZDE1OSJ9",
-    },
-    {
-      title: "B2B Retail Analytics & Churn Diagnostic",
-      description: "BI solution diagnosing operational bottlenecks and retailer churn in the B2B sector. Processes over 472,000 orders across 70,000 retailers, translating daily operational data into strategic decision-making tools.",
-      technologies: ["Power BI", "SQL", "DAX"],
-      github_url: "https://github.com/Sohila-Khaled-Abbas/fmcg-sales-churn-drop-analysis-powerbi",
-      powerbi_url: "https://app.powerbi.com/view?r=eyJrIjoiNzE0MWUwYTgtZTlhZC00N2IxLWFmYzQtYmI2MzFkNjFhN2NjIiwidCI6IjI1Y2UwMjYxLWJiZDYtNDljZC1hMWUyLTU0MjYwODg2ZDE1OSJ9",
-    },
-    {
-      title: "SMART Supply Chain Insights Dashboard",
-      description: "Comprehensive dashboard to monitor logistics efficiency, supplier reliability, and fulfillment KPIs. Integrated Python and Excel for data preprocessing, and visualized insights using Power BI with DAX-driven metrics.",
-      technologies: ["Python", "Excel", "Power BI"],
-      github_url: "https://github.com/Sohila-Khaled-Abbas/SMART-Supply-Chain-Insights-Dashboard/",
-      powerbi_url: "https://app.powerbi.com/view?r=eyJrIjoiNzc1YzdkYWQtZDlkZC00MDhkLWJhNGEtZDg4YzRmMDI5NTljIiwidCI6IjI1Y2UwMjYxLWJiZDYtNDljZC1hMWUyLTU0MjYwODg2ZDE1OSJ9",
-      presentation_url: "https://docs.google.com/presentation/d/1q51qHk1B0xWvKBgJMcKiS-Fe-QbRng_nYn0VZEHL2e0/edit?usp=sharing"
-    },
-    {
-      title: "A/B Testing for Marketing Conversion",
-      description: "Used statistical testing to compare conversion rates between marketing strategies. Analyzed user behavior data to validate the effectiveness of a new design using Python and Excel.",
-      technologies: ["Python", "Excel"],
-      github_url: "https://github.com/Sohila-Khaled-Abbas/ab-testing-marketing-conversion",
-      presentation_url: "https://docs.google.com/presentation/d/1eYQSaxsK_8GT6Tk2pK9gJVb26Nv7NPhj8ik92czk8vI/edit?usp=sharing"
-    },
-    {
-      title: "Wuzzuf Job Market Analysis",
-      description: "Analyzed job postings, hiring trends, salary distributions, and in-demand skills.",
-      technologies: ["Power BI", "Python"],
-      github_url: "https://github.com/Sohila-Khaled-Abbas/Wuzzuf-Job-Market-Analysis",
-      powerbi_url: "https://app.powerbi.com/view?r=eyJrIjoiMGNjZmFlOWItMWU3My00ZjM4LTlhYjQtMWY5N2QzOGQwMTAyIiwidCI6IjI1Y2UwMjYxLWJiZDYtNDljZC1hMWUyLTU0MjYwODg2ZDE1OSJ9",
-    },
-    {
-      title: "Social Media Advertising Dashboard",
-      description: "Delivered a dashboard resolving ROI data issues and highlighting a 35% click contribution from top channels.",
-      technologies: ["Power BI", "Python"],
-      github_url: "https://github.com/Sohila-Khaled-Abbas/Social-Media-Advertising-Dashboard",
-      powerbi_url: "https://app.powerbi.com/view?r=eyJrIjoiMTRlM2M4OWQtMTcyYy00YzhjLWE3NDAtZGNmMDkxNTUwYzIwIiwidCI6IjI1Y2UwMjYxLWJiZDYtNDljZC1hMWUyLTU0MjYwODg2ZDE1OSJ9",
-    },
-    {
-      title: "Startup Expansion Analysis Dashboard",
-      description: "Interactive dashboard analyzing revenue, ROI, and marketing efficiency for startup growth.",
-      technologies: ["Power BI", "Python"],
-      github_url: "https://github.com/Sohila-Khaled-Abbas/Startup-Expansion-Analysis-Dashboard",
-      powerbi_url: "https://app.powerbi.com/view?r=eyJrIjoiZTFiMTFjOWQtNjI5Ni00YzRiLWEwNzQtZmVlZjM2OGQwZGZlIiwidCI6IjI1Y2UwMjYxLWJiZDYtNDljZC1hMWUyLTU0MjYwODg2ZDE1OSJ9",
-    },
-    {
-      title: "Global Layoffs Analysis",
-      description: "Used SQL to reveal workforce reduction trends by industry, region, and funding stage.",
-      technologies: ["SQL"],
-      github_url: "https://github.com/Sohila-Khaled-Abbas/global-layoffs-analysis",
-    },
-    {
-      title: "Healthcare Analytics Dashboard",
-      description: "Explored hospital waitlists, patient flow, and demographic trends in an interactive dashboard.",
-      technologies: ["Power BI"],
-      github_url: "https://github.com/Sohila-Khaled-Abbas/healthcare-analytics-dashboard",
-      powerbi_url: "https://app.powerbi.com/view?r=eyJrIjoiNDI1ODE0MmYtODk0YS00ZjcxLTgwZTgtODM1NzA0NThjZjEwIiwidCI6IjI1Y2UwMjYxLWJiZDYtNDljZC1hMWUyLTU0MjYwODg2ZDE1OSJ9",
-    },
-    {
-      title: "Python EDA Case Study",
-      description: "Conducted exploratory data analysis on employee salary data to extract insights.",
-      technologies: ["Python"],
-      github_url: "https://github.com/Sohila-Khaled-Abbas/Python_EDA_Case_Study",
-    },
-    {
-      title: "HR Analytics Dashboard",
-      description: "Built an HR dashboard with dynamic filters and detailed KPIs to track employee metrics.",
-      technologies: ["Power BI", "DAX"],
-      github_url: "https://github.com/Sohila-Khaled-Abbas/HR-Analytics-Dashboard",
-      powerbi_url: "https://app.powerbi.com/view?r=eyJrIjoiMTgxZTY2NmMtNzA5ZS00Y2FlLWIxNzgtMDM2MWY0ZTIzZjczIiwidCI6IjI1Y2UwMjYxLWJiZDYtNDljZC1hMWUyLTU0MjYwODg2ZDE1OSJ9",
-    },
-    {
-      title: "IMDB Top 250 Movies Dashboard",
-      description: "Visualized movie ratings and trends using IMDB's top-ranked titles.",
-      technologies: ["Power BI"],
-      github_url: "https://github.com/Sohila-Khaled-Abbas/IMDB-Top250-Movies-Dashboard",
-      powerbi_url: "https://app.powerbi.com/view?r=eyJrIjoiMWJlYmY2ODgtYzQwOS00NzY5LWJmZWItMWI0N2Q0MTJkYmI1IiwidCI6IjI1Y2UwMjYxLWJiZDYtNDljZC1hMWUyLTU0MjYwODg2ZDE1OSJ9",
-    },
-    {
-      title: "Emergency Room Dashboard",
-      description: "Assessed patient satisfaction and ER visit patterns with advanced DAX measures.",
-      technologies: ["Power BI", "DAX"],
-      github_url: "https://github.com/Sohila-Khaled-Abbas/Emergency-Room-Dashboard",
-      powerbi_url: "https://app.powerbi.com/view?r=eyJrIjoiZjNmNjEwMzMtYzM3OS00OWM5LTkzYTUtNjJhODU2NTcxNzU3IiwidCI6IjI1Y2UwMjYxLWJiZDYtNDljZC1hMWUyLTU0MjYwODg2ZDE1OSJ9",
-    },
-    {
-      title: "Regional Sales Dashboard",
-      description: "Monitored regional sales performance, spotting trends and growth opportunities.",
-      technologies: ["Power BI"],
-      github_url: "https://github.com/Sohila-Khaled-Abbas/regional-sales-dashboard",
-      powerbi_url: "https://app.powerbi.com/view?r=eyJrIjoiYWM3NmU2MjgtYjY5Yy00YzczLTg0MDItZjNiMTJlNDUzODhmIiwidCI6IjI1Y2UwMjYxLWJiZDYtNDljZC1hMWUyLTU0MjYwODg2ZDE1OSJ9",
-    },
-  ];
-
-  const displayProjects = filteredProjects.length > 0
-    ? filteredProjects
-    : projects?.length
-    ? projects
-    : fallbackProjects;
-
-  if (isLoading) {
-    return (
-      <section id="projects" className="py-16 bg-background">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">
-            <span className="gradient-text">The Dashboards Hub</span>
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-            {[...Array(6)].map((_, i) => (
-              <Card key={i} className="flex flex-col h-full border border-border">
-                <CardHeader><Skeleton className="h-6 w-3/4" /></CardHeader>
-                <CardContent className="flex-grow"><Skeleton className="h-20 w-full mb-4" /></CardContent>
-                <CardFooter><Skeleton className="h-10 w-full" /></CardFooter>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  if (error) console.error("Error loading projects:", error);
 
   return (
     <section id="projects" className="py-16 bg-background">
@@ -253,9 +106,9 @@ const Projects = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <span className="gradient-text">The Dashboards Hub</span>
+          <span className="gradient-text">Featured Projects</span>
         </motion.h2>
-        <p className="text-center text-muted-foreground mb-8">Interactive, expanding project cards — hover to explore</p>
+        <p className="text-center text-muted-foreground mb-8">Showcasing data-driven solutions and financial dashboards</p>
 
         {/* Filters */}
         <div className="flex flex-col md:flex-row gap-4 mb-6 max-w-7xl mx-auto">
@@ -279,25 +132,10 @@ const Projects = () => {
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="newest">Newest</SelectItem>
+              <SelectItem value="newest">Featured</SelectItem>
               <SelectItem value="tech">Tech Stack</SelectItem>
             </SelectContent>
           </Select>
-        </div>
-
-        {/* Quick filter */}
-        <div className="flex flex-wrap gap-2 mb-4 max-w-7xl mx-auto">
-          {commonTechs.map((tech) => (
-            <Button
-              key={tech}
-              variant={tech === selectedTechnology ? "default" : "outline"}
-              size="sm"
-              className="text-xs h-8"
-              onClick={() => setSelectedTechnology(selectedTechnology === tech ? "" : tech)}
-            >
-              {tech}
-            </Button>
-          ))}
         </div>
 
         {/* Tech badges */}
@@ -321,8 +159,8 @@ const Projects = () => {
 
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-          {displayProjects.length > 0 ? (
-            displayProjects.map((project, index) => (
+          {filteredProjects.length > 0 ? (
+            filteredProjects.map((project, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -330,8 +168,18 @@ const Projects = () => {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.05, duration: 0.4 }}
               >
-                <Card className="flex flex-col h-full border border-border bg-card rounded-xl neon-glow-hover transition-all duration-300 hover:border-primary/40">
-                  <CardHeader className="pb-2">
+                <Card className="flex flex-col h-full border border-border bg-card rounded-xl neon-glow-hover transition-all duration-300 hover:border-primary/40 overflow-hidden">
+                  
+                  {/* مكان الصورة (لو مفيش صورة هيظهر لون غامق) */}
+                  <div className="w-full h-48 bg-slate-900 border-b border-border overflow-hidden">
+                    {project.image ? (
+                        <img src={project.image} alt={project.title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                    ) : (
+                        <div className="w-full h-full flex items-center justify-center text-muted-foreground">No Image Available</div>
+                    )}
+                  </div>
+
+                  <CardHeader className="pb-2 mt-2">
                     <CardTitle className="text-lg font-semibold text-foreground">{project.title}</CardTitle>
                   </CardHeader>
                   <CardContent className="flex-grow pb-2">
@@ -348,31 +196,21 @@ const Projects = () => {
                       ))}
                     </div>
                   </CardContent>
-                  <CardFooter className="pt-2 flex flex-col gap-2">
-                    {(project as any).live_url && (
-                      <Button variant="default" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" onClick={() => window.open((project as any).live_url, "_blank", "noopener,noreferrer")}>
+                  <CardFooter className="pt-4 flex flex-col gap-2">
+                    {project.live_url && (
+                      <Button variant="default" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" onClick={() => window.open(project.live_url, "_blank", "noopener,noreferrer")}>
                         <ExternalLink className="mr-2 h-4 w-4" />
-                        View Live Dashboard
+                        View Dashboard
                       </Button>
                     )}
-                    <Button
-                      variant={(project as any).live_url ? "outline" : "default"}
-                      className={`w-full ${(project as any).live_url ? "" : "bg-primary hover:bg-primary/90 text-primary-foreground"}`}
-                      onClick={() => window.open(project.github_url, "_blank", "noopener,noreferrer")}
-                    >
-                      <Github className="mr-2 h-4 w-4" />
-                      {(project as any).live_url ? "View Source Code" : "View on GitHub"}
-                    </Button>
-                    {project.presentation_url && (
-                      <Button variant="outline" className="w-full" onClick={() => window.open(project.presentation_url, "_blank", "noopener,noreferrer")}>
-                        <Presentation className="mr-2 h-4 w-4" />
-                        View Presentation
-                      </Button>
-                    )}
-                    {project.powerbi_url && (
-                      <Button variant="outline" className="w-full" onClick={() => { setSelectedProject(project); setIsModalOpen(true); }}>
-                        <BarChart3 className="mr-2 h-4 w-4" />
-                        Preview Dashboard
+                    {project.github_url && (
+                      <Button
+                        variant={project.live_url ? "outline" : "default"}
+                        className={`w-full ${project.live_url ? "" : "bg-primary hover:bg-primary/90 text-primary-foreground"}`}
+                        onClick={() => window.open(project.github_url, "_blank", "noopener,noreferrer")}
+                      >
+                        <Github className="mr-2 h-4 w-4" />
+                        View on GitHub
                       </Button>
                     )}
                   </CardFooter>
@@ -387,23 +225,6 @@ const Projects = () => {
           )}
         </div>
       </div>
-
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="sm:max-w-[90vw] max-h-[90vh]">
-          <DialogHeader>
-            <DialogTitle>{selectedProject?.title} - Dashboard Preview</DialogTitle>
-          </DialogHeader>
-          {selectedProject?.powerbi_url && (
-            <div className="relative w-full pt-[56.25%]">
-              <iframe src={selectedProject.powerbi_url} className="absolute top-0 left-0 w-full h-full rounded-xl border border-border" allowFullScreen />
-            </div>
-          )}
-          <div className="flex justify-end mt-4">
-            <DialogClose asChild><Button variant="outline" className="mr-2">Close</Button></DialogClose>
-            <Button onClick={() => { window.open(selectedProject?.powerbi_url, "_blank", "noopener,noreferrer"); setIsModalOpen(false); }}>Open in New Tab</Button>
-          </div>
-        </DialogContent>
-      </Dialog>
     </section>
   );
 };
