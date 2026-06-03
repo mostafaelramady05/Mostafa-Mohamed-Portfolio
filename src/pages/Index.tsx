@@ -1,12 +1,10 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import Stats from "@/components/Stats";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
-import Community from "@/components/Community";
-import Credibility from "@/components/Credibility";
 import Certifications from "@/components/Certifications";
+import Contact from "@/components/Contact"; // 👈 ضفنا صفحة التواصل هنا
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -14,13 +12,11 @@ const Index = () => {
     <div className="min-h-screen bg-background text-foreground">
       <Header />
       <Hero />
-      <Stats />
       <About />
       <Skills />
       <Projects />
-      <Community />
-      <Credibility />
       <Certifications />
+      <Contact /> {/* 👈 حطيناها هنا قبل الفوتر عشان السكرول يشتغل */}
       <Footer />
     </div>
   );
