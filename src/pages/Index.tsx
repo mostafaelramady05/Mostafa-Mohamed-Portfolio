@@ -3,8 +3,8 @@ import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
-import Certifications from "@/components/Certifications";
-import Contact from "@/components/Contact"; // 👈 ضفنا صفحة التواصل هنا
+// import Certifications from "@/components/Certifications"; // 👈 عملنالها كومنت مؤقتاً
+import Contact from "@/components/Contact"; 
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -15,8 +15,8 @@ const Index = () => {
       <About />
       <Skills />
       <Projects />
-      <Certifications />
-      <Contact /> {/* 👈 حطيناها هنا قبل الفوتر عشان السكرول يشتغل */}
+      {/* <Certifications /> */} {/* 👈 عملنالها كومنت عشان تخفيها دلوقتي ولما تعوزها ترجعها بسهولة */}
+      <Contact /> 
       <Footer />
     </div>
   );
