@@ -150,14 +150,10 @@
 .animate-fade-in-delay-2 { animation: fadeIn 0.8s ease-out 0.4s forwards; opacity: 0; }
 .animate-fade-in-delay-3 { animation: fadeIn 0.8s ease-out 0.6s forwards; opacity: 0; }
 
-/* 🌟 الشبكة المتلاشية الأطراف (Premium Faded Grid) 🌟 */
+/* 🌟 Data Dots Pattern (نقط البيانات الأنيقة) 🌟 */
 .bg-grid-pattern {
-  background-size: 45px 45px;
-  background-image: 
-    linear-gradient(to right, hsl(var(--foreground) / 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, hsl(var(--foreground) / 0.05) 1px, transparent 1px);
-  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 20%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 20%, transparent 100%);
+  background-image: radial-gradient(circle at 1px 1px, hsl(var(--foreground) / 0.15) 1px, transparent 0);
+  background-size: 24px 24px;
 }
 
 /* Marquee */
