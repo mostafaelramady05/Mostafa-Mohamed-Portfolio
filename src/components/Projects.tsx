@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Github, BarChart3, Search, X, Filter, ExternalLink } from "lucide-react";
+import { Github, BarChart3, Search, X, Filter, ExternalLink, Linkedin } from "lucide-react"; // ضفت أيقونة لينكدان هنا
 
 type Project = {
   title: string;
@@ -13,6 +13,7 @@ type Project = {
   technologies: string[];
   github_url?: string;
   live_url?: string;
+  linkedin_url?: string; // ضفت المتغير ده هنا عشان الـ TypeScript ميعملش إيرور
   image?: string;
 };
 
@@ -21,16 +22,31 @@ const myProjects: Project[] = [
   {
     title: "Fortune Capital | MRP & Inventory Dashboard",
     description: "Advanced dashboard for Material Requirements Planning (MRP) and direct production tracking. Features precise inventory movement analysis to support financial and investment decision-making.",
-    technologies: ["Power BI", "SQL", "Excel", "DAX"],
+    technologies: ["Power BI","Excel", "DAX"],
     live_url: "https://app.powerbi.com/view?r=eyJrIjoiMTVhYWM2YTgtZDIyNy00ZTIyLWFiODEtNzAzMjU0YmMyMzhhIiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9",
     image: "/fort-capital.png",
   },
   {
-    title: "Childcare Center Financial Analysis (Jeddah)",
+    title: "Fortune Capital | Slow-Moving Inventory Analysis",
+    description: "Comprehensive analytical dashboard focusing on aging stock and slow-moving inventory. Highlights tied-up capital and provides strategic insights to optimize warehouse space, reduce holding costs, and improve cash flow.",
+    technologies: ["Power BI", "Power Query", "Excel", "DAX"],
+    live_url: "https://app.powerbi.com/view?r=eyJrIjoiZWNiZWY4MmYtYzI1Yi00MGUyLWJkZTAtNjY4NmNiZjAxYzEyIiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9", 
+    image: "", 
+  },
+  {
+    title: "Fastrack Childcare Center (Jeddah)",
     description: "Comprehensive financial analysis and P&L tracking dashboard. Includes an advanced customer segmentation model to enhance operational efficiency and drive revenue growth in the Saudi market.",
     technologies: ["Power BI", "Excel", "Daftra ERP"],
     live_url: "https://app.powerbi.com/view?r=eyJrIjoiNTg2OTY0NjMtNGU5MC00ZGM5LWE5MTktM2VhZGM2YmU2ZjgwIiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9",
     image: "/jeddah-childcare.png",
+  },
+  {
+    title: "Salla E-Commerce | Call Center Performance",
+    description: "Interactive dashboard designed to monitor and optimize customer support operations for a Salla-based e-commerce store. Tracks critical KPIs including First Response Time (FRT), Average Handling Time (AHT), and Customer Satisfaction (CSAT) to evaluate agent productivity and elevate the overall customer experience.",
+    technologies: ["Power BI", "Power Query", "Excel", "DAX"],
+    live_url: "https://app.powerbi.com/view?r=eyJrIjoiMTk3YzA4NjktMjI3YS00YTk1LTkwYzYtM2EwNTMwMTI0MjgwIiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9",
+    linkedin_url: "https://www.linkedin.com/posts/mostafa-mohamed-2749b42a4_dax-powerbi-customerservice-ugcPost-7395590204092383232-YqCj/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEl5g3gB5tQgIEgRUBwnrfOplSXgFpX89Mc", // حطيت الفاصلة هنا
+    image: "/salla.png",
   },
   {
     title: "Wuzzuf Job Market Scraper & Analyzer",
@@ -39,6 +55,29 @@ const myProjects: Project[] = [
     github_url: "https://github.com/mostafaelramady05/Wuzzuf-Jobs-Analysis",
     live_url: "https://app.powerbi.com/view?r=eyJrIjoiNmRhOWUyYmItMDA1Ni00MDQ3LWFlZGUtYjY4MTExODdkNjEzIiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9",
     image: "/wuzzuf.png",
+  },
+  {
+    title: "Logistics & Fleet Management Dashboard",
+    description: "An interactive dashboard designed to monitor and optimize logistics and fleet operations. Tracks key metrics such as fuel consumption, maintenance costs, vehicle utilization, and route efficiency to reduce operational expenses and ensure timely deliveries.",
+    technologies: ["Power BI", "SQL", "Excel", "Data Modeling"],
+    live_url: "https://app.powerbi.com/view?r=eyJrIjoiMDRiZjEyNzktNzlmOC00MWEyLThkM2EtOGY4YTFkM2RkOWVhIiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9",
+    linkedin_url: "https://www.linkedin.com/posts/mostafa-mohamed-2749b42a4_dataanalysis-powerbi-logistics-ugcPost-7316913400729509889-tmIf/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEl5g3gB5tQgIEgRUBwnrfOplSXgFpX89Mc",
+    image: "/fleet.png",
+  },
+  {
+    title: "Profit & Loss (P&L) Financial Analyzer",
+    description: "A comprehensive financial reporting tool that automates the analysis of Profit & Loss statements. Provides deep insights into revenue trends, operating expenses, and gross margins, enabling stakeholders to track financial health and make data-driven budgetary decisions.",
+    technologies: ["Power BI", "DAX", "Advanced Excel", "Financial Reporting"],
+    live_url: "",
+    linkedin_url: "https://www.linkedin.com/posts/mostafa-mohamed-2749b42a4_powerbi-financialmodeling-businessintelligence-ugcPost-7314747842475008000-dKi9/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEl5g3gB5tQgIEgRUBwnrfOplSXgFpX89Mc",
+    image: "/pnl.png", // عدلت مسار الصورة هنا
+  },
+  {
+    title: "Venus Care | Beauty Salon Performance & Revenue",
+    description: "An interactive analytical dashboard developed for Venus Care, a women's beauty salon, to monitor daily operations and financial health. Tracks critical KPIs such as client bookings, service utilization, beautician performance, and revenue streams, empowering management with data-driven insights to enhance customer experience.",
+    technologies: ["Power BI", "Excel", "DAX", "Data Modeling"],
+    live_url: "", 
+    image: "", 
   }
 ];
 
@@ -223,16 +262,27 @@ const Projects = () => {
                   </CardContent>
                   
                   <CardFooter className="pt-2 pb-6 px-6 flex flex-col gap-3">
+                    {/* زرار عرض الداشبورد لايف */}
                     {project.live_url && (
                       <Button variant="default" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-md shadow-primary/20 rounded-xl h-11" onClick={() => window.open(project.live_url, "_blank", "noopener,noreferrer")}>
                         <ExternalLink className="mr-2 h-4 w-4" />
                         View Live Dashboard
                       </Button>
                     )}
+                    
+                    {/* زرار عرض بوست لينكدان (لو موجود) */}
+                    {project.linkedin_url && (
+                      <Button variant="outline" className="w-full border-primary/50 text-foreground hover:bg-primary/10 rounded-xl h-11" onClick={() => window.open(project.linkedin_url, "_blank", "noopener,noreferrer")}>
+                        <Linkedin className="mr-2 h-4 w-4 text-blue-500" />
+                        View LinkedIn Post
+                      </Button>
+                    )}
+
+                    {/* زرار عرض الجيت هاب (لو موجود) */}
                     {project.github_url && (
                       <Button
                         variant={project.live_url ? "outline" : "default"}
-                        className={`w-full rounded-xl h-11 ${project.live_url ? "border-border/50 hover:bg-muted/50" : "bg-primary hover:bg-primary/90 text-primary-foreground shadow-md shadow-primary/20"}`}
+                        className={`w-full rounded-xl h-11 ${project.live_url ? "border-border/50 hover:bg-muted/50 text-foreground" : "bg-primary hover:bg-primary/90 text-primary-foreground shadow-md shadow-primary/20"}`}
                         onClick={() => window.open(project.github_url, "_blank", "noopener,noreferrer")}
                       >
                         <Github className="mr-2 h-4 w-4" />
