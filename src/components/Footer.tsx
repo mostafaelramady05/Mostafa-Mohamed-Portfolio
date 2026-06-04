@@ -1,49 +1,112 @@
-import { Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { Github, Linkedin, Mail, ArrowUpRight, MapPin, Phone } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const Footer = () => {
-  const year = new Date().getFullYear();
-
   return (
-    <footer className="bg-card border-t border-border py-10">
-      <div className="container mx-auto px-4">
-        {/* Terminal-style contact block */}
-        <div className="max-w-2xl mx-auto bg-background border border-border rounded-xl p-6 font-mono text-sm mb-8">
-          <div className="flex items-center gap-2 mb-4">
-            <span className="w-3 h-3 rounded-full bg-destructive" />
-            <span className="w-3 h-3 rounded-full bg-yellow-500" />
-            <span className="w-3 h-3 rounded-full bg-green-500" />
-            <span className="ml-2 text-muted-foreground text-xs">contact.sh</span>
-          </div>
-          <div className="space-y-2 text-muted-foreground">
-            <p><span className="text-primary">$</span> echo $LOCATION</p>
-            <p className="text-foreground flex items-center gap-2"><MapPin className="h-3 w-3" /> El-Mahalla El-Kubra, Egypt</p>
-            <p><span className="text-primary">$</span> echo $PHONE</p>
-            <p className="text-foreground flex items-center gap-2"><Phone className="h-3 w-3" /> (+20) 122 829 3135</p>
-            <p><span className="text-primary">$</span> echo $EMAIL</p>
-            <p className="text-foreground flex items-center gap-2">
-              <Mail className="h-3 w-3" />
-              <a href="mailto:mostafaelramady516@gmail.com" className="hover:text-primary transition-colors">mostafaelramady516@gmail.com</a>
+    <footer className="relative bg-background pt-20 pb-8 border-t border-border/50 overflow-hidden">
+      {/* إضاءة خلفية خفيفة جداً تليق بالستايل الفخم */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-primary/5 blur-[100px] pointer-events-none" />
+
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12 mb-16 max-w-7xl mx-auto">
+          
+          {/* العمود الأول: البراند والنبذة */}
+          <div className="md:col-span-5 lg:col-span-5">
+            <h2 className="text-2xl font-bold mb-4">
+              <span className="text-foreground">Mostafa</span> <span className="gradient-text">Elramady</span>
+            </h2>
+            <p className="text-muted-foreground mb-8 leading-relaxed max-w-sm">
+              Bridging the gap between financial expertise and advanced data analytics. Turning complex datasets into actionable, decision-ready business strategies.
             </p>
-            <p className="text-primary">$ <span className="animate-blink">_</span></p>
+            {/* بادج "متاح للعمل" - حركة احترافية وبتلفت الانتباه */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400 text-sm font-medium w-fit">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+              </span>
+              Available for new opportunities
+            </div>
+          </div>
+
+          {/* العمود الثاني: الروابط السريعة */}
+          <div className="md:col-span-3 lg:col-span-3">
+            <h3 className="font-semibold text-foreground mb-6 text-lg">Explore</h3>
+            <ul className="space-y-4">
+              <li>
+                <a href="#hero" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5 group w-fit">
+                  Home 
+                  <ArrowUpRight className="w-3.5 h-3.5 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300" />
+                </a>
+              </li>
+              <li>
+                <a href="#skills" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5 group w-fit">
+                  Skills 
+                  <ArrowUpRight className="w-3.5 h-3.5 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300" />
+                </a>
+              </li>
+              <li>
+                <a href="#projects" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5 group w-fit">
+                  Projects 
+                  <ArrowUpRight className="w-3.5 h-3.5 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300" />
+                </a>
+              </li>
+              <li>
+                <a href="#certifications" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5 group w-fit">
+                  Certifications 
+                  <ArrowUpRight className="w-3.5 h-3.5 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300" />
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* العمود الثالث: معلومات التواصل */}
+          <div className="md:col-span-4 lg:col-span-4">
+            <h3 className="font-semibold text-foreground mb-6 text-lg">Get in Touch</h3>
+            <ul className="space-y-4 mb-8">
+              <li className="flex items-center gap-3.5 text-muted-foreground hover:text-primary transition-colors group">
+                <div className="w-10 h-10 rounded-full bg-card/50 border border-border/50 flex items-center justify-center group-hover:border-primary/50 group-hover:bg-primary/10 transition-colors">
+                  <Mail className="w-4 h-4" />
+                </div>
+                <a href="mailto:mostafaelramady516@gmail.com" className="text-sm font-medium">mostafaelramady516@gmail.com</a>
+              </li>
+              <li className="flex items-center gap-3.5 text-muted-foreground group">
+                <div className="w-10 h-10 rounded-full bg-card/50 border border-border/50 flex items-center justify-center group-hover:border-primary/50 group-hover:bg-primary/10 transition-colors">
+                  <Phone className="w-4 h-4" />
+                </div>
+                <span className="text-sm font-medium">(+20) 122 829 3135</span>
+              </li>
+              <li className="flex items-center gap-3.5 text-muted-foreground group">
+                <div className="w-10 h-10 rounded-full bg-card/50 border border-border/50 flex items-center justify-center group-hover:border-primary/50 group-hover:bg-primary/10 transition-colors">
+                  <MapPin className="w-4 h-4" />
+                </div>
+                <span className="text-sm font-medium">El-Mahalla El-Kubra, Egypt</span>
+              </li>
+            </ul>
+            
+            {/* أزرار السوشيال ميديا */}
+            <div className="flex gap-3">
+              <Button variant="outline" size="icon" className="rounded-xl w-12 h-12 bg-card/30 border-border/50 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/20" asChild>
+                <a href="https://linkedin.com/in/mostafa-mohamed-2749b42a4" target="_blank" rel="noreferrer">
+                  <Linkedin className="w-5 h-5" />
+                </a>
+              </Button>
+              <Button variant="outline" size="icon" className="rounded-xl w-12 h-12 bg-card/30 border-border/50 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/20" asChild>
+                <a href="https://github.com/mostafaelramady05" target="_blank" rel="noreferrer">
+                  <Github className="w-5 h-5" />
+                </a>
+              </Button>
+            </div>
           </div>
         </div>
 
-        {/* Social & copyright */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-muted-foreground text-sm">
-            &copy; {year} Mostafa Elramady. All rights reserved.
+        {/* الشريط السفلي لحقوق الملكية */}
+        <div className="pt-8 border-t border-border/40 flex flex-col md:flex-row justify-between items-center gap-4 max-w-7xl mx-auto">
+          <p className="text-sm text-muted-foreground text-center md:text-left font-medium">
+            © {new Date().getFullYear()} Mostafa Elramady. All rights reserved.
           </p>
-          <div className="flex space-x-5">
-            <a href="https://github.com/mostafaelramady05" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-              <Github className="h-5 w-5" />
-            </a>
-            <a href="https://www.linkedin.com/in/mostafa-mohamed-2749b42a4" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-              <Linkedin className="h-5 w-5" />
-            </a>
-            <a href="mailto:mostafaelramady516@gmail.com" className="text-muted-foreground hover:text-primary transition-colors">
-              <Mail className="h-5 w-5" />
-            </a>
-          </div>
+          <p className="text-sm text-muted-foreground flex items-center gap-1.5 font-medium">
+            Data Analyst & Financial Expert <span className="text-primary animate-pulse ml-1">✦</span>
+          </p>
         </div>
       </div>
     </footer>
