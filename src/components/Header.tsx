@@ -8,13 +8,22 @@ import { Switch } from "@/components/ui/switch";
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  // بنخلي القيمة المبدئية true عشان الدارك مود هو الأساس
+  const [isDarkMode, setIsDarkMode] = useState(true); 
   const location = useLocation();
 
   useEffect(() => {
-    const stored = localStorage.getItem("darkMode") === "true";
-    setIsDarkMode(stored);
-    document.documentElement.classList.toggle("dark", stored);
+    // لو دي أول زيارة للموقع، هيعتبر الدارك مود هو الأساس (true)
+    const storedTheme = localStorage.getItem("darkMode");
+    const shouldBeDark = storedTheme === null ? true : storedTheme === "true";
+    
+    setIsDarkMode(shouldBeDark);
+    document.documentElement.classList.toggle("dark", shouldBeDark);
+
+    // بنحفظ الاختيار ده للمستخدم عشان يفضل دارك على طول
+    if (storedTheme === null) {
+      localStorage.setItem("darkMode", "true");
+    }
 
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
@@ -28,13 +37,12 @@ const Header = () => {
     localStorage.setItem("darkMode", String(next));
   };
 
-  // اللمسة الاحترافية: قايمة مختصرة وقوية بتركز على الشغل والمهارات بس
   const mainNavLinks = [
     { name: "Home", href: "/" },
     { name: "About", href: "/#about" },
     { name: "Skills", href: "/#skills" },
     { name: "Projects", href: "/#projects" },
-    // { name: "Certifications", href: "/#certifications" }, // 👈 عملنالها كومنت مؤقتاً
+    // { name: "Certifications", href: "/#certifications" }, 
     { name: "Contact", href: "/#contact" }, 
   ];
 
@@ -62,7 +70,6 @@ const Header = () => {
     )}>
       <div className="container mx-auto px-4 flex justify-between items-center">
         
-        {/* اللوجو الجديد M.M.E */}
         <Link to="/" className="text-xl font-bold font-mono">
           <span className="gradient-text">M.M.E</span>
         </Link>
