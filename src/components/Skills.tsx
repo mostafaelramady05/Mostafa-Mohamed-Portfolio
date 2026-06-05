@@ -1,42 +1,62 @@
 import { motion } from "framer-motion";
-import { BarChart3, Database, Calculator, Wrench } from "lucide-react";
+import { BarChart3, Database, Calculator, FileSpreadsheet, Code, Wrench, SearchCode, FileText } from "lucide-react";
 
-// جمعنا كل المهارات في قائمة واحدة عشان يتعرضوا تحت بعض
+// مهاراتك الحقيقية بعد التحديث الأخير
 const skillCategories = [
   {
     title: "BI & Visualization",
     icon: BarChart3,
-    skills: ["Power BI", "DAX", "Power Query", "Plotly", "Streamlit"],
+    skills: [
+      { name: "Power BI", icon: BarChart3 },
+      { name: "DAX", icon: Code },
+      { name: "Power Query", icon: Database },
+      { name: "Matplotlib", icon: BarChart3 },
+    ],
   },
   {
-    title: "Programming, Scraping & Databases",
+    title: "Databases & Programming",
     icon: Database,
-    skills: ["Python", "Pandas", "NumPy", "Selenium", "SQL Server", "PostgreSQL", "MySQL"],
+    skills: [
+      { name: "SQL Server", icon: Database },
+      { name: "Python", icon: Code },
+      { name: "Web Scraping", icon: SearchCode },
+      { name: "BeautifulSoup", icon: Code },
+      { name: "Selenium", icon: SearchCode },
+    ],
   },
   {
     title: "Accounting & Spreadsheets",
     icon: Calculator,
-    skills: ["Microsoft Excel", "Financial Modeling", "Data Reconciliation", "Accounting Information Systems"],
+    skills: [
+      { name: "Microsoft Excel", icon: FileSpreadsheet },
+      { name: "Google Sheets", icon: FileSpreadsheet },
+      { name: "ERP Systems", icon: Calculator },
+      { name: "Financial Modeling", icon: BarChart3 },
+    ],
   },
   {
     title: "Other Tools",
     icon: Wrench,
-    skills: ["Canva", "Git & GitHub", "Jupyter Notebook"],
-  },
+    skills: [
+      { name: "Notion", icon: FileText },
+      { name: "Canva", icon: Wrench },
+      { name: "Git & GitHub", icon: Code },
+    ],
+  }
 ];
 
 const Skills = () => {
   return (
-    <section id="skills" className="py-24 bg-background relative overflow-hidden">
+    <section id="skills" className="py-20 bg-background relative overflow-hidden">
       {/* إضاءة خلفية خفيفة */}
-      <div className="absolute top-1/3 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
       
-      <div className="container max-w-4xl mx-auto px-4 relative z-10">
+      <div className="container max-w-6xl mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
             <span className="gradient-text">Technical & Professional Skills</span>
@@ -46,8 +66,8 @@ const Skills = () => {
           </p>
         </motion.div>
 
-        {/* عرض المهارات تحت بعضها (Stacked Layout) */}
-        <div className="flex flex-col gap-6">
+        {/* عرض المهارات في شكل كروت شبكية (Grid) زي الصورة بدون تابات */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-center">
           {skillCategories.map((category, idx) => (
             <motion.div
               key={idx}
@@ -55,23 +75,27 @@ const Skills = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              className="bg-card/20 backdrop-blur-xl border border-border/50 rounded-3xl p-8 hover:border-primary/30 transition-all duration-300 shadow-sm group"
+              // نفس ستايل الكارت اللي في الصورة بتاعتك
+              className="bg-card/30 backdrop-blur-xl border border-border/50 rounded-2xl p-6 hover:border-primary/30 transition-all duration-300 shadow-sm flex flex-col h-full"
             >
-              <div className="flex items-center gap-4 mb-6">
-                <div className="bg-background border border-border p-3 rounded-2xl group-hover:border-primary/50 group-hover:bg-primary/10 transition-colors">
-                  <category.icon className="w-6 h-6 text-primary" />
+              {/* عنوان الكارت مع الأيقونة */}
+              <div className="flex items-center gap-3 mb-6">
+                <div className="bg-muted border border-border/50 p-2.5 rounded-xl">
+                  <category.icon className="w-5 h-5 text-primary" />
                 </div>
-                <h3 className="text-2xl font-bold text-foreground">{category.title}</h3>
+                <h3 className="text-lg font-bold text-foreground">{category.title}</h3>
               </div>
               
-              <div className="flex flex-wrap gap-3">
+              {/* المهارات على شكل أزرار صغيرة (Pills) زي الصورة */}
+              <div className="flex flex-wrap gap-2.5 mt-auto">
                 {category.skills.map((skill, i) => (
-                  <span
+                  <div
                     key={i}
-                    className="px-4 py-2 bg-background border border-border rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/50 hover:bg-primary/5 transition-colors cursor-default"
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-background border border-border/60 rounded-lg hover:border-primary/40 hover:bg-primary/5 transition-colors"
                   >
-                    {skill}
-                  </span>
+                    <skill.icon className="w-3.5 h-3.5 text-muted-foreground" />
+                    <span className="text-sm font-medium text-foreground/90">{skill.name}</span>
+                  </div>
                 ))}
               </div>
             </motion.div>
