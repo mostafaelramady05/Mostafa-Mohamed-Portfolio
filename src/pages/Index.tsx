@@ -4,7 +4,7 @@ import About from "@/components/About";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
 // import Certifications from "@/components/Certifications"; 
-import IntakeForm from "@/components/IntakeForm"; // 👈 استدعينا الفورم الجديدة
+import IntakeForm from "@/components/IntakeForm"; 
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -16,7 +16,7 @@ const Index = () => {
       <Skills />
       <Projects />
       {/* <Certifications /> */} 
-      <IntakeForm /> {/* 👈 حطيناها هنا بدل الـ Contact القديم */}
+      <IntakeForm /> 
       <Footer />
     </div>
   );
