@@ -4,14 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Send, RotateCcw, Loader2, CheckCircle2 } from 'lucide-react';
 
 const content = {
@@ -77,7 +69,6 @@ const content = {
 
 export default function IntakeForm() {
   const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
-  // الـ Access Key بتاعك اللي هيوصلك الرسايل على إيميلك
   const ACCESS_KEY = 'a31ef162-aa1a-42fa-a588-65879fff4f18'; 
 
   const [lang, setLang] = useState('en');
@@ -109,15 +100,14 @@ export default function IntakeForm() {
     });
   };
 
-  const handleSelectChange = (value: string) => {
-    setFormData((prev) => ({ ...prev, budget: value }));
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFormData((prev) => ({ ...prev, budget: e.target.value }));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus('submitting');
     
-    // تجهيز البيانات للإرسال
     const payload = {
       access_key: ACCESS_KEY,
       subject: `New Project Inquiry from ${formData.fullName}`,
@@ -162,10 +152,8 @@ export default function IntakeForm() {
   };
 
   return (
-    // ضفنا id="contact" هنا عشان القائمة اللي فوق تنزل للقسم ده لما حد يدوس عليها
     <div id="contact" className="min-h-screen bg-background text-foreground py-12 px-4 sm:px-6 lg:px-8 transition-colors" dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="max-w-3xl mx-auto">
-        {/* Language Toggle */}
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className={`flex mb-6 ${isRTL ? 'justify-start' : 'justify-end'}`}>
           <div className="bg-card rounded-lg p-1 shadow-sm border border-border inline-flex">
             <button type="button" onClick={() => setLang('en')} className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${lang === 'en' ? 'bg-primary/20 text-primary' : 'text-muted-foreground hover:text-foreground'}`}>English</button>
@@ -173,13 +161,11 @@ export default function IntakeForm() {
           </div>
         </motion.div>
 
-        {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mb-10 text-center">
           <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl gradient-text">{t.title}</h1>
           <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">{t.desc}</p>
         </motion.div>
 
-        {/* Card */}
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }} className="bg-card/40 backdrop-blur-xl border border-border/50 rounded-2xl overflow-hidden neon-glow">
           {status === 'success' ? (
             <div className="p-10 text-center">
@@ -192,7 +178,6 @@ export default function IntakeForm() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="p-6 sm:p-10 space-y-10">
-              {/* SECTION 1 */}
               <motion.div custom={0} initial="hidden" animate="visible" variants={sectionVariants}>
                 <div className="border-b border-border/50 pb-4 mb-6"><h2 className="text-xl font-semibold text-foreground">{t.sec1}</h2></div>
                 <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
@@ -215,25 +200,23 @@ export default function IntakeForm() {
                 </div>
               </motion.div>
 
-              {/* SECTION 2 */}
               <motion.div custom={1} initial="hidden" animate="visible" variants={sectionVariants}>
                 <div className="border-b border-border/50 pb-4 mb-6"><h2 className="text-xl font-semibold text-foreground">{t.sec2}</h2></div>
                 <div className="space-y-4">
                   <Label>{t.lblDataLoc}</Label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <label className="flex items-center gap-3 cursor-pointer bg-background/50 rounded-lg p-3 border border-border/50 hover:border-primary/50 transition-colors">
-                      <Checkbox checked={formData.dataLocation.includes('Spreadsheets')} onCheckedChange={(checked) => handleCheckboxToggle('Spreadsheets', checked as boolean)} />
+                      <input type="checkbox" className="w-4 h-4 rounded border-primary text-primary focus:ring-primary bg-background" checked={formData.dataLocation.includes('Spreadsheets')} onChange={(e) => handleCheckboxToggle('Spreadsheets', e.target.checked)} />
                       <span className="text-sm text-muted-foreground">{t.chkSheet}</span>
                     </label>
                     <label className="flex items-center gap-3 cursor-pointer bg-background/50 rounded-lg p-3 border border-border/50 hover:border-primary/50 transition-colors">
-                      <Checkbox checked={formData.dataLocation.includes('Databases / ERP')} onCheckedChange={(checked) => handleCheckboxToggle('Databases / ERP', checked as boolean)} />
+                      <input type="checkbox" className="w-4 h-4 rounded border-primary text-primary focus:ring-primary bg-background" checked={formData.dataLocation.includes('Databases / ERP')} onChange={(e) => handleCheckboxToggle('Databases / ERP', e.target.checked)} />
                       <span className="text-sm text-muted-foreground">{t.chkDb}</span>
                     </label>
                   </div>
                 </div>
               </motion.div>
 
-              {/* SECTION 3 */}
               <motion.div custom={2} initial="hidden" animate="visible" variants={sectionVariants}>
                 <div className="border-b border-border/50 pb-4 mb-6"><h2 className="text-xl font-semibold text-foreground">{t.sec3}</h2></div>
                 <div className="space-y-2">
@@ -242,27 +225,20 @@ export default function IntakeForm() {
                 </div>
               </motion.div>
 
-              {/* SECTION 4 */}
               <motion.div custom={3} initial="hidden" animate="visible" variants={sectionVariants}>
                 <div className="border-b border-border/50 pb-4 mb-6"><h2 className="text-xl font-semibold text-foreground">{t.sec4}</h2></div>
                 <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
                   <div className="space-y-2">
                     <Label>{t.lblBudget}</Label>
-                    <Select value={formData.budget} onValueChange={handleSelectChange}>
-                      <SelectTrigger className="bg-background/50">
-                        <SelectValue placeholder={t.budgetOptions[0].text} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {t.budgetOptions.map((opt, idx) => (
-                          <SelectItem key={idx} value={opt.val} disabled={idx === 0}>{opt.text}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <select value={formData.budget} onChange={handleSelectChange} className="flex h-10 w-full items-center justify-between rounded-md border border-border bg-background/50 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+                      {t.budgetOptions.map((opt, idx) => (
+                        <option key={idx} value={opt.val} disabled={idx === 0}>{opt.text}</option>
+                      ))}
+                    </select>
                   </div>
                 </div>
               </motion.div>
 
-              {/* Submit */}
               <motion.div custom={4} initial="hidden" animate="visible" variants={sectionVariants} className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
                 {status === 'error' && <div className="text-destructive text-sm font-medium">{t.errNetwork}</div>}
                 <Button type="submit" disabled={status === 'submitting'} className={`w-full sm:w-auto ${isRTL ? 'sm:mr-auto' : 'sm:ml-auto'} gap-2`}>
