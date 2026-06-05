@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { BarChart3, Database, Calculator, FileSpreadsheet, Code, Wrench, SearchCode, FileText } from "lucide-react";
 
-// مهاراتك الحقيقية بعد التحديث الأخير
+// مهاراتك الحقيقية بعد حذف Financial Modeling
 const skillCategories = [
   {
     title: "BI & Visualization",
@@ -31,7 +31,6 @@ const skillCategories = [
       { name: "Microsoft Excel", icon: FileSpreadsheet },
       { name: "Google Sheets", icon: FileSpreadsheet },
       { name: "ERP Systems", icon: Calculator },
-      { name: "Financial Modeling", icon: BarChart3 },
     ],
   },
   {
@@ -66,7 +65,7 @@ const Skills = () => {
           </p>
         </motion.div>
 
-        {/* عرض المهارات في شكل كروت شبكية (Grid) زي الصورة بدون تابات */}
+        {/* عرض المهارات في شكل كروت شبكية (Grid) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-center">
           {skillCategories.map((category, idx) => (
             <motion.div
@@ -75,19 +74,18 @@ const Skills = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              // نفس ستايل الكارت اللي في الصورة بتاعتك
               className="bg-card/30 backdrop-blur-xl border border-border/50 rounded-2xl p-6 hover:border-primary/30 transition-all duration-300 shadow-sm flex flex-col h-full"
             >
-              {/* عنوان الكارت مع الأيقونة */}
-              <div className="flex items-center gap-3 mb-6">
-                <div className="bg-muted border border-border/50 p-2.5 rounded-xl">
+              {/* عنوان الكارت مع الأيقونة - مع تثبيت الارتفاع لضمان التناسق */}
+              <div className="flex items-start gap-3 mb-6 min-h-[4rem]">
+                <div className="bg-muted border border-border/50 p-2.5 rounded-xl shrink-0">
                   <category.icon className="w-5 h-5 text-primary" />
                 </div>
-                <h3 className="text-lg font-bold text-foreground">{category.title}</h3>
+                <h3 className="text-lg font-bold text-foreground pt-1">{category.title}</h3>
               </div>
               
-              {/* المهارات على شكل أزرار صغيرة (Pills) زي الصورة */}
-              <div className="flex flex-wrap gap-2.5 mt-auto">
+              {/* المهارات على شكل أزرار صغيرة (Pills) مترتبة طبيعي تحت العنوان مباشرة */}
+              <div className="flex flex-wrap gap-2.5">
                 {category.skills.map((skill, i) => (
                   <div
                     key={i}
