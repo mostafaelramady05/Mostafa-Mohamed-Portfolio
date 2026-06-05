@@ -76,10 +76,9 @@ const content = {
 };
 
 export default function IntakeForm() {
-  // هنستخدم خدمة Web3Forms المجانية والآمنة
   const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
-  // 🔴 حط الـ Access Key بتاعك هنا 🔴
-  constconst ACCESS_KEY = 'a31ef162-aa1a-42fa-a588-65879fff4f18'; 
+  // الـ Access Key بتاعك اللي هيوصلك الرسايل على إيميلك
+  const ACCESS_KEY = 'a31ef162-aa1a-42fa-a588-65879fff4f18'; 
 
   const [lang, setLang] = useState('en');
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
@@ -163,7 +162,8 @@ export default function IntakeForm() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground py-12 px-4 sm:px-6 lg:px-8 transition-colors" dir={isRTL ? 'rtl' : 'ltr'}>
+    // ضفنا id="contact" هنا عشان القائمة اللي فوق تنزل للقسم ده لما حد يدوس عليها
+    <div id="contact" className="min-h-screen bg-background text-foreground py-12 px-4 sm:px-6 lg:px-8 transition-colors" dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="max-w-3xl mx-auto">
         {/* Language Toggle */}
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className={`flex mb-6 ${isRTL ? 'justify-start' : 'justify-end'}`}>
