@@ -79,7 +79,7 @@ export default function IntakeForm() {
   // هنستخدم خدمة Web3Forms المجانية والآمنة
   const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
   // 🔴 حط الـ Access Key بتاعك هنا 🔴
-  const ACCESS_KEY = 'YOUR_ACCESS_KEY_HERE'; 
+  constconst ACCESS_KEY = 'a31ef162-aa1a-42fa-a588-65879fff4f18'; 
 
   const [lang, setLang] = useState('en');
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
