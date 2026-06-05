@@ -20,7 +20,8 @@ const content = {
     desc: 'Please provide the details below to help me understand your data infrastructure and business objectives.',
     sec1: '1. Client Identity',
     lblName: 'Full Name & Job Title *',
-    lblEmail: 'Work Email Address *',
+    lblEmail: 'Email Address *',
+    lblWhatsapp: 'WhatsApp / Phone Number *',
     lblCompany: 'Company Name & Industry',
     sec2: '2. Data Infrastructure',
     lblDataLoc: 'Where does your data currently reside?',
@@ -36,10 +37,11 @@ const content = {
     succTitle: 'Inquiry Received',
     succDesc: 'Thank you. I will review your submission and contact you shortly.',
     budgetOptions: [
-      { val: '', text: 'Select range (USD)' },
-      { val: '$500 - $1,500', text: '$500 - $1,500' },
-      { val: '$1,500 - $5,000', text: '$1,500 - $5,000' },
-      { val: '$5,000+', text: '$5,000+' },
+      { val: '', text: 'Select range' },
+      { val: 'Under $500', text: 'Under $500 (Approx. 1,800 SAR / 24,000 EGP)' },
+      { val: '$500 - $1,500', text: '$500 - $1,500 (1,800 - 5,600 SAR)' },
+      { val: '$1,500 - $5,000', text: '$1,500 - $5,000 (5,600 - 18,700 SAR)' },
+      { val: '$5,000+', text: '$5,000+ (18,700+ SAR)' },
     ],
   },
   ar: {
@@ -47,40 +49,45 @@ const content = {
     desc: 'يرجى تقديم التفاصيل أدناه لمساعدتي في فهم البنية التحتية لبياناتك وأهدافك التجارية.',
     sec1: '١. بيانات العميل',
     lblName: 'الاسم بالكامل والمسمى الوظيفي *',
-    lblEmail: 'البريد الإلكتروني للعمل *',
+    lblEmail: 'البريد الإلكتروني *',
+    lblWhatsapp: 'رقم الموبايل / الواتساب *',
     lblCompany: 'اسم الشركة والمجال',
     sec2: '٢. البنية التحتية للبيانات',
     lblDataLoc: 'أين تحتفظ ببياناتك حالياً؟',
     chkSheet: 'جداول البيانات (Excel / Google Sheets)',
-    chkDb: 'قواعد البيانات أو الأنظمة السحابية (SQL / ERP)',
+    chkDb: 'قواعد البيانات أو الأنظمة (SQL / ERP)',
     sec3: '٣. نطاق المشروع',
-    lblProblem: 'صف المشكلة الأساسية التي تواجهها في تحليل بياناتك: *',
+    lblProblem: 'صف المشكلة الأساسية التي تواجهها أو النظام المطلوب: *',
     sec4: '٤. التفاصيل اللوجستية',
     lblBudget: 'الميزانية التقديرية للمشروع',
     btnSubmit: 'إرسال الطلب',
     btnProcessing: 'جاري الإرسال...',
     errNetwork: 'فشل الإرسال. يرجى المحاولة مرة أخرى.',
-    succTitle: 'تم استلام طلبك',
-    succDesc: 'شكراً لك. سأقوم بمراجعة التفاصيل والتواصل معك في أقرب وقت.',
+    succTitle: 'تم استلام طلبك بنجاح',
+    succDesc: 'شكراً لك. سأقوم بمراجعة التفاصيل والتواصل معك في أقرب وقت عبر الواتساب أو الإيميل.',
     budgetOptions: [
-      { val: '', text: 'اختر الميزانية (جنيه مصري)' },
-      { val: '1000 - 5000 EGP', text: '1,000 - 5,000 جنيه' },
-      { val: '5000 - 15000 EGP', text: '5,000 - 15,000 جنيه' },
-      { val: '15000+ EGP', text: 'أكثر من 15,000 جنيه' },
+      { val: '', text: 'اختر الميزانية التقديرية' },
+      { val: 'Under $500', text: 'أقل من 500$ (حوالي 1,800 ريال / 24,000 جنيه)' },
+      { val: '$500 - $1,500', text: '500$ - 1,500$ (1,800 - 5,600 ريال)' },
+      { val: '$1,500 - $5,000', text: '1,500$ - 5,000$ (5,600 - 18,700 ريال)' },
+      { val: '$5,000+', text: 'أكثر من 5,000$ (أكثر من 18,700 ريال)' },
     ],
   },
 };
 
 export default function IntakeForm() {
-  const GOOGLE_SCRIPT_URL =
-    'https://script.google.com/macros/s/AKfycbzoGEjhGmeppcE31Us5U2xVd8fJah4ZiobkhDSZvBpHnRpmHB9kEfRosdMKcA4Jibse/exec';
+  // هنستخدم خدمة Web3Forms المجانية والآمنة
+  const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
+  // 🔴 حط الـ Access Key بتاعك هنا 🔴
+  const ACCESS_KEY = 'YOUR_ACCESS_KEY_HERE'; 
 
   const [lang, setLang] = useState('en');
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [formData, setFormData] = useState({
     fullName: '',
-    email: '',
     company: '',
+    email: '',
+    whatsapp: '',
     dataLocation: [] as string[],
     problem: '',
     budget: '',
@@ -110,15 +117,24 @@ export default function IntakeForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus('submitting');
+    
+    // تجهيز البيانات للإرسال
     const payload = {
+      access_key: ACCESS_KEY,
+      subject: `New Project Inquiry from ${formData.fullName}`,
+      from_name: formData.fullName,
       ...formData,
-      dataLocation: formData.dataLocation.join(', '),
+      dataLocation: formData.dataLocation.length > 0 ? formData.dataLocation.join(' | ') : 'Not specified',
       languagePreference: lang === 'en' ? 'English' : 'Arabic',
     };
+
     try {
-      const response = await fetch(GOOGLE_SCRIPT_URL, {
+      const response = await fetch(WEB3FORMS_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
         body: JSON.stringify(payload),
       });
       if (response.ok) {
@@ -134,7 +150,7 @@ export default function IntakeForm() {
 
   const resetForm = () => {
     setStatus('idle');
-    setFormData({ fullName: '', email: '', company: '', dataLocation: [], problem: '', budget: '' });
+    setFormData({ fullName: '', company: '', email: '', whatsapp: '', dataLocation: [], problem: '', budget: '' });
   };
 
   const sectionVariants = {
@@ -147,162 +163,70 @@ export default function IntakeForm() {
   };
 
   return (
-    <div
-      className="min-h-screen bg-background text-foreground py-12 px-4 sm:px-6 lg:px-8 transition-colors"
-      dir={isRTL ? 'rtl' : 'ltr'}
-    >
+    <div className="min-h-screen bg-background text-foreground py-12 px-4 sm:px-6 lg:px-8 transition-colors" dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="max-w-3xl mx-auto">
         {/* Language Toggle */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className={`flex mb-6 ${isRTL ? 'justify-start' : 'justify-end'}`}
-        >
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className={`flex mb-6 ${isRTL ? 'justify-start' : 'justify-end'}`}>
           <div className="bg-card rounded-lg p-1 shadow-sm border border-border inline-flex">
-            <button
-              type="button"
-              onClick={() => setLang('en')}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                lang === 'en'
-                  ? 'bg-primary/20 text-primary'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              English
-            </button>
-            <button
-              type="button"
-              onClick={() => setLang('ar')}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                lang === 'ar'
-                  ? 'bg-primary/20 text-primary'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              العربية
-            </button>
+            <button type="button" onClick={() => setLang('en')} className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${lang === 'en' ? 'bg-primary/20 text-primary' : 'text-muted-foreground hover:text-foreground'}`}>English</button>
+            <button type="button" onClick={() => setLang('ar')} className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${lang === 'ar' ? 'bg-primary/20 text-primary' : 'text-muted-foreground hover:text-foreground'}`}>العربية</button>
           </div>
         </motion.div>
 
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-10 text-center"
-        >
-          <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl gradient-text">
-            {t.title}
-          </h1>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mb-10 text-center">
+          <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl gradient-text">{t.title}</h1>
           <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">{t.desc}</p>
         </motion.div>
 
         {/* Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="bg-card border border-border rounded-2xl overflow-hidden neon-glow"
-        >
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }} className="bg-card/40 backdrop-blur-xl border border-border/50 rounded-2xl overflow-hidden neon-glow">
           {status === 'success' ? (
             <div className="p-10 text-center">
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-                className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 mb-6"
-              >
+              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 200, damping: 15 }} className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 mb-6">
                 <CheckCircle2 className="h-8 w-8 text-primary" />
               </motion.div>
               <h3 className="text-2xl font-bold text-foreground mb-2">{t.succTitle}</h3>
               <p className="text-muted-foreground max-w-md mx-auto">{t.succDesc}</p>
-              <Button
-                variant="outline"
-                onClick={resetForm}
-                className="mt-8 gap-2"
-              >
-                <RotateCcw className="h-4 w-4" />
-                {lang === 'en' ? 'Submit another inquiry' : 'إرسال طلب آخر'}
-              </Button>
+              <Button variant="outline" onClick={resetForm} className="mt-8 gap-2"><RotateCcw className="h-4 w-4" />{lang === 'en' ? 'Submit another inquiry' : 'إرسال طلب آخر'}</Button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="p-6 sm:p-10 space-y-10">
               {/* SECTION 1 */}
-              <motion.div
-                custom={0}
-                initial="hidden"
-                animate="visible"
-                variants={sectionVariants}
-              >
-                <div className="border-b border-border pb-4 mb-6">
-                  <h2 className="text-xl font-semibold text-foreground">{t.sec1}</h2>
-                </div>
+              <motion.div custom={0} initial="hidden" animate="visible" variants={sectionVariants}>
+                <div className="border-b border-border/50 pb-4 mb-6"><h2 className="text-xl font-semibold text-foreground">{t.sec1}</h2></div>
                 <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
                   <div className="space-y-2">
                     <Label htmlFor="fullName">{t.lblName}</Label>
-                    <Input
-                      id="fullName"
-                      name="fullName"
-                      type="text"
-                      required
-                      value={formData.fullName}
-                      onChange={handleInputChange}
-                    />
+                    <Input id="fullName" name="fullName" type="text" required value={formData.fullName} onChange={handleInputChange} className="bg-background/50" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="company">{t.lblCompany}</Label>
+                    <Input id="company" name="company" type="text" value={formData.company} onChange={handleInputChange} className="bg-background/50" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">{t.lblEmail}</Label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={handleInputChange}
-                    />
+                    <Input id="email" name="email" type="email" required value={formData.email} onChange={handleInputChange} className="bg-background/50" />
                   </div>
-                  <div className="sm:col-span-2 space-y-2">
-                    <Label htmlFor="company">{t.lblCompany}</Label>
-                    <Input
-                      id="company"
-                      name="company"
-                      type="text"
-                      value={formData.company}
-                      onChange={handleInputChange}
-                    />
+                  <div className="space-y-2">
+                    <Label htmlFor="whatsapp">{t.lblWhatsapp}</Label>
+                    <Input id="whatsapp" name="whatsapp" type="tel" required value={formData.whatsapp} onChange={handleInputChange} className="bg-background/50" dir="ltr" placeholder="+20 10X XXX XXXX" />
                   </div>
                 </div>
               </motion.div>
 
               {/* SECTION 2 */}
-              <motion.div
-                custom={1}
-                initial="hidden"
-                animate="visible"
-                variants={sectionVariants}
-              >
-                <div className="border-b border-border pb-4 mb-6">
-                  <h2 className="text-xl font-semibold text-foreground">{t.sec2}</h2>
-                </div>
+              <motion.div custom={1} initial="hidden" animate="visible" variants={sectionVariants}>
+                <div className="border-b border-border/50 pb-4 mb-6"><h2 className="text-xl font-semibold text-foreground">{t.sec2}</h2></div>
                 <div className="space-y-4">
                   <Label>{t.lblDataLoc}</Label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <label className="flex items-center gap-3 cursor-pointer bg-muted/30 rounded-lg p-3 border border-border hover:border-primary/50 transition-colors">
-                      <Checkbox
-                        checked={formData.dataLocation.includes('Spreadsheets')}
-                        onCheckedChange={(checked) =>
-                          handleCheckboxToggle('Spreadsheets', checked as boolean)
-                        }
-                      />
+                    <label className="flex items-center gap-3 cursor-pointer bg-background/50 rounded-lg p-3 border border-border/50 hover:border-primary/50 transition-colors">
+                      <Checkbox checked={formData.dataLocation.includes('Spreadsheets')} onCheckedChange={(checked) => handleCheckboxToggle('Spreadsheets', checked as boolean)} />
                       <span className="text-sm text-muted-foreground">{t.chkSheet}</span>
                     </label>
-                    <label className="flex items-center gap-3 cursor-pointer bg-muted/30 rounded-lg p-3 border border-border hover:border-primary/50 transition-colors">
-                      <Checkbox
-                        checked={formData.dataLocation.includes('Databases')}
-                        onCheckedChange={(checked) =>
-                          handleCheckboxToggle('Databases', checked as boolean)
-                        }
-                      />
+                    <label className="flex items-center gap-3 cursor-pointer bg-background/50 rounded-lg p-3 border border-border/50 hover:border-primary/50 transition-colors">
+                      <Checkbox checked={formData.dataLocation.includes('Databases / ERP')} onCheckedChange={(checked) => handleCheckboxToggle('Databases / ERP', checked as boolean)} />
                       <span className="text-sm text-muted-foreground">{t.chkDb}</span>
                     </label>
                   </div>
@@ -310,50 +234,27 @@ export default function IntakeForm() {
               </motion.div>
 
               {/* SECTION 3 */}
-              <motion.div
-                custom={2}
-                initial="hidden"
-                animate="visible"
-                variants={sectionVariants}
-              >
-                <div className="border-b border-border pb-4 mb-6">
-                  <h2 className="text-xl font-semibold text-foreground">{t.sec3}</h2>
-                </div>
+              <motion.div custom={2} initial="hidden" animate="visible" variants={sectionVariants}>
+                <div className="border-b border-border/50 pb-4 mb-6"><h2 className="text-xl font-semibold text-foreground">{t.sec3}</h2></div>
                 <div className="space-y-2">
                   <Label htmlFor="problem">{t.lblProblem}</Label>
-                  <Textarea
-                    id="problem"
-                    name="problem"
-                    rows={4}
-                    required
-                    value={formData.problem}
-                    onChange={handleInputChange}
-                  />
+                  <Textarea id="problem" name="problem" rows={4} required value={formData.problem} onChange={handleInputChange} className="bg-background/50" />
                 </div>
               </motion.div>
 
               {/* SECTION 4 */}
-              <motion.div
-                custom={3}
-                initial="hidden"
-                animate="visible"
-                variants={sectionVariants}
-              >
-                <div className="border-b border-border pb-4 mb-6">
-                  <h2 className="text-xl font-semibold text-foreground">{t.sec4}</h2>
-                </div>
+              <motion.div custom={3} initial="hidden" animate="visible" variants={sectionVariants}>
+                <div className="border-b border-border/50 pb-4 mb-6"><h2 className="text-xl font-semibold text-foreground">{t.sec4}</h2></div>
                 <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
                   <div className="space-y-2">
                     <Label>{t.lblBudget}</Label>
                     <Select value={formData.budget} onValueChange={handleSelectChange}>
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-background/50">
                         <SelectValue placeholder={t.budgetOptions[0].text} />
                       </SelectTrigger>
                       <SelectContent>
                         {t.budgetOptions.map((opt, idx) => (
-                          <SelectItem key={idx} value={opt.val} disabled={idx === 0}>
-                            {opt.text}
-                          </SelectItem>
+                          <SelectItem key={idx} value={opt.val} disabled={idx === 0}>{opt.text}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -362,32 +263,10 @@ export default function IntakeForm() {
               </motion.div>
 
               {/* Submit */}
-              <motion.div
-                custom={4}
-                initial="hidden"
-                animate="visible"
-                variants={sectionVariants}
-                className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4"
-              >
-                {status === 'error' && (
-                  <div className="text-destructive text-sm">{t.errNetwork}</div>
-                )}
-                <Button
-                  type="submit"
-                  disabled={status === 'submitting'}
-                  className={`w-full sm:w-auto ${isRTL ? 'sm:mr-auto' : 'sm:ml-auto'} gap-2`}
-                >
-                  {status === 'submitting' ? (
-                    <>
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                      {t.btnProcessing}
-                    </>
-                  ) : (
-                    <>
-                      <Send className="h-4 w-4" />
-                      {t.btnSubmit}
-                    </>
-                  )}
+              <motion.div custom={4} initial="hidden" animate="visible" variants={sectionVariants} className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                {status === 'error' && <div className="text-destructive text-sm font-medium">{t.errNetwork}</div>}
+                <Button type="submit" disabled={status === 'submitting'} className={`w-full sm:w-auto ${isRTL ? 'sm:mr-auto' : 'sm:ml-auto'} gap-2`}>
+                  {status === 'submitting' ? <><Loader2 className="h-4 w-4 animate-spin" />{t.btnProcessing}</> : <><Send className="h-4 w-4" />{t.btnSubmit}</>}
                 </Button>
               </motion.div>
             </form>
