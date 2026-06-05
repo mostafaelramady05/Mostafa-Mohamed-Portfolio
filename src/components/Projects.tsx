@@ -34,10 +34,11 @@ const myProjects: Project[] = [
     image: "", 
   },
   {
-    title: "Fastrack Childcare Center (Jeddah)",
+    title: "Fastrack Childcare Center | Perforamnce Analyzer",
     description: "Comprehensive financial analysis and P&L tracking dashboard. Includes an advanced customer segmentation model to enhance operational efficiency and drive revenue growth in the Saudi market.",
     technologies: ["Power BI", "Excel", "Daftra ERP"],
     live_url: "https://app.powerbi.com/view?r=eyJrIjoiNTg2OTY0NjMtNGU5MC00ZGM5LWE5MTktM2VhZGM2YmU2ZjgwIiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9",
+    linkedin_url: "https://www.linkedin.com/posts/mostafa-mohamed-2749b42a4_my-first-freelance-milestone-im-happy-ugcPost-7429094116354998272-0K0J/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEl5g3gB5tQgIEgRUBwnrfOplSXgFpX89Mc",
     image: "/jeddah-childcare.png",
   },
   {
@@ -52,6 +53,7 @@ const myProjects: Project[] = [
     title: "Wuzzuf Job Market Scraper & Analyzer",
     description: "End-to-end data engineering pipeline extracting job market data via web scraping. Transforms raw data into an interactive dashboard highlighting in-demand skills and labor market trends.",
     technologies: ["Python", "BeautifulSoup", "Power BI", "Web Scraping"],
+    linkedin_url:"https://www.linkedin.com/posts/mostafa-mohamed-2749b42a4_web-scraping-presentation-ugcPost-7405774835525689344-RpVd/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEl5g3gB5tQgIEgRUBwnrfOplSXgFpX89Mc",
     github_url: "https://github.com/mostafaelramady05/Wuzzuf-Jobs-Analysis",
     live_url: "https://app.powerbi.com/view?r=eyJrIjoiNmRhOWUyYmItMDA1Ni00MDQ3LWFlZGUtYjY4MTExODdkNjEzIiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9",
     image: "/wuzzuf.png",
