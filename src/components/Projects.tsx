@@ -23,6 +23,7 @@ const myProjects: Project[] = [
     title: "Fortune Capital | MRP & Inventory Dashboard",
     description: "Advanced dashboard for Material Requirements Planning (MRP) and direct production tracking. Features precise inventory movement analysis to support financial and investment decision-making.",
     technologies: ["Power BI","Excel", "DAX"],
+    github_url: "https://github.com/mostafaelramady05/Supply-Chain-MRP-Analytics.git",
     live_url: "https://app.powerbi.com/view?r=eyJrIjoiMTVhYWM2YTgtZDIyNy00ZTIyLWFiODEtNzAzMjU0YmMyMzhhIiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9",
     image: "/fort-capital.png",
   },
