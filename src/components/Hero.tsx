@@ -4,151 +4,106 @@ import { Button } from "@/components/ui/button";
 
 const Hero = () => {
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center bg-background bg-grid-pattern pt-24 pb-16 relative overflow-hidden">
-      {/* Ambient glow orbs - تم تحسين الألوان لتكون أهدى وأفخم */}
-      <div className="absolute top-1/4 left-1/3 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/3 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[100px] pointer-events-none" />
+    <section id="hero" className="min-h-screen flex items-center justify-center bg-background pt-24 pb-16 relative overflow-hidden">
+      {/* إضاءة خلفية هادية جداً وغير مزعجة */}
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="flex flex-col md:flex-row items-center gap-16">
+        <div className="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
           
           {/* ========================================================================= */}
-          {/* الجانب الأيمن: الصورة والتشكيل الزجاجي الديناميكي (المطور) */}
+          {/* الجانب الأيسر: النص (هادي، واضح، حاد) */}
           {/* ========================================================================= */}
-          <motion.div
-            className="w-full md:w-1/2 flex justify-center md:order-2 relative"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} // smooth ease-out
-          >
-            {/* التشكيل الزجاجي الخلفي المجرد الدوار ببطء (blob mechanism) */}
-            <motion.div 
-              className="absolute inset-0 bg-card/20 backdrop-blur-2xl border border-border/30 rounded-[4rem] shadow-inner-glow"
-              animate={{
-                borderRadius: ["40% 60% 70% 30% / 40% 50% 60% 50%", "60% 40% 30% 70% / 50% 60% 50% 40%", "40% 60% 70% 30% / 40% 50% 60% 50%"],
-                rotate: [0, 5, 0]
-              }}
-              transition={{
-                duration: 15,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
-            
-            {/* حاوية الصورة الشخصية بستايل الـ Container */}
-            <div className="relative z-10 w-72 h-80 md:w-85 md:h-[28rem] p-3">
-              <div className="w-full h-full overflow-hidden rounded-[3rem] border-2 border-background shadow-2xl relative bg-muted">
-                <img
-                  src="/Mostafa-hero.png" 
-                  alt="Mostafa Mohamed Elramady"
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 ease-out"
-                />
-                {/* طبقة ظل ناعمة أسفل الصورة لإعطاء عمق */}
-                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
-              </div>
-
-              {/* الأيقونات العائمة المودرن جوه "كبسولات زجاجية" لتناسق الستايل */}
-              
-              {/* Power BI Icon */}
-              <motion.div 
-                className="absolute -top-6 -right-6 bg-card/60 backdrop-blur-lg border border-border/50 p-4 rounded-2xl shadow-xl neon-glow-sm flex items-center justify-center text-yellow-500"
-                animate={{ y: [0, -12, 0], rotate: [0, 5, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-              >
-                <BarChart3 className="w-7 h-7" />
-              </motion.div>
-
-              {/* Python Icon */}
-              <motion.div 
-                className="absolute top-1/2 -left-10 transform -translate-y-1/2 bg-card/60 backdrop-blur-lg border border-border/50 p-4 rounded-2xl shadow-xl neon-glow-sm flex items-center justify-center text-blue-500"
-                animate={{ y: [0, 18, 0], rotate: [0, -5, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              >
-                <Code2 className="w-7 h-7" />
-              </motion.div>
-
-              {/* SQL Icon */}
-              <motion.div 
-                className="absolute -bottom-6 right-12 bg-card/60 backdrop-blur-lg border border-border/50 p-4 rounded-2xl shadow-xl neon-glow-sm flex items-center justify-center text-blue-400"
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-              >
-                <Database className="w-7 h-7" />
-              </motion.div>
-
-              {/* Excel Icon */}
-              <motion.div 
-                className="absolute bottom-16 -left-8 bg-card/60 backdrop-blur-lg border border-border/50 p-4 rounded-2xl shadow-xl neon-glow-sm flex items-center justify-center text-green-600"
-                animate={{ y: [0, 12, 0], rotate: [0, 3, 0] }}
-                transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-              >
-                <FileSpreadsheet className="w-7 h-7" />
-              </motion.div>
-            </div>
-          </motion.div>
-
-          {/* ========================================================================= */}
-          {/* الجانب الأيسر: النص والأزرار (معدل ومطور) */}
-          {/* ========================================================================= */}
-          <div className="w-full md:w-1/2 text-center md:text-left md:order-1 relative">
-            
-            {/* طبقة زجاجية ناعمة خلف النص لتحسين القراءة وفخامة الشكل */}
-            <div className="absolute -inset-8 bg-background/40 backdrop-blur-sm rounded-3xl -z-10 md:block hidden" />
-
+          <div className="w-full md:w-1/2 text-center md:text-left order-2 md:order-1">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.5 }}
             >
-              {/* المسمى الوظيفي بستايل الـ Pill */}
-              <span className="inline-block px-4 py-1.5 rounded-full text-xs font-mono font-medium bg-primary/10 text-primary border border-primary/20 mb-5 tracking-wide">
+              <span className="inline-block px-3 py-1 rounded-md text-xs font-mono font-medium bg-muted text-muted-foreground border border-border mb-6">
                 Data Analyst & Accountant
               </span>
             </motion.div>
 
             <motion.h1
-              className="text-4xl md:text-5xl lg:text-7xl font-extrabold mb-6 leading- tight tracking-tighter"
-              initial={{ opacity: 0, y: 30 }}
+              className="text-4xl md:text-5xl lg:text-7xl font-extrabold mb-6 tracking-tight"
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.5, delay: 0.1 }}
             >
-              {/* التعديل المطلوب: مصطفى محمد ثم العيلة */}
-              <span className="block text-foreground mb-1">Mostafa Mohamed</span>
-              <span className="gradient-text pb-2 block">Elramady</span>
+              <span className="block text-foreground mb-2">Mostafa Mohamed</span>
+              <span className="gradient-text block">Elramady</span>
             </motion.h1>
 
             <motion.p
-              className="text-lg md:text-xl text-muted-foreground mb-10 max-w-xl mx-auto md:mx-0 leading-relaxed font-normal"
-              initial={{ opacity: 0, y: 30 }}
+              className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto md:mx-0 leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.5, delay: 0.2 }}
             >
-              {/* النبذة المختصرة - تم تحسين الخط والحجم قليلاً */}
               I combine deep financial understanding with advanced data manipulation skills. Proficient in Power BI, SQL, Python, and Excel to turn complex data into actionable, decision-ready insights. Based in El-Mahalla El-Kubra, Egypt, with practical experience analyzing data for businesses in both the Egyptian and Saudi Arabian markets.
             </motion.p>
 
             <motion.div
-              className="flex flex-col sm:flex-row gap-5 justify-center md:justify-start"
-              initial={{ opacity: 0, y: 30 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start mb-10"
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.5, delay: 0.3 }}
             >
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-full px-8 shadow-lg shadow-primary/20 group" asChild>
+              <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 font-medium rounded-lg px-8" asChild>
                 <a href="#projects">
-                  <BarChart3 className="mr-2.5 h-5 w-5 group-hover:scale-110 transition-transform" />
+                  <BarChart3 className="mr-2 h-4 w-4" />
                   View Dashboards
                 </a>
               </Button>
               
-              {/* زرار عرض السيرة الذاتية بستايل الـ Outline الـ Glassy */}
-              <Button size="lg" variant="outline" className="border-border bg-card/20 backdrop-blur-lg text-foreground hover:bg-card/50 rounded-full px-8 shadow-md group" asChild>
+              <Button size="lg" variant="outline" className="border-border hover:bg-muted rounded-lg px-8" asChild>
                 <a href="https://drive.google.com/file/d/1Zi06Rc7nrwTXAgqySf6rZkHXPGKlMZru/view?usp=drive_link" target="_blank" rel="noopener noreferrer">
-                  <Eye className="mr-2.5 h-5 w-5 group-hover:scale-110 transition-transform" />
+                  <Eye className="mr-2 h-4 w-4" />
                   View CV
                 </a>
               </Button>
             </motion.div>
+
+            {/* صف المهارات التقنية (Tech Stack) المرصوص بشكل احترافي بدل الطيران */}
+            <motion.div 
+              className="flex items-center justify-center md:justify-start gap-6 text-muted-foreground opacity-70"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
+              <div className="flex items-center gap-2 hover:text-yellow-500 transition-colors"><BarChart3 className="w-5 h-5" /> <span className="text-xs font-mono hidden sm:block">Power BI</span></div>
+              <div className="flex items-center gap-2 hover:text-blue-500 transition-colors"><Code2 className="w-5 h-5" /> <span className="text-xs font-mono hidden sm:block">Python</span></div>
+              <div className="flex items-center gap-2 hover:text-blue-400 transition-colors"><Database className="w-5 h-5" /> <span className="text-xs font-mono hidden sm:block">SQL</span></div>
+              <div className="flex items-center gap-2 hover:text-green-600 transition-colors"><FileSpreadsheet className="w-5 h-5" /> <span className="text-xs font-mono hidden sm:block">Excel</span></div>
+            </motion.div>
           </div>
+
+          {/* ========================================================================= */}
+          {/* الجانب الأيمن: الصورة (نظيفة، حادة، وبدون دوشة) */}
+          {/* ========================================================================= */}
+          <motion.div
+            className="w-full md:w-1/2 flex justify-center order-1 md:order-2"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="relative w-full max-w-[400px] aspect-[4/5] md:aspect-square lg:aspect-[4/5]">
+              {/* إطار خلفي خفيف بيدي عمق رسمي */}
+              <div className="absolute inset-0 translate-x-4 translate-y-4 rounded-2xl border border-border/50 bg-muted/20" />
+              
+              {/* حاوية الصورة الأساسية */}
+              <div className="absolute inset-0 rounded-2xl overflow-hidden border border-border bg-card shadow-2xl">
+                <img
+                  src="/Mostafa-hero.png" 
+                  alt="Mostafa Mohamed Elramady"
+                  className="w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent pointer-events-none" />
+              </div>
+            </div>
+          </motion.div>
+
         </div>
       </div>
     </section>
