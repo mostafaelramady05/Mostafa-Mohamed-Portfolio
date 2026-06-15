@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
-import { Menu, Sun, Moon, X, Send } from "lucide-react";
+import { Menu, Sun, Moon, Send, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Header = () => {
@@ -21,8 +21,7 @@ const Header = () => {
       localStorage.setItem("darkMode", "true");
     }
 
-    // خلينا الـ threshold قليل عشان الحركة تبان بسرعة أول ما ينزل
-    const handleScroll = () => setIsScrolled(window.scrollY > 30);
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -34,7 +33,6 @@ const Header = () => {
     localStorage.setItem("darkMode", String(next));
   };
 
-  // شيلنا Contact من هنا عشان هنعملها زرار منفصل زي الفيديو بالظبط
   const mainNavLinks = [
     { name: "Home", href: "/" },
     { name: "About", href: "/#about" },
@@ -61,83 +59,80 @@ const Header = () => {
 
   return (
     <>
-      {/* 
-        الكونتينر ده وظيفته يوسط الهيدر في الشاشة طول الوقت، 
-        ويخلي الهيدر ياخد مساحته على قد المحتوى بس (Fit Content)
-      */}
-      <div className="fixed top-4 left-0 w-full z-50 flex justify-center pointer-events-none px-4">
+      <div className="fixed top-4 left-0 w-full z-50 flex justify-center px-4 md:px-8 pointer-events-none">
         <motion.header
           layout
-          transition={{ type: "spring", stiffness: 400, damping: 30 }}
-          className="pointer-events-auto bg-card/60 backdrop-blur-xl border border-border/50 shadow-2xl rounded-full flex items-center p-1.5 gap-2 md:gap-4"
+          transition={{ type: "spring", stiffness: 350, damping: 30 }}
+          className={cn(
+            "pointer-events-auto flex items-center transition-colors duration-300",
+            // السر هنا: لو سكرول بيعمل كبسولة ملمومة، لو لسه فوق بياخد عرض الشاشة
+            isScrolled
+              ? "bg-card/70 backdrop-blur-xl border border-border/50 shadow-lg rounded-full px-4 py-2 gap-4 md:gap-8"
+              : "w-full max-w-7xl bg-transparent border-transparent px-0 py-2 justify-between"
+          )}
         >
-          {/* Logo Section */}
-          <motion.div layout className="pl-3 md:pl-4 flex items-center">
+          
+          {/* الجانب الأيسر (اللوجو) */}
+          {/* الـ flex-1 لما يكون مش سكرول بتخليه يزق اللينكات للنص بالظبط */}
+          <motion.div layout className={cn("flex items-center", !isScrolled && "flex-1")}>
             <Link to="/" className="text-xl font-bold font-mono tracking-tighter">
               <span className="gradient-text">M.M.E</span>
             </Link>
           </motion.div>
 
-          {/* Navigation Links - بتختفي بـ أنيميشن لما ننزل لتحت (زي الفيديو) */}
-          <AnimatePresence mode="popLayout">
-            {!isScrolled && (
-              <motion.nav
+          {/* المنتصف (اللينكات) - مفيش أي حاجة هتختفي خالص */}
+          <motion.nav layout className="hidden md:flex items-center justify-center gap-1">
+            {mainNavLinks.map((link) => (
+              <motion.a
                 layout
-                initial={{ opacity: 0, scale: 0.8, filter: "blur(4px)" }}
-                animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                exit={{ opacity: 0, scale: 0.8, filter: "blur(4px)" }}
-                transition={{ duration: 0.2 }}
-                className="hidden md:flex items-center space-x-1 px-2"
+                key={link.name} 
+                href={link.href} 
+                onClick={(e) => handleNav(e, link.href)}
+                className={cn(
+                  "px-4 py-2 text-sm font-medium rounded-full transition-colors",
+                  isScrolled
+                    ? "text-muted-foreground hover:text-foreground hover:bg-background/50"
+                    : "text-foreground/80 hover:text-foreground hover:bg-primary/5"
+                )}
               >
-                {mainNavLinks.map((link) => (
-                  <a 
-                    key={link.name} 
-                    href={link.href} 
-                    onClick={(e) => handleNav(e, link.href)}
-                    className="px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-primary/10 rounded-full transition-colors"
-                  >
-                    {link.name}
-                  </a>
-                ))}
-              </motion.nav>
-            )}
-          </AnimatePresence>
+                {link.name}
+              </motion.a>
+            ))}
+          </motion.nav>
 
-          {/* Right Actions Section */}
-          <motion.div layout className="flex items-center gap-2 pr-1">
-            {/* Dark Mode Toggle */}
+          {/* الجانب الأيمن (الزراير والدارك مود) */}
+          <motion.div layout className={cn("flex items-center gap-2 md:gap-3 justify-end", !isScrolled && "flex-1")}>
             <motion.button 
               layout
               onClick={toggleDarkMode} 
-              className="p-2 rounded-full hover:bg-background/50 text-muted-foreground transition-colors"
+              className="p-2 rounded-full bg-background/30 hover:bg-background/80 text-foreground transition-colors border border-border/30"
             >
               {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </motion.button>
 
-            {/* CTA Button - ثابت مش بيختفي */}
             <motion.button
               layout
               onClick={(e) => handleNav(e, "/#contact")}
-              className="bg-primary text-primary-foreground px-4 md:px-5 py-2 rounded-full text-sm font-semibold hover:bg-primary/90 transition-transform hover:scale-105 active:scale-95 flex items-center gap-2 shadow-lg shadow-primary/20"
+              className="bg-foreground text-background px-4 md:px-5 py-2 rounded-full text-sm font-semibold hover:bg-foreground/90 transition-transform active:scale-95 flex items-center gap-2 shadow-md"
             >
               <span className="hidden sm:inline">Let's Talk</span>
               <span className="sm:hidden">Contact</span>
-              <Send className="w-3.5 h-3.5" />
             </motion.button>
 
-            {/* Mobile Menu Toggle */}
+            {/* زرار القائمة للموبايل */}
             <motion.button 
               layout
-              className="md:hidden p-2 rounded-full hover:bg-background/50 text-foreground transition-colors" 
+              className="md:hidden p-2 rounded-full bg-background/30 text-foreground transition-colors border border-border/30" 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? <X className="w-5 h-5"/> : <Menu className="w-5 h-5"/>}
             </motion.button>
           </motion.div>
+
         </motion.header>
       </div>
 
-      {/* Mobile Navigation Menu */}
+      {/* المنيو الخاصة بالموبايل */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div 
