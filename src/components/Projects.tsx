@@ -80,7 +80,7 @@ const myProjects: Project[] = [
     description: "An interactive analytical dashboard developed for Venus Care, a women's beauty salon, to monitor daily operations and financial health. Tracks critical KPIs such as client bookings, service utilization, beautician performance, and revenue streams, empowering management with data-driven insights to enhance customer experience.",
     technologies: ["Power BI", "Excel", "DAX", "Data Modeling"],
     live_url: "", 
-    image: "", 
+    image: "/Venus-Care.png", 
   }
 ];
 
