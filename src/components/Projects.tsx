@@ -32,7 +32,7 @@ const myProjects: Project[] = [
     description: "Comprehensive analytical dashboard focusing on aging stock and slow-moving inventory. Highlights tied-up capital and provides strategic insights to optimize warehouse space, reduce holding costs, and improve cash flow.",
     technologies: ["Power BI", "Power Query", "Excel", "DAX"],
     live_url: "https://app.powerbi.com/view?r=eyJrIjoiZWNiZWY4MmYtYzI1Yi00MGUyLWJkZTAtNjY4NmNiZjAxYzEyIiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9", 
-    image: "", 
+    image: "/Slow-Moving.png",
   },
   {
     title: "Fastrack Childcare Center | Perforamnce Analyzer",
