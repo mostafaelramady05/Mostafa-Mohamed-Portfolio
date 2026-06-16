@@ -62,59 +62,72 @@ const Header = () => {
       <div className="fixed top-4 left-0 w-full z-50 flex justify-center px-4 md:px-8 pointer-events-none">
         <motion.header
           layout
-          // حركة ناعمة جداً وبطيئة نسبياً عشان تدي إحساس الفخامة (Glide)
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} 
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }} 
           className={cn(
             "pointer-events-auto flex items-center h-14 transition-colors duration-500 overflow-hidden",
-            // لو عملنا سكرول: الهيدر بياخد مساحة المحتوى بس (الكبسولة بتلم)
             isScrolled
-              ? "bg-card/85 backdrop-blur-xl border border-border/50 shadow-xl rounded-full px-3"
-              // لو لسه فوق: بياخد عرض الشاشة
-              : "w-full max-w-7xl bg-transparent border-transparent px-0"
+              ? "bg-card/85 backdrop-blur-xl border border-border/50 shadow-xl rounded-full px-3 gap-6"
+              : "w-full max-w-7xl bg-transparent border-transparent px-0 gap-0"
           )}
         >
           
-          {/* الجانب الأيسر (اللوجو) - بياخد مساحة مرنة عشان يزق اللي في النص */}
-          <motion.div layout="position" className="flex-1 flex justify-start items-center pl-2">
-            <Link to="/" className="text-xl font-bold font-mono tracking-tighter">
+          {/* الجانب الأيسر (اللوجو) */}
+          <motion.div 
+            layout 
+            className={cn(
+              "flex items-center pl-2", 
+              !isScrolled && "flex-1" // بياخد مساحة عشان يزق النص في مكانه
+            )}
+          >
+            <Link to="/" className="text-xl font-bold font-mono tracking-tighter shrink-0">
               <span className="gradient-text">M.M.E</span>
             </Link>
           </motion.div>
 
-          {/* المنتصف (اللينكات) - ثابت تماماً كأنه مسمار في نص الشاشة */}
-          <motion.nav layout="position" className="hidden md:flex flex-none items-center justify-center gap-1 px-4">
+          {/* المنتصف (اللينكات) - شيلنا الأنيميشن من اللينكات عشان متتهزش */}
+          <motion.nav 
+            layout 
+            className="hidden md:flex flex-none items-center justify-center gap-1 px-4"
+          >
             {mainNavLinks.map((link) => (
               <a
                 key={link.name} 
                 href={link.href} 
                 onClick={(e) => handleNav(e, link.href)}
-                className="px-4 py-2 text-sm font-medium rounded-full text-foreground/80 hover:text-foreground hover:bg-primary/10 transition-colors"
+                className="px-4 py-2 text-sm font-medium rounded-full text-foreground/80 hover:text-foreground hover:bg-primary/10 transition-colors shrink-0"
               >
                 {link.name}
               </a>
             ))}
           </motion.nav>
 
-          {/* الجانب الأيمن (الزراير) - بياخد نفس المساحة المرنة بتاعت اللوجو */}
-          <motion.div layout="position" className="flex-1 flex justify-end items-center gap-2 pr-1">
+          {/* الجانب الأيمن (الزراير) */}
+          <motion.div 
+            layout 
+            className={cn(
+              "flex items-center gap-2 pr-1 justify-end", 
+              !isScrolled && "flex-1"
+            )}
+          >
             <button 
               onClick={toggleDarkMode} 
-              className="p-2 rounded-full bg-background/50 hover:bg-background/80 text-foreground transition-colors border border-border/50"
+              className="p-2 rounded-full bg-background/50 hover:bg-background/80 text-foreground transition-colors border border-border/50 shrink-0"
             >
               {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
 
+            {/* زرار Let's Talk - ضفنا whitespace-nowrap و shrink-0 عشان ميتضغطش أبداً */}
             <button
               onClick={(e) => handleNav(e, "/#contact")}
-              className="bg-foreground text-background px-4 md:px-5 py-2 rounded-full text-sm font-semibold hover:bg-foreground/90 transition-transform active:scale-95 flex items-center gap-2 shadow-md"
+              className="bg-foreground text-background px-4 md:px-5 py-2 rounded-full text-sm font-semibold hover:bg-foreground/90 transition-transform active:scale-95 flex items-center gap-2 shadow-md shrink-0 whitespace-nowrap"
             >
-              <span className="hidden sm:inline">Let's Talk</span>
-              <span className="sm:hidden">Contact</span>
+              <span className="hidden sm:inline whitespace-nowrap">Let's Talk</span>
+              <span className="sm:hidden whitespace-nowrap">Contact</span>
             </button>
 
             {/* زرار القائمة للموبايل */}
             <button 
-              className="md:hidden p-2 rounded-full bg-background/50 text-foreground transition-colors border border-border/50" 
+              className="md:hidden p-2 rounded-full bg-background/50 text-foreground transition-colors border border-border/50 shrink-0" 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? <X className="w-5 h-5"/> : <Menu className="w-5 h-5"/>}
