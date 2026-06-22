@@ -7,18 +7,22 @@ import { motion, AnimatePresence } from "framer-motion";
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(true); 
+  // 1. جعل القيمة الابتدائية false (يعني Light Mode هو الافتراضي)
+  const [isDarkMode, setIsDarkMode] = useState(false); 
   const location = useLocation();
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("darkMode");
-    const shouldBeDark = storedTheme === null ? true : storedTheme === "true";
+    
+    // 2. لو العميل أول مرة يدخل (null)، الافتراضي هيكون false (Light)
+    const shouldBeDark = storedTheme === null ? false : storedTheme === "true";
     
     setIsDarkMode(shouldBeDark);
     document.documentElement.classList.toggle("dark", shouldBeDark);
 
+    // 3. لو أول مرة يدخل، بنسيف في الـ localStorage إنه لايت (false)
     if (storedTheme === null) {
-      localStorage.setItem("darkMode", "true");
+      localStorage.setItem("darkMode", "false");
     }
 
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -84,7 +88,7 @@ const Header = () => {
             </Link>
           </motion.div>
 
-          {/* المنتصف (اللينكات) - شيلنا الأنيميشن من اللينكات عشان متتهزش */}
+          {/* المنتصف (اللينكات) */}
           <motion.nav 
             layout 
             className="hidden md:flex flex-none items-center justify-center gap-1 px-4"
@@ -111,12 +115,13 @@ const Header = () => {
           >
             <button 
               onClick={toggleDarkMode} 
-              className="p-2 rounded-full bg-background/50 hover:bg-background/80 text-foreground transition-colors border border-border/50 shrink-0"
+              className="p-2 rounded-full bg-background/50 hover:bg-background/80 text-foreground transition-colors border border-border/50 shrink-0" 
+              aria-label="Toggle theme"
             >
               {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
 
-            {/* زرار Let's Talk - ضفنا whitespace-nowrap و shrink-0 عشان ميتضغطش أبداً */}
+            {/* زرار Let's Talk */}
             <button
               onClick={(e) => handleNav(e, "/#contact")}
               className="bg-foreground text-background px-4 md:px-5 py-2 rounded-full text-sm font-semibold hover:bg-foreground/90 transition-transform active:scale-95 flex items-center gap-2 shadow-md shrink-0 whitespace-nowrap"
