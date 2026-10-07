@@ -1,254 +1,190 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Send, RotateCcw, Loader2, CheckCircle2 } from 'lucide-react';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { CheckCircle2, Loader2, RotateCcw, Send } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 const content = {
   en: {
-    title: 'Data & BI Project Inquiry',
-    desc: 'Please provide the details below to help me understand your data infrastructure and business objectives.',
-    sec1: '1. Client Identity',
-    lblName: 'Full Name & Job Title *',
-    lblEmail: 'Email Address *',
-    lblWhatsapp: 'WhatsApp / Phone Number *',
-    lblCompany: 'Company Name & Industry',
-    sec2: '2. Data Infrastructure',
-    lblDataLoc: 'Where does your data currently reside?',
-    chkSheet: 'Spreadsheets (Excel / Google Sheets)',
-    chkDb: 'Relational DBs (SQL, Cloud ERPs)',
-    sec3: '3. Project Scope',
-    lblProblem: 'Describe the core business problem you are trying to solve: *',
-    sec4: '4. Logistics',
-    lblBudget: 'Estimated Budget Range',
-    btnSubmit: 'Submit Inquiry',
-    btnProcessing: 'Processing...',
-    errNetwork: 'Failed to submit. Please try again.',
-    succTitle: 'Inquiry Received',
-    succDesc: 'Thank you. I will review your submission and contact you shortly.',
-    budgetOptions: [
-      { val: '', text: 'Select range' },
-      { val: 'Under $500', text: 'Under $500 (Approx. 1,800 SAR / 24,000 EGP)' },
-      { val: '$500 - $1,500', text: '$500 - $1,500 (1,800 - 5,600 SAR)' },
-      { val: '$1,500 - $5,000', text: '$1,500 - $5,000 (5,600 - 18,700 SAR)' },
-      { val: '$5,000+', text: '$5,000+ (18,700+ SAR)' },
-    ],
+    title: "Start a Project",
+    desc: "Tell me what is happening in the business today and what you want the data or workflow to do better.",
+    identity: "Contact details",
+    project: "Project context",
+    name: "Full name *",
+    email: "Email address *",
+    company: "Company / industry",
+    whatsapp: "WhatsApp / phone (optional)",
+    problem: "Business problem *",
+    problemHint: "What is difficult, slow, unclear, or repetitive today?",
+    source: "Current data source / system",
+    sourceHint: "Excel, Google Sheets, ERP, SQL database, website, PDFs, invoices...",
+    repetitive: "Repetitive manual process, if any",
+    repetitiveHint: "Example: invoice entry, copying reports, cleaning files, recurring exports...",
+    outcome: "Desired outcome *",
+    outcomeHint: "Dashboard, reporting system, automated workflow, cleaner database, or something else?",
+    budget: "Budget range",
+    submit: "Send Project Details",
+    submitting: "Sending...",
+    error: "The form could not be sent. Please try again.",
+    successTitle: "Project details received",
+    successDesc: "Thanks. I’ll review the context and reply using the contact details you provided.",
+    another: "Send another inquiry",
+    ranges: ["Not sure yet", "Under $500", "$500 - $1,500", "$1,500 - $5,000", "$5,000+"],
   },
   ar: {
-    title: 'طلب استشارة وبناء أنظمة بيانات',
-    desc: 'يرجى تقديم التفاصيل أدناه لمساعدتي في فهم البنية التحتية لبياناتك وأهدافك التجارية.',
-    sec1: '١. بيانات العميل',
-    lblName: 'الاسم بالكامل والمسمى الوظيفي *',
-    lblEmail: 'البريد الإلكتروني *',
-    lblWhatsapp: 'رقم الموبايل / الواتساب *',
-    lblCompany: 'اسم الشركة والمجال',
-    sec2: '٢. البنية التحتية للبيانات',
-    lblDataLoc: 'أين تحتفظ ببياناتك حالياً؟',
-    chkSheet: 'جداول البيانات (Excel / Google Sheets)',
-    chkDb: 'قواعد البيانات أو الأنظمة (SQL / ERP)',
-    sec3: '٣. نطاق المشروع',
-    lblProblem: 'صف المشكلة الأساسية التي تواجهها أو النظام المطلوب: *',
-    sec4: '٤. التفاصيل اللوجستية',
-    lblBudget: 'الميزانية التقديرية للمشروع',
-    btnSubmit: 'إرسال الطلب',
-    btnProcessing: 'جاري الإرسال...',
-    errNetwork: 'فشل الإرسال. يرجى المحاولة مرة أخرى.',
-    succTitle: 'تم استلام طلبك بنجاح',
-    succDesc: 'شكراً لك. سأقوم بمراجعة التفاصيل والتواصل معك في أقرب وقت عبر الواتساب أو الإيميل.',
-    budgetOptions: [
-      { val: '', text: 'اختر الميزانية التقديرية' },
-      { val: 'Under $500', text: 'أقل من 500$ (حوالي 1,800 ريال / 24,000 جنيه)' },
-      { val: '$500 - $1,500', text: '500$ - 1,500$ (1,800 - 5,600 ريال)' },
-      { val: '$1,500 - $5,000', text: '1,500$ - 5,000$ (5,600 - 18,700 ريال)' },
-      { val: '$5,000+', text: 'أكثر من 5,000$ (أكثر من 18,700 ريال)' },
-    ],
+    title: "ابدأ مشروع",
+    desc: "اشرح لي المشكلة الحالية في الشغل والنتيجة التي تريد الوصول إليها من البيانات أو الأتمتة.",
+    identity: "بيانات التواصل",
+    project: "تفاصيل المشروع",
+    name: "الاسم بالكامل *",
+    email: "البريد الإلكتروني *",
+    company: "الشركة / المجال",
+    whatsapp: "واتساب / موبايل (اختياري)",
+    problem: "مشكلة العمل الحالية *",
+    problemHint: "ما الشيء البطيء أو غير الواضح أو المتكرر يدوياً حالياً؟",
+    source: "مصدر البيانات / النظام الحالي",
+    sourceHint: "Excel، Google Sheets، ERP، SQL، موقع، PDF، فواتير...",
+    repetitive: "العملية اليدوية المتكررة إن وجدت",
+    repetitiveHint: "مثال: إدخال فواتير، نسخ تقارير، تنظيف ملفات، تصدير بيانات متكرر...",
+    outcome: "النتيجة المطلوبة *",
+    outcomeHint: "Dashboard، نظام تقارير، Workflow آلي، قاعدة بيانات منظمة، أو غير ذلك؟",
+    budget: "الميزانية التقريبية",
+    submit: "إرسال تفاصيل المشروع",
+    submitting: "جاري الإرسال...",
+    error: "تعذر إرسال الطلب. حاول مرة أخرى.",
+    successTitle: "تم استلام تفاصيل المشروع",
+    successDesc: "شكراً. سأراجع التفاصيل وأتواصل معك من خلال بيانات التواصل التي أرسلتها.",
+    another: "إرسال طلب آخر",
+    ranges: ["لم أحدد بعد", "أقل من 500$", "500$ - 1,500$", "1,500$ - 5,000$", "أكثر من 5,000$"],
   },
 };
 
+type FormState = {
+  fullName: string;
+  email: string;
+  company: string;
+  whatsapp: string;
+  businessProblem: string;
+  dataSource: string;
+  repetitiveProcess: string;
+  desiredOutcome: string;
+  budget: string;
+};
+
+const initialForm: FormState = {
+  fullName: "",
+  email: "",
+  company: "",
+  whatsapp: "",
+  businessProblem: "",
+  dataSource: "",
+  repetitiveProcess: "",
+  desiredOutcome: "",
+  budget: "",
+};
+
 export default function IntakeForm() {
-  const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
-  const ACCESS_KEY = 'a31ef162-aa1a-42fa-a588-65879fff4f18'; 
+  const WEB3FORMS_URL = "https://api.web3forms.com/submit";
+  const ACCESS_KEY = "a31ef162-aa1a-42fa-a588-65879fff4f18";
+  const [lang, setLang] = useState<"en" | "ar">("en");
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [formData, setFormData] = useState<FormState>(initialForm);
+  const t = content[lang];
+  const isRTL = lang === "ar";
 
-  const [lang, setLang] = useState('en');
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
-  const [formData, setFormData] = useState({
-    fullName: '',
-    company: '',
-    email: '',
-    whatsapp: '',
-    dataLocation: [] as string[],
-    problem: '',
-    budget: '',
-  });
-
-  const t = content[lang as keyof typeof content];
-  const isRTL = lang === 'ar';
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleCheckboxToggle = (value: string, checked: boolean) => {
-    setFormData((prev) => {
-      if (checked) {
-        return { ...prev, dataLocation: [...prev.dataLocation, value] };
-      }
-      return { ...prev, dataLocation: prev.dataLocation.filter((item) => item !== value) };
-    });
-  };
-
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFormData((prev) => ({ ...prev, budget: e.target.value }));
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setStatus('submitting');
-    
-    const payload = {
-      access_key: ACCESS_KEY,
-      subject: `New Project Inquiry from ${formData.fullName}`,
-      from_name: formData.fullName,
-      ...formData,
-      dataLocation: formData.dataLocation.length > 0 ? formData.dataLocation.join(' | ') : 'Not specified',
-      languagePreference: lang === 'en' ? 'English' : 'Arabic',
-    };
-
+    setStatus("submitting");
     try {
       const response = await fetch(WEB3FORMS_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
-        body: JSON.stringify(payload),
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: ACCESS_KEY,
+          subject: `New Data & Automation Project Inquiry from ${formData.fullName}`,
+          from_name: formData.fullName,
+          languagePreference: lang === "en" ? "English" : "Arabic",
+          ...formData,
+        }),
       });
-      if (response.ok) {
-        setStatus('success');
-      } else {
-        throw new Error('Network response was not ok');
-      }
+      if (!response.ok) throw new Error("Submission failed");
+      setStatus("success");
     } catch (error) {
-      console.error('Submission Error:', error);
-      setStatus('error');
+      console.error("Submission Error:", error);
+      setStatus("error");
     }
   };
 
   const resetForm = () => {
-    setStatus('idle');
-    setFormData({ fullName: '', company: '', email: '', whatsapp: '', dataLocation: [], problem: '', budget: '' });
-  };
-
-  const sectionVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: i * 0.1, duration: 0.5 },
-    }),
+    setFormData(initialForm);
+    setStatus("idle");
   };
 
   return (
-    <div id="contact" className="min-h-screen bg-background text-foreground py-12 px-4 sm:px-6 lg:px-8 transition-colors" dir={isRTL ? 'rtl' : 'ltr'}>
-      <div className="max-w-3xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className={`flex mb-6 ${isRTL ? 'justify-start' : 'justify-end'}`}>
-          <div className="bg-card rounded-lg p-1 shadow-sm border border-border inline-flex">
-            <button type="button" onClick={() => setLang('en')} className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${lang === 'en' ? 'bg-primary/20 text-primary' : 'text-muted-foreground hover:text-foreground'}`}>English</button>
-            <button type="button" onClick={() => setLang('ar')} className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${lang === 'ar' ? 'bg-primary/20 text-primary' : 'text-muted-foreground hover:text-foreground'}`}>العربية</button>
-          </div>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mb-10 text-center">
-          <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl gradient-text">{t.title}</h1>
-          <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">{t.desc}</p>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }} className="bg-card/40 backdrop-blur-xl border border-border/50 rounded-2xl overflow-hidden neon-glow">
-          {status === 'success' ? (
-            <div className="p-10 text-center">
-              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 200, damping: 15 }} className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 mb-6">
-                <CheckCircle2 className="h-8 w-8 text-primary" />
-              </motion.div>
-              <h3 className="text-2xl font-bold text-foreground mb-2">{t.succTitle}</h3>
-              <p className="text-muted-foreground max-w-md mx-auto">{t.succDesc}</p>
-              <Button variant="outline" onClick={resetForm} className="mt-8 gap-2"><RotateCcw className="h-4 w-4" />{lang === 'en' ? 'Submit another inquiry' : 'إرسال طلب آخر'}</Button>
+    <section id="contact" className="py-24 sm:py-28 bg-muted/25 border-t border-border/60 scroll-mt-20" dir={isRTL ? "rtl" : "ltr"}>
+      <div className="container max-w-5xl mx-auto px-4">
+        <div className="grid lg:grid-cols-[0.72fr_1.28fr] gap-8 lg:gap-12 items-start">
+          <motion.div initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <div className={`flex mb-6 ${isRTL ? "justify-start" : "justify-start"}`}>
+              <div className="inline-flex rounded-xl border border-border bg-card p-1">
+                <button type="button" onClick={() => setLang("en")} className={`px-3 py-1.5 rounded-lg text-sm font-semibold ${lang === "en" ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`}>English</button>
+                <button type="button" onClick={() => setLang("ar")} className={`px-3 py-1.5 rounded-lg text-sm font-semibold ${lang === "ar" ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`}>العربية</button>
+              </div>
             </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="p-6 sm:p-10 space-y-10">
-              <motion.div custom={0} initial="hidden" animate="visible" variants={sectionVariants}>
-                <div className="border-b border-border/50 pb-4 mb-6"><h2 className="text-xl font-semibold text-foreground">{t.sec1}</h2></div>
-                <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="fullName">{t.lblName}</Label>
-                    <Input id="fullName" name="fullName" type="text" required value={formData.fullName} onChange={handleInputChange} className="bg-background/50" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="company">{t.lblCompany}</Label>
-                    <Input id="company" name="company" type="text" value={formData.company} onChange={handleInputChange} className="bg-background/50" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="email">{t.lblEmail}</Label>
-                    <Input id="email" name="email" type="email" required value={formData.email} onChange={handleInputChange} className="bg-background/50" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="whatsapp">{t.lblWhatsapp}</Label>
-                    <Input id="whatsapp" name="whatsapp" type="tel" required value={formData.whatsapp} onChange={handleInputChange} className="bg-background/50" dir="ltr" placeholder="+20 10X XXX XXXX" />
-                  </div>
-                </div>
-              </motion.div>
+            <p className="text-sm font-semibold text-primary mb-3">{isRTL ? "تواصل" : "Project inquiry"}</p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-5">{t.title}</h2>
+            <p className="text-lg text-muted-foreground leading-relaxed">{t.desc}</p>
+          </motion.div>
 
-              <motion.div custom={1} initial="hidden" animate="visible" variants={sectionVariants}>
-                <div className="border-b border-border/50 pb-4 mb-6"><h2 className="text-xl font-semibold text-foreground">{t.sec2}</h2></div>
-                <div className="space-y-4">
-                  <Label>{t.lblDataLoc}</Label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <label className="flex items-center gap-3 cursor-pointer bg-background/50 rounded-lg p-3 border border-border/50 hover:border-primary/50 transition-colors">
-                      <input type="checkbox" className="w-4 h-4 rounded border-primary text-primary focus:ring-primary bg-background" checked={formData.dataLocation.includes('Spreadsheets')} onChange={(e) => handleCheckboxToggle('Spreadsheets', e.target.checked)} />
-                      <span className="text-sm text-muted-foreground">{t.chkSheet}</span>
-                    </label>
-                    <label className="flex items-center gap-3 cursor-pointer bg-background/50 rounded-lg p-3 border border-border/50 hover:border-primary/50 transition-colors">
-                      <input type="checkbox" className="w-4 h-4 rounded border-primary text-primary focus:ring-primary bg-background" checked={formData.dataLocation.includes('Databases / ERP')} onChange={(e) => handleCheckboxToggle('Databases / ERP', e.target.checked)} />
-                      <span className="text-sm text-muted-foreground">{t.chkDb}</span>
-                    </label>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="rounded-3xl border border-border bg-card p-6 sm:p-8 shadow-sm">
+            {status === "success" ? (
+              <div className="py-10 text-center">
+                <div className="mx-auto w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-5"><CheckCircle2 className="w-7 h-7 text-primary" /></div>
+                <h3 className="text-2xl font-bold mb-2">{t.successTitle}</h3>
+                <p className="text-muted-foreground max-w-lg mx-auto">{t.successDesc}</p>
+                <Button variant="outline" onClick={resetForm} className="mt-7 rounded-xl"><RotateCcw className="w-4 h-4 mr-2" />{t.another}</Button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-8">
+                <fieldset>
+                  <legend className="text-lg font-bold mb-5">{t.identity}</legend>
+                  <div className="grid sm:grid-cols-2 gap-5">
+                    <div className="space-y-2"><Label htmlFor="fullName">{t.name}</Label><Input id="fullName" name="fullName" value={formData.fullName} onChange={handleChange} required /></div>
+                    <div className="space-y-2"><Label htmlFor="email">{t.email}</Label><Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} required /></div>
+                    <div className="space-y-2"><Label htmlFor="company">{t.company}</Label><Input id="company" name="company" value={formData.company} onChange={handleChange} /></div>
+                    <div className="space-y-2"><Label htmlFor="whatsapp">{t.whatsapp}</Label><Input id="whatsapp" name="whatsapp" type="tel" value={formData.whatsapp} onChange={handleChange} dir="ltr" /></div>
                   </div>
-                </div>
-              </motion.div>
+                </fieldset>
 
-              <motion.div custom={2} initial="hidden" animate="visible" variants={sectionVariants}>
-                <div className="border-b border-border/50 pb-4 mb-6"><h2 className="text-xl font-semibold text-foreground">{t.sec3}</h2></div>
-                <div className="space-y-2">
-                  <Label htmlFor="problem">{t.lblProblem}</Label>
-                  <Textarea id="problem" name="problem" rows={4} required value={formData.problem} onChange={handleInputChange} className="bg-background/50" />
-                </div>
-              </motion.div>
-
-              <motion.div custom={3} initial="hidden" animate="visible" variants={sectionVariants}>
-                <div className="border-b border-border/50 pb-4 mb-6"><h2 className="text-xl font-semibold text-foreground">{t.sec4}</h2></div>
-                <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label>{t.lblBudget}</Label>
-                    <select value={formData.budget} onChange={handleSelectChange} className="flex h-10 w-full items-center justify-between rounded-md border border-border bg-background/50 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
-                      {t.budgetOptions.map((opt, idx) => (
-                        <option key={idx} value={opt.val} disabled={idx === 0}>{opt.text}</option>
-                      ))}
-                    </select>
+                <fieldset className="border-t border-border pt-7">
+                  <legend className="text-lg font-bold mb-5">{t.project}</legend>
+                  <div className="space-y-5">
+                    <div className="space-y-2"><Label htmlFor="businessProblem">{t.problem}</Label><Textarea id="businessProblem" name="businessProblem" rows={3} value={formData.businessProblem} onChange={handleChange} placeholder={t.problemHint} required /></div>
+                    <div className="space-y-2"><Label htmlFor="dataSource">{t.source}</Label><Input id="dataSource" name="dataSource" value={formData.dataSource} onChange={handleChange} placeholder={t.sourceHint} /></div>
+                    <div className="space-y-2"><Label htmlFor="repetitiveProcess">{t.repetitive}</Label><Textarea id="repetitiveProcess" name="repetitiveProcess" rows={2} value={formData.repetitiveProcess} onChange={handleChange} placeholder={t.repetitiveHint} /></div>
+                    <div className="space-y-2"><Label htmlFor="desiredOutcome">{t.outcome}</Label><Textarea id="desiredOutcome" name="desiredOutcome" rows={3} value={formData.desiredOutcome} onChange={handleChange} placeholder={t.outcomeHint} required /></div>
+                    <div className="space-y-2 max-w-sm"><Label htmlFor="budget">{t.budget}</Label><select id="budget" name="budget" value={formData.budget} onChange={handleChange} className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"><option value="">—</option>{t.ranges.map((range) => <option key={range} value={range}>{range}</option>)}</select></div>
                   </div>
-                </div>
-              </motion.div>
+                </fieldset>
 
-              <motion.div custom={4} initial="hidden" animate="visible" variants={sectionVariants} className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-                {status === 'error' && <div className="text-destructive text-sm font-medium">{t.errNetwork}</div>}
-                <Button type="submit" disabled={status === 'submitting'} className={`w-full sm:w-auto ${isRTL ? 'sm:mr-auto' : 'sm:ml-auto'} gap-2`}>
-                  {status === 'submitting' ? <><Loader2 className="h-4 w-4 animate-spin" />{t.btnProcessing}</> : <><Send className="h-4 w-4" />{t.btnSubmit}</>}
-                </Button>
-              </motion.div>
-            </form>
-          )}
-        </motion.div>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t border-border pt-6">
+                  {status === "error" ? <p className="text-sm font-medium text-destructive">{t.error}</p> : <span />}
+                  <Button type="submit" disabled={status === "submitting"} className="rounded-xl sm:min-w-44">
+                    {status === "submitting" ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />{t.submitting}</> : <><Send className="w-4 h-4 mr-2" />{t.submit}</>}
+                  </Button>
+                </div>
+              </form>
+            )}
+          </motion.div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

@@ -1,102 +1,82 @@
 import { motion } from "framer-motion";
-import { BarChart3, Database, Calculator, FileSpreadsheet, Code, Wrench, SearchCode, FileText } from "lucide-react";
+import { BarChart3, Braces, Database, Workflow } from "lucide-react";
 
-// مهاراتك الحقيقية بعد حذف Financial Modeling
 const skillCategories = [
   {
-    title: "BI & Visualization",
+    title: "Data Analysis & BI",
     icon: BarChart3,
-    skills: [
-      { name: "Power BI", icon: BarChart3 },
-      { name: "DAX", icon: Code },
-      { name: "Power Query", icon: Database },
-      { name: "Matplotlib", icon: BarChart3 },
-    ],
+    level: "Strongest today",
+    description: "The tools I use most confidently for business reporting and analysis.",
+    skills: ["Excel", "Power BI", "Power Query", "DAX"],
   },
   {
-    title: "Databases & Programming",
+    title: "Automation & Data Workflows",
+    icon: Workflow,
+    level: "Practical + developing",
+    description: "Hands-on workflow building, with depth still growing through real use cases.",
+    skills: ["n8n", "APIs", "OCR / AI-assisted extraction", "Web / data extraction", "ERP / data workflows"],
+  },
+  {
+    title: "SQL & Data Systems",
     icon: Database,
-    skills: [
-      { name: "SQL Server", icon: Database },
-      { name: "Python", icon: Code },
-      { name: "Web Scraping", icon: SearchCode },
-      { name: "BeautifulSoup", icon: Code },
-      { name: "Selenium", icon: SearchCode },
-    ],
+    level: "Working knowledge",
+    description: "Comfortable with day-to-day querying and actively improving database depth.",
+    skills: ["SQL", "SQL databases", "Data preparation", "Relational data concepts"],
   },
   {
-    title: "Accounting & Spreadsheets",
-    icon: Calculator,
-    skills: [
-      { name: "Microsoft Excel", icon: FileSpreadsheet },
-      { name: "Google Sheets", icon: FileSpreadsheet },
-      { name: "ERP Systems", icon: Calculator },
-    ],
+    title: "Programming & Technical Tools",
+    icon: Braces,
+    level: "Developing",
+    description: "Useful implementation skills—not presented as senior software-engineering expertise.",
+    skills: ["Python", "BeautifulSoup", "Selenium", "Git / GitHub"],
   },
-  {
-    title: "Other Tools",
-    icon: Wrench,
-    skills: [
-      { name: "Notion", icon: FileText },
-      { name: "Canva", icon: Wrench },
-      { name: "Git & GitHub", icon: Code },
-    ],
-  }
 ];
 
 const Skills = () => {
   return (
-    <section id="skills" className="py-20 bg-background relative overflow-hidden">
-      {/* إضاءة خلفية خفيفة */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
-      
-      <div className="container max-w-6xl mx-auto px-4 relative z-10">
+    <section id="skills" className="py-24 sm:py-28 bg-background scroll-mt-20">
+      <div className="container max-w-7xl mx-auto px-4">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="max-w-3xl mb-12"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            <span className="gradient-text">Technical & Professional Skills</span>
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Bridging the gap between financial expertise and advanced data analytics
+          <p className="text-sm font-semibold text-primary mb-3">Capabilities</p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4">Skills, grouped by what I can do with them.</h2>
+          <p className="text-lg text-muted-foreground leading-relaxed">
+            No percentage bars and no giant logo wall. The emphasis is on current working strength, with developing skills labeled as developing.
           </p>
         </motion.div>
 
-        {/* عرض المهارات في شكل كروت شبكية (Grid) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-center">
-          {skillCategories.map((category, idx) => (
-            <motion.div
-              key={idx}
+        <div className="grid md:grid-cols-2 gap-5">
+          {skillCategories.map((category, index) => (
+            <motion.article
+              key={category.title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              className="bg-card/30 backdrop-blur-xl border border-border/50 rounded-2xl p-6 hover:border-primary/30 transition-all duration-300 shadow-sm flex flex-col h-full"
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ delay: index * 0.05 }}
+              className="rounded-3xl border border-border bg-card p-6 sm:p-7 shadow-sm"
             >
-              {/* عنوان الكارت مع الأيقونة - مع تثبيت الارتفاع لضمان التناسق */}
-              <div className="flex items-start gap-3 mb-6 min-h-[4rem]">
-                <div className="bg-muted border border-border/50 p-2.5 rounded-xl shrink-0">
+              <div className="flex items-start justify-between gap-4 mb-5">
+                <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
                   <category.icon className="w-5 h-5 text-primary" />
                 </div>
-                <h3 className="text-lg font-bold text-foreground pt-1">{category.title}</h3>
+                <span className="rounded-full border border-border bg-background px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-muted-foreground text-right">
+                  {category.level}
+                </span>
               </div>
-              
-              {/* المهارات على شكل أزرار صغيرة (Pills) مترتبة طبيعي تحت العنوان مباشرة */}
-              <div className="flex flex-wrap gap-2.5">
-                {category.skills.map((skill, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-background border border-border/60 rounded-lg hover:border-primary/40 hover:bg-primary/5 transition-colors"
-                  >
-                    <skill.icon className="w-3.5 h-3.5 text-muted-foreground" />
-                    <span className="text-sm font-medium text-foreground/90">{skill.name}</span>
-                  </div>
+              <h3 className="text-xl font-bold mb-2">{category.title}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-5">{category.description}</p>
+              <div className="flex flex-wrap gap-2">
+                {category.skills.map((skill) => (
+                  <span key={skill} className="rounded-lg border border-border bg-muted/[0.35] px-3 py-2 text-sm font-medium text-foreground/[0.85]">
+                    {skill}
+                  </span>
                 ))}
               </div>
-            </motion.div>
+            </motion.article>
           ))}
         </div>
       </div>

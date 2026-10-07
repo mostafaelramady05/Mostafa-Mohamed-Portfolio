@@ -3,37 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mostafa Elramady | Portfolio</title>
-    <meta name="description" content="Portfolio of Mostafa Elramady, Data Analyst & Accountant." />
+    <meta name="theme-color" content="#f8fafc" />
+    <title>Mostafa Elramady | Data, BI & Business Automation</title>
+    <meta name="description" content="Portfolio of Mostafa Elramady — an early-career data analyst building business intelligence dashboards, reporting systems, and practical automation workflows." />
     <meta name="author" content="Mostafa Elramady" />
 
-    <meta property="og:title" content="Mostafa Elramady | Portfolio" />
-    <meta property="og:description" content="Data Analyst & Accountant based in Egypt." />
+    <meta property="og:title" content="Mostafa Elramady | Data, BI & Business Automation" />
+    <meta property="og:description" content="Real business dashboards, reporting systems, and practical data automation workflows." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/favicon.ico" />
+    <meta property="og:image" content="/Mostafa-hero.png" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@MostafaElramady" />
-    <meta name="twitter:image" content="/favicon.ico" />
+    <meta name="twitter:title" content="Mostafa Elramady | Data, BI & Business Automation" />
+    <meta name="twitter:description" content="Business intelligence dashboards, reporting systems, and practical automation workflows." />
+    <meta name="twitter:image" content="/Mostafa-hero.png" />
 
     <script>
-      (function() {
+      (function () {
         const storedTheme = localStorage.getItem("darkMode");
-        if (storedTheme === null || storedTheme === "false") {
-          document.documentElement.classList.remove("dark");
-          if (storedTheme === null) {
-            localStorage.setItem("darkMode", "false");
-          }
-        } else if (storedTheme === "true") {
-          document.documentElement.classList.add("dark");
-        }
+        const isDark = storedTheme === "true";
+        document.documentElement.classList.toggle("dark", isDark);
+        if (storedTheme === null) localStorage.setItem("darkMode", "false");
       })();
     </script>
   </head>
-
   <body>
     <div id="root"></div>
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
-  </head>
+  </body>
 </html>
