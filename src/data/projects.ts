@@ -111,7 +111,7 @@ export const projects: Project[] = [
         "alt": "Inventory movement, aging, and availability dashboard"
       },
       {
-        "src": "/inventory-balance.png",
+        "src": "/jeddah-childcare.png",
         "alt": "Searchable inventory balance report by item"
       }
     ],
@@ -155,7 +155,7 @@ export const projects: Project[] = [
     "value": "Delivered a management dashboard to support financial review, identify peak periods, and understand customer segments.",
     "images": [
       {
-        "src": "/jeddah-childcare.png",
+        "src": "/inventory-balance.png",
         "alt": "Hospitality performance overview with profit, attendance, and daily revenue"
       },
       {
