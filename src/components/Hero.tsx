@@ -85,15 +85,15 @@ const Hero = () => {
             initial={{ opacity: 0, scale: 0.96, y: 18 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.65, delay: 0.12 }}
-            className="relative max-w-md mx-auto lg:max-w-none w-full"
+            className="relative w-full max-w-[368px] mx-auto"
           >
             <div className="absolute -inset-5 rounded-[2.4rem] bg-primary/[0.08] blur-2xl" />
             <div className="relative rounded-[2rem] border border-border bg-card p-3 sm:p-4 shadow-xl shadow-black/[0.04] dark:shadow-black/20">
-              <div className="relative overflow-hidden rounded-[1.45rem] bg-muted aspect-[4/5] max-h-[420px]">
+              <div className="relative w-full overflow-hidden rounded-[1.45rem] bg-muted aspect-[4/5]">
                 <img
                   src="/Mostafa-hero.png"
                   alt="Mostafa Mohamed Elramady"
-                  className="w-full h-full object-cover object-center"
+                  className="absolute inset-0 w-full h-full object-cover object-center"
                 />
                 <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 bg-gradient-to-t from-black/70 via-black/20 to-transparent">
                   <div className="rounded-2xl border border-white/[0.15] bg-black/[0.35] backdrop-blur-md p-4 text-white">
