@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="600" viewBox="0 0 1000 600" role="img" aria-labelledby="title desc">
+<title id="title">Purchase invoice automation</title><desc id="desc">Upload document, classify and extract, validate accounting details, post to Daftra, verify and track. Uncertain cases require human review.</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="#0284c7" stroke-width="1.5"/></marker></defs>
+<rect width="1000" height="600" fill="#f8fafc"/><g font-family="Arial, sans-serif">
+<text x="48" y="55" fill="#0284c7" font-size="14" font-weight="700" letter-spacing="2">n8n + DAFTRA</text>
+<text x="48" y="94" fill="#142d40" font-size="30" font-weight="700">From document to accounting record</text>
+<text x="48" y="126" fill="#64748b" font-size="16">A simplified view of my invoice-processing workflow</text>
+<g fill="none" stroke="#0284c7" stroke-width="3" marker-end="url(#arrow)">
+<path d="M288 227H366"/><path d="M622 227H700"/><path d="M825 280V338H500V372"/><path d="M372 425H288"/>
+<path d="M825 280V490" stroke="#b7791f" stroke-dasharray="6 5"/>
+</g>
+<g fill="#ffffff" stroke="#d8e4ee" stroke-width="2">
+<rect x="48" y="174" width="240" height="106" rx="18"/><rect x="374" y="174" width="248" height="106" rx="18"/><rect x="708" y="174" width="240" height="106" rx="18"/>
+<rect x="374" y="372" width="248" height="106" rx="18"/><rect x="48" y="372" width="240" height="106" rx="18"/>
+<rect x="708" y="498" width="240" height="62" rx="16" fill="#fff8eb" stroke="#efd5a3"/>
+</g>
+<g fill="#0284c7" font-size="13" font-weight="700"><text x="68" y="202">01 / INTAKE</text><text x="394" y="202">02 / UNDERSTAND</text><text x="728" y="202">03 / CHECK</text><text x="394" y="400">04 / RECORD</text><text x="68" y="400">05 / CONFIRM</text></g>
+<g fill="#142d40" font-size="21" font-weight="700"><text x="68" y="234">Upload document</text><text x="394" y="234">Classify &amp; extract</text><text x="728" y="234">Validate details</text><text x="394" y="432">Post to Daftra</text><text x="68" y="432">Verify &amp; track</text></g>
+<g fill="#64748b" font-size="14"><text x="68" y="258">Preserve the original file</text><text x="394" y="258">Read structured document data</text><text x="728" y="258">Supplier, fields &amp; duplicates</text><text x="394" y="456">Record &amp; attach document</text><text x="68" y="456">Check save &amp; update status</text></g>
+<text x="734" y="536" fill="#8a5a13" font-size="18" font-weight="700">Human review</text><text x="837" y="420" fill="#8a5a13" font-size="13">Uncertain</text><text x="837" y="439" fill="#8a5a13" font-size="13">cases</text>
+<text x="48" y="554" fill="#64748b" font-size="14">Accounting checks guide posting. Uncertain cases are surfaced for review.</text>
+</g></svg>

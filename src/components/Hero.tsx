@@ -111,7 +111,7 @@ const Hero = () => {
           {[
             ["3 client dashboards", "Manufacturing, inventory & hospitality"],
             ["Saudi business experience", "Accounting across multiple activities"],
-            ["~5 min → ~1 min", "Invoice entry · based on my experience"],
+            ["Practical automation", "Invoice processing with n8n & Daftra"],
           ].map(([value, label]) => (
             <div key={value} className="rounded-2xl border border-border bg-card px-5 py-4">
               <p className="font-bold text-lg text-foreground">{value}</p>

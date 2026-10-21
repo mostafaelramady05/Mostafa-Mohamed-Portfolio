@@ -178,6 +178,7 @@ export const projects: Project[] = [
   },
   {
     "slug": "purchase-invoice-automation",
+    "images": [{"src": "/invoice-workflow.svg", "alt": "Simplified invoice automation workflow with validation, ERP posting, verification, and human review", "caption": "Simplified overview of the operational workflow."}],
     "title": "Purchase Invoice Automation",
     "shortTitle": "Purchase Invoice Automation",
     "category": "Automation",
@@ -185,7 +186,7 @@ export const projects: Project[] = [
     "featured": false,
     "summary": "From document upload to validated ERP posting, with a traceable final status.",
     "problem": "Purchase invoices often require repetitive manual reading and data entry before the information can be used in an accounting workflow. The task is structured enough to automate, but still needs validation before anything is trusted downstream.",
-    "businessContext": "An operational accounting workflow used to register invoices in Daftra. Based on my experience, invoice entry went from at least five minutes to about one minute per invoice.",
+    "businessContext": "An operational accounting workflow used to register invoices in Daftra, with validation, review states, and posting verification.",
     "built": [
       "Built document upload, classification, and structured extraction.",
       "Added buyer, duplicate, supplier, and required-field checks.",
@@ -206,7 +207,7 @@ export const projects: Project[] = [
       "APIs",
       "Structured data"
     ],
-    "value": "Invoice entry reduced from at least 5 minutes to about 1 minute per invoice, based on my experience using the workflow. This refers to invoice entry time.",
+    "value": "A working invoice-processing system that connects document intake, accounting checks, ERP posting, and traceable outcomes.",
     "links": [
       {
         "label": "View Project on GitHub",
