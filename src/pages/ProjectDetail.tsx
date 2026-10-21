@@ -69,7 +69,7 @@ const ProjectDetail = () => {
             <div className={`grid gap-5 ${project.images.length > 1 ? "lg:grid-cols-2" : "grid-cols-1"}`}>
               {project.images.map((image) => (
                 <figure key={image.src} className="rounded-3xl border border-border bg-card p-3 sm:p-4 shadow-sm overflow-hidden">
-                  <img src={image.src} alt={image.alt} className="w-full rounded-2xl border border-border/60 bg-muted object-cover" />
+                  <a href={image.src} target="_blank" rel="noreferrer" aria-label={`Open full-size image: ${image.alt}`} className="block focus-visible:ring-2 focus-visible:ring-primary rounded-2xl"><img src={image.src} alt={image.alt} className="w-full rounded-2xl border border-border/60 bg-muted object-contain" /></a>
                   {image.caption && <figcaption className="px-2 pt-3 pb-1 text-sm text-muted-foreground">{image.caption}</figcaption>}
                 </figure>
               ))}
