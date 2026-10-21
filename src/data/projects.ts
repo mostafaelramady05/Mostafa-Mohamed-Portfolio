@@ -210,7 +210,12 @@ export const projects: Project[] = [
     "value": "A working invoice-processing system that connects document intake, accounting checks, ERP posting, and traceable outcomes.",
     "links": [
       {
-        "label": "View Project on GitHub",
+        "label": "Explore Live Workflow",
+        "url": "https://mostafaelramady05.github.io/AI-Assisted-Purchase-Invoice-Automation/workflow-viewer.html",
+        "type": "live"
+      },
+      {
+        "label": "View on GitHub",
         "url": "https://github.com/mostafaelramady05/AI-Assisted-Purchase-Invoice-Automation",
         "type": "github"
       }

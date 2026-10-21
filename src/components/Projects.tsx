@@ -4,7 +4,7 @@ import { ArrowUpRight, BriefcaseBusiness, ExternalLink, Github, Linkedin, Workfl
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import WorkflowDiagram from "@/components/WorkflowDiagram";
-import { featuredProjects, moreProjects, type Project } from "@/data/projects";
+import { featuredProjects, moreProjects, getProjectBySlug, type Project } from "@/data/projects";
 
 const badgeClasses: Record<Project["badge"], string> = {
   "Paid Client Project": "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/20",
@@ -108,6 +108,9 @@ const ProjectLinkIcons = ({ project }: { project: Project }) => {
 };
 
 const Projects = () => {
+  const invoiceProject = getProjectBySlug("purchase-invoice-automation");
+  const invoiceLinks = invoiceProject?.links ?? [];
+  const workflowUrl = invoiceLinks.find((link) => link.type === "live")?.url;
   return (
     <section id="projects" className="py-16 sm:py-20 bg-background relative overflow-hidden scroll-mt-20">
       <div className="absolute -left-48 top-24 h-96 w-96 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
@@ -142,9 +145,19 @@ const Projects = () => {
               <p className="text-xs font-semibold text-primary mb-3">n8n · Daftra · Used in practice</p>
               <h4 className="text-xl font-bold mb-3">Invoice entry automation</h4>
               <p className="text-sm text-muted-foreground leading-relaxed mb-4">Upload a document, extract its data, validate accounting details, and post to Daftra with verification and status tracking.</p>
-              <Link to="/projects/purchase-invoice-automation" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">Explore the workflow <ArrowUpRight className="w-4 h-4" /></Link>
+              <div className="flex flex-wrap gap-3 mb-4">
+                {invoiceLinks.map((link) => (
+                  <Button key={link.url} asChild variant={link.type === "live" ? "default" : "outline"} className="rounded-xl">
+                    <a href={link.url} target="_blank" rel="noopener noreferrer">
+                      {link.type === "github" ? <Github className="mr-2 h-4 w-4" /> : <ExternalLink className="mr-2 h-4 w-4" />}
+                      {link.label}
+                    </a>
+                  </Button>
+                ))}
+              </div>
+              <Link to="/projects/purchase-invoice-automation" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">Read the case study <ArrowUpRight className="w-4 h-4" /></Link>
             </article>
-            <a href="/invoice-workflow.svg" target="_blank" rel="noreferrer" className="block rounded-2xl overflow-hidden border border-border bg-white" aria-label="Open invoice workflow overview at full size">
+            <a href={workflowUrl} target="_blank" rel="noreferrer" className="block rounded-2xl overflow-hidden border border-border bg-white" aria-label="Explore the full interactive invoice workflow">
               <img src="/invoice-workflow.svg" alt="Invoice workflow: upload, classify and extract, validate, post to Daftra, verify and track; uncertain cases go to human review." loading="lazy" className="w-full h-auto" />
             </a>
           </div>
