@@ -137,19 +137,16 @@ const Projects = () => {
         <section className="mt-16 rounded-3xl border border-border bg-muted/30 p-6 sm:p-9" aria-labelledby="process-heading">
           <p className="text-sm font-semibold text-primary mb-2">Process improvement</p>
           <h3 id="process-heading" className="text-2xl sm:text-3xl font-bold mb-7">Less repetitive work. More time for analysis.</h3>
-          <div className="grid md:grid-cols-2 gap-5">
+          <div className="grid lg:grid-cols-[0.8fr_1.2fr] gap-6 items-center">
             <article className="rounded-2xl border border-border bg-card p-6">
               <p className="text-xs font-semibold text-primary mb-3">n8n · Daftra · Used in practice</p>
               <h4 className="text-xl font-bold mb-3">Invoice entry automation</h4>
-              <p className="text-3xl sm:text-4xl font-bold tracking-tight mb-3">~5 min <span className="text-primary">→ ~1 min</span></p>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-4">From document upload to validation and ERP posting. Previously at least 5 minutes per invoice; now about 1 minute, based on my experience.</p>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-4">Upload a document, extract its data, validate accounting details, and post to Daftra with verification and status tracking.</p>
               <Link to="/projects/purchase-invoice-automation" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">Explore the workflow <ArrowUpRight className="w-4 h-4" /></Link>
             </article>
-            <article className="rounded-2xl border border-border bg-card p-6">
-              <p className="text-xs font-semibold text-primary mb-3">Excel · Power Query</p>
-              <h4 className="text-xl font-bold mb-3">Bank reconciliation sheets</h4>
-              <p className="text-sm text-muted-foreground leading-relaxed">Built Power Query-based spreadsheets to support bank statement reconciliation as part of my accounting work.</p>
-            </article>
+            <a href="/invoice-workflow.svg" target="_blank" rel="noreferrer" className="block rounded-2xl overflow-hidden border border-border bg-white" aria-label="Open invoice workflow overview at full size">
+              <img src="/invoice-workflow.svg" alt="Invoice workflow: upload, classify and extract, validate, post to Daftra, verify and track; uncertain cases go to human review." loading="lazy" className="w-full h-auto" />
+            </a>
           </div>
         </section>
         <div className="mt-20 pt-10 border-t border-border">
