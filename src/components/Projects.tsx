@@ -21,24 +21,19 @@ const FeaturedProjectCard = ({ project, index }: { project: Project; index: numb
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
       transition={{ duration: 0.45, delay: index * 0.06 }}
-      className={`group overflow-hidden rounded-3xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${index === 0 ? "lg:col-span-2" : ""}`}
+      className="group overflow-hidden rounded-3xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
     >
-      <div className={`grid h-full ${index === 0 ? "lg:grid-cols-[1.15fr_0.85fr]" : "grid-cols-1"}`}>
-        <div className="p-6 sm:p-8 flex flex-col">
+      <div className="flex h-full flex-col">
+        <div className="p-5 sm:p-6 flex flex-col flex-1">
           <div className="flex flex-wrap items-center gap-2 mb-5">
             <Badge variant="outline" className={badgeClasses[project.badge]}>{project.badge}</Badge>
             <span className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">{project.category}</span>
           </div>
 
-          <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground mb-3">
+          <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground mb-3">
             {project.title}
           </h3>
           <p className="text-muted-foreground leading-relaxed mb-6">{project.summary}</p>
-
-          <div className="rounded-2xl border border-border/70 bg-muted/30 p-4 mb-6">
-            <p className="text-xs font-bold uppercase tracking-[0.14em] text-muted-foreground mb-2">Business value</p>
-            <p className="text-sm leading-relaxed text-foreground/[0.85]">{project.value}</p>
-          </div>
 
           <div className="flex flex-wrap gap-2 mb-7">
             {project.tools.slice(0, 5).map((tool) => (
@@ -64,14 +59,14 @@ const FeaturedProjectCard = ({ project, index }: { project: Project; index: numb
           </div>
         </div>
 
-        <div className={`border-t border-border bg-muted/25 ${index === 0 ? "lg:border-l lg:border-t-0" : ""}`}>
+        <div className="order-first border-b border-border bg-muted/25">
           {primaryImage ? (
-            <div className="h-full min-h-[260px] p-4 sm:p-5 flex items-center">
+            <div className="aspect-[16/10] p-3 flex items-center">
               <img
                 src={primaryImage.src}
                 alt={primaryImage.alt}
                 loading="lazy"
-                className="w-full rounded-2xl border border-border bg-background object-cover shadow-sm transition-transform duration-500 group-hover:scale-[1.01]"
+                className="w-full h-full rounded-xl border border-border bg-background object-contain shadow-sm transition-transform duration-500 group-hover:scale-[1.01]"
               />
             </div>
           ) : (
@@ -114,7 +109,7 @@ const ProjectLinkIcons = ({ project }: { project: Project }) => {
 
 const Projects = () => {
   return (
-    <section id="projects" className="py-24 sm:py-28 bg-background relative overflow-hidden scroll-mt-20">
+    <section id="projects" className="py-16 sm:py-20 bg-background relative overflow-hidden scroll-mt-20">
       <div className="absolute -left-48 top-24 h-96 w-96 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
       <div className="container max-w-7xl mx-auto px-4 relative z-10">
         <motion.div
@@ -126,18 +121,37 @@ const Projects = () => {
           <div className="inline-flex items-center gap-2 text-primary text-sm font-semibold mb-3">
             <BriefcaseBusiness className="w-4 h-4" /> Selected business work
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4">Featured Work</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4">Dashboards built for real businesses.</h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            A smaller set of projects, ordered by business relevance—not by how many tools I can list. Each case study shows the problem, the workflow, what I built, and the value it creates.
+            Three client projects. Explore the problem, the analysis, and the delivered dashboard.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
           {featuredProjects.map((project, index) => (
             <FeaturedProjectCard key={project.slug} project={project} index={index} />
           ))}
         </div>
 
+
+        <section className="mt-16 rounded-3xl border border-border bg-muted/30 p-6 sm:p-9" aria-labelledby="process-heading">
+          <p className="text-sm font-semibold text-primary mb-2">Process improvement</p>
+          <h3 id="process-heading" className="text-2xl sm:text-3xl font-bold mb-7">Less repetitive work. More time for analysis.</h3>
+          <div className="grid md:grid-cols-2 gap-5">
+            <article className="rounded-2xl border border-border bg-card p-6">
+              <p className="text-xs font-semibold text-primary mb-3">n8n · Daftra · Used in practice</p>
+              <h4 className="text-xl font-bold mb-3">Invoice entry automation</h4>
+              <p className="text-3xl sm:text-4xl font-bold tracking-tight mb-3">~5 min <span className="text-primary">→ ~1 min</span></p>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-4">From document upload to validation and ERP posting. Previously at least 5 minutes per invoice; now about 1 minute, based on my experience.</p>
+              <Link to="/projects/purchase-invoice-automation" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">Explore the workflow <ArrowUpRight className="w-4 h-4" /></Link>
+            </article>
+            <article className="rounded-2xl border border-border bg-card p-6">
+              <p className="text-xs font-semibold text-primary mb-3">Excel · Power Query</p>
+              <h4 className="text-xl font-bold mb-3">Bank reconciliation sheets</h4>
+              <p className="text-sm text-muted-foreground leading-relaxed">Built Power Query-based spreadsheets to support bank statement reconciliation as part of my accounting work.</p>
+            </article>
+          </div>
+        </section>
         <div className="mt-20 pt-10 border-t border-border">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
             <div>
@@ -145,12 +159,12 @@ const Projects = () => {
               <h3 className="text-2xl sm:text-3xl font-bold">More Projects</h3>
             </div>
             <p className="text-sm text-muted-foreground max-w-xl">
-              Supporting analytics and practice projects. Useful evidence of range, but intentionally secondary to the strongest real-world work above.
+              Personal projects exploring finance, logistics, customer support, and data workflows.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {moreProjects.map((project) => (
+            {moreProjects.filter((project) => project.slug !== "purchase-invoice-automation").map((project) => (
               <article key={project.slug} className="rounded-2xl border border-border bg-card p-5 sm:p-6 hover:border-primary/30 transition-colors">
                 <div className="flex items-start justify-between gap-4 mb-4">
                   <div>

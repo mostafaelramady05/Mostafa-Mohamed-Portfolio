@@ -7,7 +7,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-7">
           <div>
             <h3 className="text-xl font-bold tracking-tight">Mostafa Elramady</h3>
-            <p className="text-sm text-muted-foreground mt-1">Data analysis, business intelligence, and practical automation.</p>
+            <p className="text-sm text-muted-foreground mt-1">Data Analyst · Dashboards, reporting & process improvement.</p>
           </div>
           <div className="flex items-center gap-2">
             <a href="mailto:mostafaelramady516@gmail.com" aria-label="Email Mostafa" className="w-10 h-10 rounded-lg border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/40 transition-colors"><Mail className="w-4 h-4" /></a>
@@ -17,7 +17,7 @@ const Footer = () => {
         </div>
         <div className="mt-8 pt-6 border-t border-border flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-muted-foreground">
           <p>© {new Date().getFullYear()} Mostafa Elramady. All rights reserved.</p>
-          <p>Early-career, business-focused, and building with evidence.</p>
+          <p>Based in Egypt · Working with Saudi businesses</p>
         </div>
       </div>
     </footer>

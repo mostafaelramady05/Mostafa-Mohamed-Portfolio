@@ -9,16 +9,15 @@ const progression = [
 ];
 
 const facts = [
-  "Final-year Business Information Systems student — graduating June 2027.",
-  "Currently working with accounting operations for Saudi companies.",
-  "Paid freelance experience building a manufacturing MRP / inventory solution.",
-  "Strong Excel, working Power BI, intermediate SQL, and practical beginner-level Python.",
-  "Hands-on use of n8n, APIs, OCR / AI-assisted extraction, and web/data extraction workflows.",
+  "Fourth-year Business Information Systems student at Tanta University, with an Excellent academic standing.",
+  "General Accountant since May 2025, working remotely from Egypt with an accounting office serving Saudi companies across different industries.",
+  "Accounting work includes sales and purchase invoices, tax returns, and zakat returns.",
+  "Freelance data analysis: three dashboard projects delivered across manufacturing, inventory, and children's hospitality.",
 ];
 
 const About = () => {
   return (
-    <section id="about" className="py-24 sm:py-28 bg-muted/25 border-y border-border/60 scroll-mt-20">
+    <section id="about" className="py-16 sm:py-20 bg-muted/25 border-y border-border/60 scroll-mt-20">
       <div className="container max-w-7xl mx-auto px-4">
         <div className="grid lg:grid-cols-[0.85fr_1.15fr] gap-10 lg:gap-16 items-start">
           <motion.div
@@ -27,12 +26,12 @@ const About = () => {
             viewport={{ once: true }}
           >
             <p className="text-sm font-semibold text-primary mb-3">About</p>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-5">Business context first. Tools second.</h2>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-5">An analyst who understands the business.</h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              My accounting work gave me useful exposure to how companies actually operate: financial workflows, repetitive manual steps, messy spreadsheets, and the points where better reporting or automation can remove friction.
+              Working with multiple Saudi businesses gives me first-hand experience with financial records, business processes, and the questions behind the numbers.
             </p>
             <p className="mt-4 text-muted-foreground leading-relaxed">
-              That pushed my focus from simply working with business data toward building clearer reporting systems and practical workflows around it. I’m still early in my career, so this portfolio focuses on what I have actually built—not inflated titles.
+              I bring that context to data analysis: understanding the problem, building a useful report, and finding ways to make recurring work faster.
             </p>
           </motion.div>
 
