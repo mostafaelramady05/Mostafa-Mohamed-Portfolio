@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -6,25 +6,25 @@
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
-    --foreground: 218 29% 15%;
+    --background: 48 30% 97%;
+    --foreground: 160 20% 14%;
     --card: 0 0% 100%;
-    --card-foreground: 218 29% 15%;
+    --card-foreground: 160 20% 14%;
     --popover: 0 0% 100%;
     --popover-foreground: 218 29% 15%;
-    --primary: 198 88% 43%;
+    --primary: 158 51% 25%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 210 29% 95%;
+    --secondary: 45 20% 93%;
     --secondary-foreground: 218 29% 18%;
-    --muted: 210 26% 95%;
-    --muted-foreground: 215 13% 43%;
-    --accent: 197 81% 92%;
-    --accent-foreground: 199 86% 25%;
+    --muted: 45 20% 93%;
+    --muted-foreground: 155 7% 40%;
+    --accent: 156 24% 90%;
+    --accent-foreground: 158 51% 25%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
-    --border: 214 24% 88%;
-    --input: 214 24% 88%;
-    --ring: 198 88% 43%;
+    --border: 45 13% 84%;
+    --input: 45 13% 84%;
+    --ring: 158 51% 25%;
     --radius: 0.875rem;
   }
 
@@ -35,7 +35,7 @@
     --card-foreground: 210 28% 96%;
     --popover: 220 34% 13%;
     --popover-foreground: 210 28% 96%;
-    --primary: 195 92% 58%;
+    --primary: 153 53% 66%;
     --primary-foreground: 222 41% 10%;
     --secondary: 217 28% 17%;
     --secondary-foreground: 210 28% 96%;
@@ -47,7 +47,7 @@
     --destructive-foreground: 0 0% 98%;
     --border: 217 24% 21%;
     --input: 217 24% 21%;
-    --ring: 195 92% 58%;
+    --ring: 153 53% 66%;
   }
 
   * {
@@ -74,11 +74,15 @@
 }
 
 .gradient-text {
-  @apply bg-gradient-to-r from-sky-500 via-cyan-500 to-blue-600 bg-clip-text text-transparent;
+  color: hsl(var(--primary));
 }
 
 .bg-grid-pattern {
-  background-image: radial-gradient(circle at 1px 1px, hsl(var(--foreground) / 0.10) 1px, transparent 0);
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    hsl(var(--foreground) / 0.1) 1px,
+    transparent 0
+  );
   background-size: 28px 28px;
   mask-image: linear-gradient(to bottom, black, transparent 88%);
 }
@@ -88,10 +92,19 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     scroll-behavior: auto !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+.eyebrow {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: hsl(var(--primary));
 }
